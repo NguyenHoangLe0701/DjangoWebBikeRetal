@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            text-align: center;
+            padding: 10px;
+            margin: 20px 0;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Xác nhận đặt xe thành công</h1>
+        </div>
+        <div class="content">
+            <p>Xin chào {{ rental.full_name }},</p>
+            <p>Cảm ơn bạn đã đặt xe tại EGA Bike. Dưới đây là thông tin đặt xe của bạn:</p>
+            
+            <div class="code">
+                Mã số đặt xe: {{ rental.rental_code }}
+            </div>
+
+            <h3>Chi tiết đặt xe:</h3>
+            <ul>
+                <li>Loại xe: {{ bike_type_display }}</li>
+                <li>Số lượng: {{ rental.quantity }}</li>
+                <li>Ngày nhận xe: {{ rental.pickup_date|date:"d/m/Y" }}</li>
+                <li>Ngày trả xe: {{ rental.return_date|date:"d/m/Y" }}</li>
+            </ul>
+
+            <p><strong>Lưu ý quan trọng:</strong></p>
+            <ul>
+                <li>Vui lòng mang theo mã số đặt xe khi đến nhận xe</li>
+                <li>Mang theo CMND/CCCD để làm thủ tục</li>
+                <li>Đến cửa hàng gần nhất để nhận xe</li>
+            </ul>
+
+            <p>Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua:</p>
+            <p>Hotline: 0909999000</p>
+            <p>Email: support@egabike.com</p>
+
+            <p>Trân trọng,<br>EGA Bike Team</p>
+        </div>
+    </div>
+</body>
+</html>

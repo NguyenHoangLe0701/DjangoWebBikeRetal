@@ -1,0 +1,89 @@
+{% load static %}
+{% block css %}
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+ <link rel="stylesheet" href="{% static 'assets/css/overlays.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/base.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/chatAI.css' %}">
+ <link rel="stylesheet" href="{% static 'assets/css/map.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+{% endblock %}
+  <!-- footer-info -->
+  <div class="footer-info">
+    <div class="info-section">
+      <h3>HOTLINE</h3>
+      <p>Tu vấn, bán hàng: 1800 9473</p>
+      <p>Khiểu nại, bảo hành: 1800 9063 (9:00 - 17:00)</p>
+      <p>Zalo 1: 0937 440 ***</p>
+      <p>Zalo 2: 0911 933 ***</p>
+      <p>Zalo 3: 0933 887 ***</p>
+      <p>Zalo 4: 0911 966 ***</p>
+      <p>Zalo 5: 0944 988 ***</p>
+      <p>Zalo 6: 0911 966 ***</p>
+      <p>Zalo 7: 0911 925 ***</p>
+    </div>
+    <div class="info-section">
+      <h3>CÔNG TY</h3>
+      <p>Giơi thiệu</p>
+      <p>Hệ thống cửa hàng</p>
+      <p>Liên hệ</p>
+      <p>Tin tức</p>
+      <p>Tuyển dụng</p>
+    </div>
+    <div class="info-section">
+      <h3>CHÍNH SÁCH</h3>
+      <p>Hướng dẫn trả góp</p>
+      <p>Chế độ bảo hành</p>
+      <p>Chính sách bán hàng</p>
+      <p>Khuyến mãi</p>
+      <p>Chính sách bảo mật thông tin</p>
+      <p>Chính sách giải quyết khiếu nại</p>
+    </div>
+    <div class="info-section social-icons">
+      <h3>KẾT NỐI</h3>
+      <div class="social-links">
+        <a href="#" class="social-link"><img src="{% static 'assets/images/footer/icon-facebook.svg' %}" alt="Facebook"></a>
+        <a href="#" class="social-link"><img src="{% static 'assets/images/footer/icon-youtube.svg' %}" alt="YouTube"></a>
+        <a href="#" class="social-link"><img src="{% static 'assets/images/footer/icon-tiktok.svg' %}" alt="TikTok"></a>
+        <a href="#" class="social-link"><img src="{% static 'assets/images/footer/icon-shopee-1.svg' %}" alt="Shopee"></a>
+        <a href="#" class="social-link"><img src="{% static 'assets/images/footer/icon-lazada.svg' %}" alt="Lazada"></a>
+      </div>
+      <div class="qr-code">
+        <h3>THANH TOÁN NGAY</h3>
+        <img src="{% static 'assets/images/footer/qr-code.jpg' %}" alt="Mã QR">
+      </div>
+    </div>
+  </div>
+   <!-- endfooter-info -->
+   <!-- footer -->
+   <footer class="footer">
+    <div class="footer-container">
+      <!-- Góc trái: Logo Đã thông báo -->
+      <div class="footer-logo">
+        <a href="http://online.gov.vn" target="_blank" class="footer-logo-link">
+          <img src="{% static 'assets/images/footer/logo-thongbaobocongthuong.png' %}" alt="Đã thông báo Bộ Công Thương">
+        </a>
+      </div>
+  
+      <!-- Giữa: Thông tin công ty -->
+      <div class="footer-info-text">
+        <p>Công Ty Cổ Phần Vọng Xanh UTH</p>
+        <p>ĐKKD/MST: 03138991*** do sở KH&ĐT TP.HCM cấp 27/11/2023</p>
+        <p>Cơ sở 3: 70 Đ. Tô Ký, Tân Chánh Hiệp, Quận 12, Hồ Chí Minh</p>
+        <p>Email: info@xedap.vn</p>
+      </div>
+  
+      <!-- Góc phải: Thanh toán và Copyright -->
+      <div class="footer-payment">
+        <div class="payment-methods">
+          <a href="#" class="payment-link"><img src="{% static 'assets/images/footer/icon-cash.svg' %}" alt="Cash"></a>
+          <a href="#" class="payment-link"><img src="{% static 'assets/images/footer/icon-mpos.svg' %}" alt="mPOS"></a>
+          <a href="#" class="payment-link"><img src="{% static 'assets/images/footer/icon-onepay.svg' %}" alt="OnePay"></a>
+          <a href="#"><img src="{% static 'assets/images/footer/icon-mastercard.svg' %}" alt="mastercard"></a>
+          <a href="#" class="payment-link"><img src="{% static 'assets/images/footer/icon-visa.svg' %}" alt="Visa"></a>
+        </div>
+        <p class="copyright">Copyright © 2025 @Xedap.vn được thực hiện bởi sinh viên trường Ha Vệt U Tê Hắc</p>
+      </div>
+    </div>
+  </footer>
+    <!-- endfooter -->

@@ -1,0 +1,224 @@
+
+{% load static %}
+ <!-- CSS -->
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static 'assets/css/giai-phap-xe-dap-qua-tang-doanh-nghiep.css' %}">
+{% include 'includes/header.html' %}
+{% block content %}
+<div class="carousel">
+    <div class="slide">
+        <img src="{% static 'assets/images/store/banner-resort.png' %}" alt="Slide 1">
+    </div>
+    <div class="slide">
+        <img src="{% static 'assets/images/store/trao-tang-xe-dap-cho-hoc-sinh.jpg' %}" alt="Slide 2">
+    </div>
+    <div class="slide">
+        <img src="{% static 'assets/images/store/qua-tang-doanh-nghiep.jpg' %}" alt="Slide 3">
+    </div>
+    <div class="slide">
+        <img src="{% static 'assets/images/store/giai-phap-qua-tang-tri-an-khach-hang-07.png' %}" alt="Slide 4" class="img-4">
+    </div>
+    <div class="dots">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+    </div>
+</div>
+<section class="features-section">
+  <div class="feature-item">
+    <img src="{% static 'assets/images/store/guaranteed.webp' %}" alt="Icon 1">
+    <h3>THƯƠNG HIỆU VIỆT</h3>
+    <p>TIÊU CHUẨN QUỐC TẾ</p>
+  </div>
+  <div class="feature-item">
+    <img src="{% static 'assets/images/store/bike.webp' %}" alt="Icon 2">
+    <h3>ĐA DẠNG MẪU MÃ</h3>
+    <p>PHÙ HỢP MỌI LỨA TUỔI</p>
+  </div>
+  <div class="feature-item">
+    <img src="{% static 'assets/images/store/investment.webp' %}" alt="Icon 3">
+    <h3>CHIẾT KHẤU CAO</h3>
+    <p>MIỄN PHÍ DỊCH VỤ</p>
+  </div>
+  <div class="feature-item">
+    <img src="{% static 'assets/images/store/repair-tool.webp' %}" alt="Icon 4">
+    <h3>VẬN CHUYỂN MIỄN PHÍ</h3>
+    <p>HỖ TRỢ TẬN TÌNH</p>
+  </div>
+</section>
+<section class="packages-section">
+    <h2>CÁC GÓI XE ĐẠP CUNG CẤP</h2>
+</section>
+<section class="cards-section">
+    <div class="card">
+        <div class="card-image">
+            <!-- Thêm hình ảnh của bạn vào đây -->
+            <img src="{% static 'assets/images/store/banner-resort.png' %}" alt="Card Image 1">
+        </div>
+        <div class="card-content">
+            <h3>GÓI XE ĐẠP RESORT</h3>
+            <p>Du lịch kết hợp với trải nghiệm và mạo hiểm đang dần trở thành xu hướng của khách du lịch trong những năm gần đây tại Việt Nam và để có thể khám phá được tất cả vẻ đẹp tại mỗi vùng đất, thì xe đạp là một trong những lựa chọn phù hợp nhất. Đối với doanh nghiệp, việc lựa chọn xe đạp thay cho xe máy giúp dễ dàng kiểm soát, bảo trì/bảo dưỡng, làm thủ tục thuê mượn đơn giản hơn.</p>
+            <a href="#" class="btn">Xem thêm</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-image">
+            <!-- Thêm hình ảnh của bạn vào đây -->
+            <img src="{% static 'assets/images/store/trao-tang-xe-dap-cho-hoc-sinh.jpg' %}" alt="Card Image 2">
+        </div>
+        <div class="card-content">
+            <h3>GÓI XE ĐẠP TRƯỜNG HỌC</h3>
+            <p>Quà tặng học sinh giữ một vai trò quan trọng, không chỉ mang giá trị vật chất mà còn mang ý nghĩa sâu sắc, động viên và khuyến khích tinh thần học tập của các em. Để lựa chọn quà tặng học sinh phù hợp với từng độ tuổi, cấp học là điều không hề dễ dàng. Chính vì thế, xe đạp đang được xem là sản phẩm với các tiêu chí độc đáo - mới lạ - đúng với sở thích mà còn thể hiện được ý nghĩa truyền tải thông điệp sâu sắc.</p>
+            <a href="#" class="btn">Xem thêm</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-image">
+            <!-- Thêm hình ảnh của bạn vào đây -->
+            <img src="{% static 'assets/images/store/qua-tang-doanh-nghiep.jpg' %}" alt="Card Image 3">
+        </div>
+        <div class="card-content">
+            <h3>GÓI XE ĐẠP CSR</h3>
+            <p>Thể hiện trách nhiệm xã hội của doanh nghiệp (CSR) đã trở thành một trong những hoạt động truyền thông thương hiệu để kinh doanh và tuyển dụng. Các chiến dịch CSR cho thấy sự chân thành, thiện chí và sự đóng góp của doanh nghiệp cho xã hội. Qua đó, hình ảnh tích cực được tạo dựng và góp phần giúp cái "hiệu" của doanh nghiệp được "thương" nhiều hơn. Sản phẩm xe đạp sẽ là sự lựa chọn tuyệt vời.</p>
+            <a href="#" class="btn">Xem thêm</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-image">
+            <!-- Thêm hình ảnh của bạn vào đây -->
+            <img src="{% static 'assets/images/store/giai-phap-qua-tang-tri-an-khach-hang-07.png' %}" alt="Card Image 4">
+        </div>
+        <div class="card-content">
+            <h3>GÓI XE ĐẠP SỰ KIỆN</h3>
+            <p>Quà tặng sự kiện trong thời đại công nghệ 4.0 được coi là giải pháp tối ưu nhất dành cho doanh nghiệp phát triển tốt hình ảnh cũng như thương hiệu của mình đến với khách hàng tốt hơn từ đó thúc đẩy sản xuất kinh doanh và sự phát triển của doanh nghiệp. Gói xe đạp chất lượng là sự lựa chọn tuyệt vời dành cho các sự kiện quan trọng như Year-end Party, Tri ân khách hàng, Nhân viên xuất sắc</p>
+            <a href="#" class="btn">Xem thêm</a>
+        </div>
+    </div>
+</section>
+<section class="packages-section">
+    <h2>GIÁ TRỊ CÁC GÓI XE ĐẠP</h2>
+</section>
+<section class="bike-packages-section">
+    <div class="bike-package-card">
+        <div class="bike-package-image">
+            <img src="{% static 'assets/images/store/goi-20.webp' %}" alt="Card Image 1">
+        </div>
+        <div class="bike-package-content">
+            <h3>GÓI XE ĐẠP 20 XE</h3>
+            <p>Chỉ từ 20 triệu</p>
+            <a href="tel:18009473" class="btn">Gọi ngay 18009473</a>
+        </div>
+    </div>
+    <div class="bike-package-card">
+        <div class="bike-package-image">
+            <img src="{% static 'assets/images/store/goi-15.webp' %}" alt="Card Image 2">
+        </div>
+        <div class="bike-package-content">
+            <h3>GÓI XE ĐẠP 15 XE</h3>
+            <p>Chỉ từ 15 triệu</p>
+            <a href="tel:18009473" class="btn">Gọi ngay 18009473</a>
+        </div>
+    </div>
+    <div class="bike-package-card">
+        <div class="bike-package-image">
+            <img src="{% static 'assets/images/store/goi-10.webp' %}" alt="Card Image 3">
+        </div>
+        <div class="bike-package-content">
+            <h3>GÓI XE ĐẠP 10 XE</h3>
+            <p>Chỉ từ 10 triệu</p>
+            <a href="tel:18009473" class="btn">Gọi ngay 18009473</a>
+        </div>
+    </div>
+    <div class="bike-package-card">
+        <div class="bike-package-image">
+            <img src="{% static 'assets/images/store/goi-5-1.webp' %}" alt="Card Image 4">
+        </div>
+        <div class="bike-package-content">
+            <h3>GÓI XE ĐẠP 5 XE</h3>
+            <p>Chỉ từ 5 triệu</p>
+            <a href="tel:18009473" class="btn">Gọi ngay 18009473</a>
+        </div>
+    </div>
+</section>
+<section class="banner-section">
+    <h2>BẠN MUỐN TÌM HIỂU CHI TIẾT GÓI GIAO BẰNG XE ĐẠP</h2>
+    <h1>LIÊN HỆ NGAY VỚI CHÚNG TÔI HOẶC ĐIỆN THOẠI TẠI ĐÂY</h1>
+</section>
+
+<section class="contact-form-section">
+     <div class="form-container">
+        <div class="form-group">
+            <input type="text" name="name" placeholder="Tên của bạn(*)" required>
+            <div class="radio-options">
+                <label class="radio-label">
+                    <input type="radio" name="package-type" value="doanh-nghiep" required>
+                    Gói xe đạp doanh nghiệp CSR
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="package-type" value="truong-hoc">
+                    Gói xe đạp cho trường học
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="package-type" value="resort">
+                    Gói xe đạp resort
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="package-type" value="su-kien">
+                    Gói xe đạp cho sự kiện
+                </label>
+            </div>
+        </div>
+        <div class="form-group">          
+            <input type="text" name="organization" placeholder="Tên doanh nghiệp/trường học/resort/sự kiện" required>
+        </div>
+        <div class="form-group">          
+            <input type="email" name="email" placeholder="Email của bạn(*)" required>
+        </div>
+        
+        <div class="form-group">
+            <input type="tel" name="phone" placeholder="Số điện thoại của bạn(*)" required>
+        </div>
+       
+        <div class="form-group">
+            <textarea name="description" placeholder="Mô tả của bạn(*)" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Gửi liên hệ</button>
+       
+    </div>
+</section>
+ <section class="confirmation-section">
+        <p class="confirmation-message">Hãy gửi yêu cầu của bạn đến chúng tôi. Yêu cầu sẽ được phản hồi trong thời gian sớm nhất có thể.</p>
+        <p class="warning-message">Chú ý: Nhập trường (*) là trường bắt buộc điền thông tin.</p>
+         </section>
+{% endblock %}
+{% include 'includes/contact.html' %}
+{% include 'includes/footer.html' %}
+{% include 'includes/overlays.html' %}
+{% include 'includes/ChatAI.html' %}
+<script src="{% static '/assets/js/main.js' %}"></script>
+<script>
+ let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    let slides = document.getElementsByClassName("slide");
+    let dots = document.getElementsByClassName("dot");
+
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+        dots[i].classList.remove("active");
+    }
+
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1; }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].classList.add("active");
+    setTimeout(showSlides, 3000); 
+}
+
+function currentSlide(n) {
+    slideIndex = n - 1;
+    showSlides();
+}
+</script>

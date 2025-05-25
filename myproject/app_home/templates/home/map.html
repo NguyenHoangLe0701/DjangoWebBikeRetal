@@ -1,0 +1,124 @@
+
+{% load static %}
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'assets/css/map.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+{% include 'includes/header.html' %}
+<main class="main-map">
+{% block content %}
+    <!-- Container chính chứa danh sách cửa hàng và bản đồ -->
+<div class="map-container">
+        <!-- Danh sách cửa hàng bên trái -->
+        <div class="shop-list">
+            <!-- Thanh tìm kiếm -->
+            <div class="search-bar_map">
+                <span class="search-title_map">Tìm cửa hàng</span>
+                <select name="province" id="province">
+                    <option value="">Tỉnh/Thành phố</option>
+                    <option value="dong-nai">Đồng Nai</option>
+                    <option value="ha-noi">Hà Nội</option>
+                    <option value="da-nang">Đà Nẵng</option>
+                    <option value="ho-chi-minh">Hồ Chí Minh</option>
+                    <option value="binh-duong">Bình Dương</option>
+                </select>
+                <select name="district" id="district">
+                    <option value="">Quận/Huyện</option>
+                    <option value="long-thanh">Huyện Long Thành</option>
+                    <option value="bac-tu-liem">Quận Bắc Từ Liêm</option>
+                    <option value="tay-ho">Quận Tây Hồ</option>
+                </select>
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="Tìm kiếm cửa hàng..." id="search-input">
+                    <button type="button" onclick="searchShops()"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <h2>Danh sách Cửa hàng</h2>
+            <ul>
+                <li class="shop-item" 
+                    data-address="280 Lê Duẩn, thị trấn Long Thành, Huyện Long Thành, Tỉnh Đồng Nai" 
+                    data-iframe='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2953405723797!2d106.94412137480508!3d10.78867688936082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31751f3adbda80af%3A0xaa490bec76bef8fd!2zMjgwIEzDqiBEdeG6qW4sIFRULiBMb25nIFRow6BuaCwgTG9uZyBUaMOgbmgsIMSQ4buTbmcgTmFpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1746328134919!5m2!1svi!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                    onclick="showShopInfo(this)">
+                    <span class="shop-name">Lê Duẩn - Đồng Nai</span>
+                    <p>280 Lê Duẩn, thị trấn Long Thành, Huyện Long Thành, Tỉnh Đồng Nai</p>
+                </li>
+                <!-- Các cửa hàng khác giữ nguyên -->
+                <li class="shop-item" 
+                data-address="427 Phạm Văn Đồng, Phường Cổ Nhuế 1, Quận Bắc Từ Liêm, Hà Nội" 
+                data-iframe='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.308095882805!2d105.77897257923104!3d21.060353430567236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135aad56170e053%3A0xc84aaeaf53b0cc9d!2zNDI3IMSQLiBQaOG6oW0gVsSDbiDEkOG7k25nLCBD4buVIE5odeG6vywgQuG6r2MgVOG7qyBMacOqbSwgSMOgIE7hu5lpIDEwMDAwLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1746498918335!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                onclick="showShopInfo(this)">
+                <span class="shop-name">Phạm Văn Đồng - Hà Nội</span>
+                <p>427 Phạm Văn Đồng, Phường Cổ Nhuế 1, Quận Bắc Từ Liêm, Hà Nội</p>
+            </li>
+            <li class="shop-item" 
+                    data-address="59-61 Nguyễn Đình Thi, Phường Thuỵ Khuê, Quận Tây Hồ, Hà Nội" 
+                    data-iframe='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.7372348393396!2d105.82221217503185!3d21.04319738060973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab08ead9cc83%3A0xdd93f18e01134a0!2zNTkgUC4gTmd1eeG7hW4gxJDDrG5oIFRoaSwgVGh14bu1IEtodcOqLCBUw6J5IEjhu5MsIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1746498976088!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                    onclick="showShopInfo(this)">
+                    <span class="shop-name">Nguyễn Đình Thi - Hà Nội</span>
+                    <p>59-61 Nguyễn Đình Thi, Phường Thuỵ Khuê, Quận Tây Hồ, Hà Nội</p>
+                </li>
+                <li class="shop-item" 
+                    data-address="160-162 Nguyễn Văn Thoại, Phường Mỹ An, Quận Ngũ Hành Sơn, TP. Đà Nẵng" 
+                    data-iframe='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.1870264204827!2d108.24260167490375!3d16.055781684621802!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177be72169c5%3A0x6a74efac3c92dea9!2zMTYwIE5ndXnhu4VuIFbEg24gVGhv4bqhaSwgQuG6r2MgTeG7uSBQaMO6LCBOZ8WpIEjDoG5oIFPGoW4sIMSQw6AgTuG6tW5nIDU1MDAwMCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1746350713100!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                    onclick="showShopInfo(this)">
+                    <span class="shop-name">Nguyễn Văn Thoại - Đà Nẵng</span>
+                    <p>160-162 Nguyễn Văn Thoại, Phường Mỹ An, Quận Ngũ Hành Sơn, TP. Đà Nẵng</p>
+                </li>
+                <li class="shop-item" 
+                    data-address="14/1A Tô Ký, Xã Thới Tam Thôn, Huyện Hóc Môn, TP. Hồ Chí Minh" 
+                    data-iframe='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62688.19388844015!2d106.56327510448202!3d10.88668245268235!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d58b5bf1397d%3A0x11fe3a6d8761341c!2zMTQvMUEgxJAuIFTDtCBLw70sIFRo4bubaSBUYW0gVGjDtG4sIEjDs2MgTcO0biwgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1746351006637!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                    onclick="showShopInfo(this)">
+                    <span class="shop-name">Tô Ký - Hóc Môn</span>
+                    <p>14/1A Tô Ký, Xã Thới Tam Thôn, Huyện Hóc Môn, TP. Hồ Chí Minh</p>
+                </li>
+                <li class="shop-item" 
+                    data-address="122 Tên Lửa, Phường Bình Trị Đông B, Quận Bình Tân, TP. Hồ Chí Minh" 
+                    data-iframe='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.895615255142!2d106.61142577480445!3d10.74252788940423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752dad5e5d4df1%3A0x5316b7fd90155158!2zWGVkYXAudm4gLSAxMjIgVMOqbiBM4butYSwgQsOsbmggVHLhu4sgxJDDtG5nIEIsIELDrG5oIFTDom4sIEhDTQ!5e0!3m2!1svi!2s!4v1746351102912!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                    onclick="showShopInfo(this)">
+                    <span class="shop-name">122 Tên Lửa - Bình Tân</span>
+                    <p>122 Tên Lửa, Phường Bình Trị Đông B, Quận Bình Tân, TP. Hồ Chí Minh</p>
+                </li>
+                <li class="shop-item" 
+                data-address="63C Võ Thị Sáu, Phường 6, Quận 3, TP. Hồ Chí Minh" 
+                data-iframe='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.3106547710468!2d106.68689797769244!3d10.787501961932378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f33055f5893%3A0xcb636ff3f2871840!2zNjNjIMSQLiBWw7UgVGjhu4sgU8OhdSwgUGjGsOG7nW5nIDYsIFF14bqtbiAzLCBI4buTIENow60gTWluaCA3MDAwMCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1746351604910!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                onclick="showShopInfo(this)">
+                <span class="shop-name">Võ Thị Sáu - HCM</span>
+                <p>63C Võ Thị Sáu, Phường 6, Quận 3, TP. Hồ Chí Minh</p>
+            </li>
+            <li class="shop-item" 
+                data-address="Shop B1-00.05, Sarimi, 72 Nguyễn Cơ Thạch, Phường An Lợi Đông, TP. Thủ Đức, TP. Hồ Chí Minh" 
+                data-iframe='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5293843623267!2d106.72199267480487!3d10.770706889377697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175255aabb926a1%3A0x3c7c502d81c2f68d!2zWGVkYXAudm4gLSBTYWxhIFF14bqtbiAyLCBUaOG7pyDEkOG7qWMsIEhDTQ!5e0!3m2!1svi!2s!4v1746351740403!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                onclick="showShopInfo(this)">
+                <span class="shop-name">Xedap.vn Nguyễn Cơ Thạch</span>
+                <p>Shop B1-00.05, Sarimi, 72 Nguyễn Cơ Thạch, Phường An Lợi Đông, TP. Thủ Đức, TP. Hồ Chí Minh</p>
+            </li>
+            </ul>
+        </div>
+
+        <!-- Bản đồ và thông tin chi tiết -->
+        <div class="map-display">
+            <h2>Bản đồ</h2>
+            <div id="map-iframe">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2953405723797!2d106.94412137480508!3d10.78867688936082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31751f3adbda80af%3A0xaa490bec76bef8fd!2zMjgwIEzDqiBEdeG6qW4sIFRULiBMb25nIFRow6BuaCwgTG9uZyBUaMOgbmgsIMSQ4buTbmcgTmFpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1746328134919!5m2!1svi!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div id="shop-info" class="shop-info">
+                <h3>Xedap.vn - 280 Lê Duẩn, Long...</h3>
+                <p>280 đường Lê Duẩn, TT. Long Thành, Chi đoàn</p>
+                <p>Hotline: 1800 9473</p>
+                <p>Giờ mở cửa: 09:00 - 21:00 (Thứ 2 - Chủ nhật)</p>
+                <div class="rating">
+                    <span>5.0 ★★★★★</span> <span>2 bài viết</span>
+                    <a href="#" onclick="showMapOverlay()">Xem bản đồ lộ trình</a>
+                </div>
+            </div>
+            <p id="map-address">Địa chỉ: 280 Lê Duẩn, thị trấn Long Thành, Huyện Long Thành, Tỉnh Đồng Nai</p>
+        </div>
+    </div>
+{% endblock %}
+</main>
+{% include 'includes/contact.html' %}
+{% include 'includes/footer.html' %}
+{% include 'includes/ChatAI.html' %}
+{% include 'includes/overlays.html' %}
+<!-- JS -->
+<script defer src="{% static '/assets/js/main.js' %}"></script>
+<script defer src="{% static '/assets/js/map.js' %}"></script>

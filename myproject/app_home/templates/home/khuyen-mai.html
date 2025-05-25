@@ -1,0 +1,288 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/sale.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+{% include 'includes/header.html' %}
+{% block content %}
+<section class="container-sale">
+    <div class="banner-sale">
+     <a href="{% url 'khuyen-mai' %}">
+        <img src="{% static 'assets/images/sale/collection_main_banner.webp' %}" alt="Banner Sale">
+      </a>
+    </div>
+
+   
+</section>
+ <div class="timer-container">
+    <h3 class="label">Kết thúc sau</h3>
+        <div class="timer">
+            
+            <span class="time-box" id="hours">00</span>
+            <span class="time-separator">:</span>
+            <span class="time-box" id="minutes">00</span>
+            <span class="time-separator">:</span>
+            <span class="time-box" id="seconds">00</span>
+        </div>
+    </div>
+<section class="coupon-container">
+<section class="coupon-card">
+    <div class="icon-area">
+        <img src="{% static 'assets/images/sale/coupon_1_img.webp' %}" alt="Xe đạp">
+    </div>
+    <div class="summary-area">
+        <div class="summary-header">
+            <span class="summary-title">SUMMER -5%</span>
+            <button class="info-icon-button" aria-label="Thông tin chi tiết">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+        <p class="summary-description">Giảm 5% cho tất cả xe đạp trẻ em</p>
+        <p class="summary-code">Mã: <strong>SUMMER5</strong></p>
+        <p class="summary-expiry">HSD: <strong>30/12/2024</strong></p>
+        
+        <img src="{% static 'assets/images/sale/outdated.png' %}" alt="Đã hết hạn" class="stamp-image">
+    </div>
+
+    <div class="hover-content">
+        <div class="hover-header">
+            <span class="hover-title">SUMMER -5%</span>
+        </div>
+    
+       <div class="hover-contain_desc">
+        <span>Mã:</span><strong class="bonus-code coupon-code">SUMMER5</strong>
+        <i class="far fa-copy icon-copy" onclick="copyToClipboard(this)"></i>
+        <p class="hover-details-expiry">HSD: <strong class="bonus-code1">30/12/2024</strong></p>
+        <ul class="hover-terms">
+            <li>- Mã giảm 5% cho các dòng xe đạp trẻ em nhân dịp hè về.</li>
+            <li>- Giảm tối đa 500k</li>
+        </ul>
+        </div>
+    </div>
+</section>
+<section class="coupon-card">
+    <div class="icon-area">
+        <img src="{% static 'assets/images/sale/coupon_2_img.png' %}" alt="Xe đạp">
+    </div>
+    <div class="summary-area">
+        <div class="summary-header">
+            <span class="summary-title">GIẢM 150K</span>
+            <button class="info-icon-button" aria-label="Thông tin chi tiết">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+        <p class="summary-description">Áp dụng cho đơn hàng từ 5 triệu</p>
+        <p class="summary-code">Mã: <strong>GIAM150K</strong></p>
+        <p class="summary-expiry">HSD: <strong>06/10/2024</strong></p>
+        
+        <img src="{% static 'assets/images/sale/outdated.png' %}" alt="Đã hết hạn" class="stamp-image">
+    </div>
+
+    <div class="hover-content">
+        <div class="hover-header">
+            <span class="hover-title">GIẢM 150K</span>
+        </div>
+    
+       <div class="hover-contain_desc">
+        <span>Mã:</span><strong class="bonus-code coupon-code">GIAM150K</strong>
+        <i class="far fa-copy icon-copy" onclick="copyToClipboard(this)"></i>
+        <p class="hover-details-expiry">HSD: <strong class="bonus-code1">06/10/2024</strong></p>
+        <ul class="hover-terms">
+            <li>- Mã giảm 150K cho đơn hàng có giá trị tối thiểu 5 triệu.</li>
+           
+        </ul>
+        </div>
+    </div>
+</section>
+<section class="coupon-card">
+    <div class="icon-area">
+        <img src="{% static 'assets/images/sale/coupon_3_img.webp' %}" alt="Xe đạp">
+    </div>
+    <div class="summary-area">
+        <div class="summary-header">
+            <span class="summary-title">PHÍ DỊCH VỤ -30%</span>
+            <button class="info-icon-button" aria-label="Thông tin chi tiết">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+        <p class="summary-description">Giảm 30% phí dịch vụ nâng cấp</p>
+        <p class="summary-code">Mã: <strong>SERVICE30</strong></p>
+        <p class="summary-expiry">HSD: <strong>09/11/2024</strong></p>
+        
+        <img src="{% static 'assets/images/sale/outdated.png' %}" alt="Đã hết hạn" class="stamp-image">
+    </div>
+
+    <div class="hover-content">
+        <div class="hover-header">
+            <span class="hover-title">PHÍ DỊCH VỤ -30%</span>
+        </div>
+    
+       <div class="hover-contain_desc">
+        <span>Mã:</span><strong class="bonus-code coupon-code">SERVICE30</strong>
+        <i class="far fa-copy icon-copy" onclick="copyToClipboard(this)"></i>
+        <p class="hover-details-expiry">HSD: <strong class="bonus-code1">09/11/2024</strong></p>
+        <ul class="hover-terms">
+            <li>- Khách hàng khi mua xe đạp tại EGA Bike sẽ được giảm 30% phí dịch vụ nâng cấp, sửa chữa trọn đời.</li>
+            
+        </ul>
+        </div>
+    </div>
+</section>
+<section class="coupon-card">
+    <div class="icon-area">
+        <img src="{% static 'assets/images/sale/coupon_4_img.png' %}" alt="Xe đạp">
+    </div>
+    <div class="summary-area">
+        <div class="summary-header">
+            <span class="summary-title">PHỤ KIỆN -20%</span>
+            <button class="info-icon-button" aria-label="Thông tin chi tiết">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+        <p class="summary-description">Giảm 20% sản phẩm phụ kiện</p>
+        <p class="summary-code">Mã: <strong>GIAM20</strong></p>
+        <p class="summary-expiry">HSD: <strong>12/12/2024</strong></p>
+        
+        <img src="{% static 'assets/images/sale/outdated.png' %}" alt="Đã hết hạn" class="stamp-image">
+    </div>
+
+    <div class="hover-content">
+        <div class="hover-header">
+            <span class="hover-title">PHỤ KIỆN -20%</span>
+        </div>
+    
+       <div class="hover-contain_desc">
+        <span>Mã:</span><strong class="bonus-code coupon-code">PHỤ KIỆN -20%</strong>
+        <i class="far fa-copy icon-copy" onclick="copyToClipboard(this)"></i>
+        <p class="hover-details-expiry">HSD: <strong class="bonus-code1">30/12/2024</strong></p>
+        <ul class="hover-terms">
+            <li>- Giảm 20% sản phẩm phụ kiện khi mua cùng xe đạp.</li>
+            <li>- Giảm tối đa 500K</li>
+        </ul>
+        </div>
+    </div>
+</section>
+</section>
+
+<section class="banner-container_sale">
+        <div class="banner-item_sale">
+            <img src="{% static 'assets\images\sale\bento_grid_item_1_img.webp'%}" alt="Săn hàng sale">
+        </div>
+        <div class="banner-item_sale">
+            <img src="{% static 'assets\images\sale\bento_grid_item_2_img.webp' %}" alt="Đèn xe"> 
+        </div>
+        <div class="banner-item_sale">
+            <img src="{% static 'assets\images\sale\bento_grid_item_3_img.webp' %}" alt="Yên xe">
+        </div>
+        <div class="banner-item_sale">
+            <img src="{% static 'assets\images\sale\bento_grid_item_4_img.webp' %}" alt="Xe đạp">
+        </div>
+    </section>
+
+ <section class="section_insta ">
+        <div class="container-insta card border-0">
+            <h2 class="heading-bar__title">FOLLOW INSTAGRAM</h2>
+            <div class="insta_body hrz-scroll flex-nowrap" data-section="instagram">		
+                <a target="_blank" class="insta_item pos-relative embed-responsive embed-responsive-1by1" title="insta_1_img.jpg" href="https://www.instagram.com">
+                    <img loading="lazy" src="{% static 'assets\images\sale\insta_1_img.jpg'%}" alt="insta_1_img.jpg">
+                    <div class="d-flex insta-icon-wrap">
+                        <div class="insta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.316 3.608 1.292.974.974 1.23 2.242 1.292 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.316 2.633-1.292 3.608-.974.974-2.242 1.23-3.608 1.292-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.316-3.608-1.292-.974-.974-1.23-2.242-1.292-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.316-2.633 1.292-3.608.974-.974 2.242-1.23 3.608-1.292 1.266-.058 1.646-.07 4.85-.07m0-2.163C8.736 0 8.28.014 6.965.074 5.646.138 4.318.403 3.188.974c-1.13.57-2.156 1.597-2.728 2.728-.57 1.13-.836 2.458-.9 3.777-.06 1.315-.074 1.771-.074 5.035s.014 3.72.074 5.035c.064 1.32.33 2.647.9 3.777.572 1.13 1.598 2.158 2.728 2.728 1.13.57 2.458.836 3.777.9 1.315.06 1.771.074 5.035.074s3.72-.014 5.035-.074c1.32-.064 2.647-.33 3.777-.9 1.13-.572 2.158-1.598 2.728-2.728.57-1.13.836-2.458.9-3.777.06-1.315.074-1.771.074-5.035s-.014-3.72-.074-5.035c-.064-1.32-.33-2.647-.9-3.777-.572-1.13-1.598-2.158-2.728-2.728-1.13-.57-2.458-.836-3.777-.9-1.315-.06-1.771-.074-5.035-.074Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+                <a target="_blank" class="insta_item pos-relative embed-responsive embed-responsive-1by1" title="insta_2_img.jpg" href="https://www.instagram.com">
+                    <img loading="lazy" src="{% static 'assets\images\sale\insta_2_img.webp'%}" alt="insta_2_img.jpg">
+                    <div class="d-flex insta-icon-wrap">
+                        <div class="insta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.316 3.608 1.292.974.974 1.23 2.242 1.292 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.316 2.633-1.292 3.608-.974.974-2.242 1.23-3.608 1.292-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.316-3.608-1.292-.974-.974-1.23-2.242-1.292-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.316-2.633 1.292-3.608.974-.974 2.242-1.23 3.608-1.292 1.266-.058 1.646-.07 4.85-.07m0-2.163C8.736 0 8.28.014 6.965.074 5.646.138 4.318.403 3.188.974c-1.13.57-2.156 1.597-2.728 2.728-.57 1.13-.836 2.458-.9 3.777-.06 1.315-.074 1.771-.074 5.035s.014 3.72.074 5.035c.064 1.32.33 2.647.9 3.777.572 1.13 1.598 2.158 2.728 2.728 1.13.57 2.458.836 3.777.9 1.315.06 1.771.074 5.035.074s3.72-.014 5.035-.074c1.32-.064 2.647-.33 3.777-.9 1.13-.572 2.158-1.598 2.728-2.728.57-1.13.836-2.458.9-3.777.06-1.315.074-1.771.074-5.035s-.014-3.72-.074-5.035c-.064-1.32-.33-2.647-.9-3.777-.572-1.13-1.598-2.158-2.728-2.728-1.13-.57-2.458-.836-3.777-.9-1.315-.06-1.771-.074-5.035-.074Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+                <a target="_blank" class="insta_item pos-relative embed-responsive embed-responsive-1by1" title="insta_3_img.jpg" href="https://www.instagram.com">
+                    <img loading="lazy" src="{% static 'assets\images\sale\insta_3_img.webp'%}" alt="insta_3_img.jpg">
+                    <div class="d-flex insta-icon-wrap">
+                        <div class="insta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.316 3.608 1.292.974.974 1.23 2.242 1.292 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.316 2.633-1.292 3.608-.974.974-2.242 1.23-3.608 1.292-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.316-3.608-1.292-.974-.974-1.23-2.242-1.292-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.316-2.633 1.292-3.608.974-.974 2.242-1.23 3.608-1.292 1.266-.058 1.646-.07 4.85-.07m0-2.163C8.736 0 8.28.014 6.965.074 5.646.138 4.318.403 3.188.974c-1.13.57-2.156 1.597-2.728 2.728-.57 1.13-.836 2.458-.9 3.777-.06 1.315-.074 1.771-.074 5.035s.014 3.72.074 5.035c.064 1.32.33 2.647.9 3.777.572 1.13 1.598 2.158 2.728 2.728 1.13.57 2.458.836 3.777.9 1.315.06 1.771.074 5.035.074s3.72-.014 5.035-.074c1.32-.064 2.647-.33 3.777-.9 1.13-.572 2.158-1.598 2.728-2.728.57-1.13.836-2.458.9-3.777.06-1.315.074-1.771.074-5.035s-.014-3.72-.074-5.035c-.064-1.32-.33-2.647-.9-3.777-.572-1.13-1.598-2.158-2.728-2.728-1.13-.57-2.458-.836-3.777-.9-1.315-.06-1.771-.074-5.035-.074Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+                <a target="_blank" class="insta_item pos-relative embed-responsive embed-responsive-1by1" title="insta_4_img.jpg" href="https://www.instagram.com">
+                    <img loading="lazy" src="{% static 'assets\images\sale\insta_4_img.webp'%}" alt="insta_4_img.jpg">
+                    <div class="d-flex insta-icon-wrap">
+                        <div class="insta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.316 3.608 1.292.974.974 1.23 2.242 1.292 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.316 2.633-1.292 3.608-.974.974-2.242 1.23-3.608 1.292-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.316-3.608-1.292-.974-.974-1.23-2.242-1.292-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.316-2.633 1.292-3.608.974-.974 2.242-1.23 3.608-1.292 1.266-.058 1.646-.07 4.85-.07m0-2.163C8.736 0 8.28.014 6.965.074 5.646.138 4.318.403 3.188.974c-1.13.57-2.156 1.597-2.728 2.728-.57 1.13-.836 2.458-.9 3.777-.06 1.315-.074 1.771-.074 5.035s.014 3.72.074 5.035c.064 1.32.33 2.647.9 3.777.572 1.13 1.598 2.158 2.728 2.728 1.13.57 2.458.836 3.777.9 1.315.06 1.771.074 5.035.074s3.72-.014 5.035-.074c1.32-.064 2.647-.33 3.777-.9 1.13-.572 2.158-1.598 2.728-2.728.57-1.13.836-2.458.9-3.777.06-1.315.074-1.771.074-5.035s-.014-3.72-.074-5.035c-.064-1.32-.33-2.647-.9-3.777-.572-1.13-1.598-2.158-2.728-2.728-1.13-.57-2.458-.836-3.777-.9-1.315-.06-1.771-.074-5.035-.074Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+                <a target="_blank" class="insta_item pos-relative embed-responsive embed-responsive-1by1" title="insta_3_img.jpg" href="https://www.instagram.com">
+                    <img loading="lazy" src="{% static 'assets\images\sale\insta_5_img.jpg'%}" alt="insta_5_img.jpg">
+                    <div class="d-flex insta-icon-wrap">
+                        <div class="insta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.316 3.608 1.292.974.974 1.23 2.242 1.292 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.316 2.633-1.292 3.608-.974.974-2.242 1.23-3.608 1.292-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.316-3.608-1.292-.974-.974-1.23-2.242-1.292-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.316-2.633 1.292-3.608.974-.974 2.242-1.23 3.608-1.292 1.266-.058 1.646-.07 4.85-.07m0-2.163C8.736 0 8.28.014 6.965.074 5.646.138 4.318.403 3.188.974c-1.13.57-2.156 1.597-2.728 2.728-.57 1.13-.836 2.458-.9 3.777-.06 1.315-.074 1.771-.074 5.035s.014 3.72.074 5.035c.064 1.32.33 2.647.9 3.777.572 1.13 1.598 2.158 2.728 2.728 1.13.57 2.458.836 3.777.9 1.315.06 1.771.074 5.035.074s3.72-.014 5.035-.074c1.32-.064 2.647-.33 3.777-.9 1.13-.572 2.158-1.598 2.728-2.728.57-1.13.836-2.458.9-3.777.06-1.315.074-1.771.074-5.035s-.014-3.72-.074-5.035c-.064-1.32-.33-2.647-.9-3.777-.572-1.13-1.598-2.158-2.728-2.728-1.13-.57-2.458-.836-3.777-.9-1.315-.06-1.771-.074-5.035-.074Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+ {% include 'includes/overlays.html'%}
+{% include 'includes/footer.html' %}
+ {% include 'includes/ChatAI.html' %}
+<script src="{% static '/assets/js/main.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+let totalSeconds = parseInt("{{ remaining_seconds|default:0 }}");
+
+function updateTimer() {
+// Kiểm tra nếu thời gian đã hết
+if (totalSeconds <= 0) {
+ // Nếu hết giờ, bạn có thể muốn hiển thị "Hết thời gian" ở đâu đó,
+ // ví dụ: tìm phần tử cha của các span thời gian và cập nhật nội dung của nó
+ const timerDisplay = document.querySelector('.timer'); // Chọn phần tử div class="timer"
+ if (timerDisplay) {
+timerDisplay.textContent = "Hết thời gian";
+ // Ẩn các span giờ, phút, giây và dấu hai chấm nếu cần
+  document.getElementById('hours').style.display = 'none';
+                document.getElementById('minutes').style.display = 'none';
+                document.getElementById('seconds').style.display = 'none';
+                const separators = timerDisplay.querySelectorAll('.time-separator');
+                separators.forEach(sep => sep.style.display = 'none');
+ }
+ return; // Dừng hàm nếu hết giờ
+ }
+ let hours = Math.floor(totalSeconds / 3600);
+ let minutes = Math.floor((totalSeconds % 3600) / 60);
+let seconds = totalSeconds % 60;
+
+// Hiển thị thời gian vào các span tương ứng
+document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+ document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+totalSeconds--; // Giảm số giây còn lại
+ }
+
+ // Gọi hàm updateTimer lần đầu tiên để hiển thị thời gian ngay khi tải trang
+updateTimer();
+// Cập nhật bộ đếm thời gian mỗi giây
+ const timerInterval = setInterval(updateTimer, 1000);
+    // (Tùy chọn) Dừng setInterval khi hết giờ để tránh lãng phí tài nguyên
+    // Bạn có thể thêm logic clearinterval vào trong if (totalSeconds <= 0) block
+    // hoặc kiểm tra sau khi giảm totalSeconds--
+    // Ví dụ:
+    // if (totalSeconds < 0) {
+    //     clearInterval(timerInterval);
+    // }
+});
+</script>

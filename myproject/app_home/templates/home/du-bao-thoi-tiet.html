@@ -1,0 +1,292 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự báo thời tiết & Giao thông - {{ city|default:"TP. Hồ Chí Minh" }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/du-bao-thoi-tiet.css' %}">
+</head>
+<body>
+    {% include 'includes/header.html' %}
+
+    <div class="container">
+        <!-- Current Weather Section -->
+        <section class="current-weather">
+            <div class="location-selector">
+                <div class="current-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ city|default:"TP. Hồ Chí Minh" }}</span>
+                </div>
+                <div class="location-search">
+                    <input type="text" id="locationInput" placeholder="Tìm kiếm địa điểm...">
+                    <button id="searchLocation">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="current-weather-main">
+                <div class="current-time">
+                    <div class="time">{{ current_time }}</div>
+                    <div class="date">{{ current_date }}</div>
+                </div>
+                <div class="weather-main-info">
+                    <img src="http://openweathermap.org/img/wn/{{ current_weather.icon }}@2x.png" alt="{{ current_weather.description }}" class="current-weather-icon">
+                    <div class="temperature">
+                        <span class="temp-value">{{ current_weather.temp }}</span>
+                        <span class="temp-unit">°C</span>
+                    </div>
+                    <div class="weather-description">{{ current_weather.description }}</div>
+                </div>
+            </div>
+
+            <div class="current-weather-details">
+                <div class="weather-detail-item">
+                    <i class="fas fa-temperature-high"></i>
+                    <div class="detail-info">
+                        <span class="detail-label">Cảm giác</span>
+                        <span class="detail-value">{{ current_weather.feels_like }}°C</span>
+                    </div>
+                </div>
+                <div class="weather-detail-item">
+                    <i class="fas fa-tint"></i>
+                    <div class="detail-info">
+                        <span class="detail-label">Độ ẩm</span>
+                        <span class="detail-value">{{ current_weather.humidity }}%</span>
+                    </div>
+                </div>
+                <div class="weather-detail-item">
+                    <i class="fas fa-wind"></i>
+                    <div class="detail-info">
+                        <span class="detail-label">Gió</span>
+                        <span class="detail-value">{{ current_weather.wind_speed }} m/s</span>
+                    </div>
+                </div>
+                <div class="weather-detail-item">
+                    <i class="fas fa-clock"></i>
+                    <div class="detail-info">
+                        <span class="detail-label">Cập nhật</span>
+                        <span class="detail-value">{{ current_weather.update_time }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Forecast Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-cloud-sun"></i>
+                    Dự báo thời tiết
+                </h2>
+                <p class="section-subtitle">Thông tin thời tiết 7 ngày tới tại {{ city|default:"TP. Hồ Chí Minh" }}</p>
+            </div>
+
+            {% if error %}
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ error }}
+            </div>
+            {% else %}
+            <div class="weather-grid">
+                {% for day in forecast %}
+                <div class="weather-card">
+                    <div class="weather-card-header">
+                        <span class="weather-date">{{ day.date }}</span>
+                        <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="{{ day.description }}" class="weather-icon-large">
+                    </div>
+                    <div class="weather-temp-main">{{ day.temp }}°C</div>
+                    <div class="weather-description-main">{{ day.description }}</div>
+                    <div class="weather-details-grid">
+                        <div class="detail-item">
+                            <i class="fas fa-temperature-high detail-icon"></i>
+                            <span>{{ day.feels_like }}°C</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-tint detail-icon"></i>
+                            <span>{{ day.humidity }}%</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-wind detail-icon"></i>
+                            <span>{{ day.wind_speed }} m/s</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-cloud-rain detail-icon"></i>
+                            <span>{{ day.rain }} mm</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Weather Recommendation -->
+            <div class="recommendation-box {% if forecast.0.temp > 30 %}warning{% elif forecast.0.temp < 20 %}info{% else %}success{% endif %}">
+                <h3 class="recommendation-title">
+                    <i class="fas fa-info-circle"></i>
+                    Khuyến nghị
+                </h3>
+                <p>
+                    {% if forecast.0.temp > 30 %}
+                    Nhiệt độ cao, nên hạn chế hoạt động ngoài trời và uống nhiều nước.
+                    {% elif forecast.0.temp < 20 %}
+                    Nhiệt độ thấp, nên mặc ấm và mang theo áo khoác.
+                    {% else %}
+                    Thời tiết thuận lợi cho các hoạt động ngoài trời.
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </section>
+
+        <!-- Traffic Section -->
+        <section class="traffic-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-traffic-light"></i>
+                    Tình hình giao thông
+                </h2>
+                <p class="section-subtitle">Thông tin giao thông cập nhật tại {{ city|default:"TP. Hồ Chí Minh" }}</p>
+            </div>
+
+            {% if traffic_incidents %}
+            <div class="incidents-grid">
+                {% for incident in traffic_incidents %}
+                <div class="incident-card {% if incident.severity > 7 %}high-severity{% elif incident.severity > 4 %}medium-severity{% else %}low-severity{% endif %}">
+                    <div class="incident-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>{{ incident.type }}</h3>
+                    </div>
+                    <p class="incident-description">{{ incident.description }}</p>
+                    <div class="incident-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ incident.location }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="recommendation-box success">
+                <p>Hiện tại không có sự cố giao thông nào được báo cáo.</p>
+            </div>
+            {% endif %}
+
+            <!-- Traffic Map -->
+            <div class="map-wrapper">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125410.5981852376!2d106.5954!3d10.7757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529292e8d3dd1%3A0xf15f5aad773c112b!2zSOG7kyBDaMOtIE1pbmgsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1620000000000!5m2!1svi!2s" 
+                        allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="map-note">
+                <i class="fas fa-info-circle"></i>
+                Bản đồ giao thông được cập nhật tự động
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-lightbulb"></i>
+                    Lời khuyên hữu ích
+                </h2>
+                <p class="section-subtitle">Một số gợi ý để di chuyển an toàn và hiệu quả</p>
+            </div>
+
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon-wrapper">
+                        <i class="fas fa-umbrella"></i>
+                    </div>
+                    <h4>Mang theo ô</h4>
+                    <p>Luôn mang theo ô khi ra ngoài để phòng mưa bất chợt</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon-wrapper">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h4>Lên kế hoạch</h4>
+                    <p>Kiểm tra tình hình giao thông trước khi di chuyển</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon-wrapper">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Thời gian</h4>
+                    <p>Tránh giờ cao điểm để di chuyển nhanh chóng hơn</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    {% include 'includes/footer.html' %}
+    {% include 'includes/overlays.html' %}
+    {% include 'includes/ChatAI.html' %}
+
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update time every second
+        function updateTime() {
+            const now = new Date();
+            const timeElement = document.querySelector('.time');
+            const dateElement = document.querySelector('.date');
+            
+            timeElement.textContent = now.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            dateElement.textContent = now.toLocaleDateString('vi-VN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Location search functionality
+        const searchButton = document.getElementById('searchLocation');
+        const locationInput = document.getElementById('locationInput');
+
+        searchButton.addEventListener('click', function() {
+            const location = locationInput.value.trim();
+            if (location) {
+                window.location.href = `?city=${encodeURIComponent(location)}`;
+            }
+        });
+
+        locationInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchButton.click();
+            }
+        });
+
+        // Animation for cards
+        const cards = document.querySelectorAll('.weather-card, .incident-card, .tip-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    });
+    </script>
+</body>
+</html>

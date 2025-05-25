@@ -1,0 +1,86 @@
+
+{% load static %}
+<div class="chat-wrapper">
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <div class="toggle-icon">💬</div>
+            <span class="chat-title">Trợ lý Thuê Xe</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="message bot-message">
+                Chào bạn! Tôi có thể giúp gì cho bạn về dịch vụ thuê xe?
+            </div>
+        </div>
+        <div class="chat-footer">
+            <div class="input-group">
+                <input type="text" id="messageInput" placeholder="Nhập câu hỏi...">
+                <button id="sendButton" onclick="sendMessage()">Gửi</button>
+            </div>
+        </div>
+    </div>
+    <div class="chat-toggle" onclick="toggleChat()">
+        <div class="toggle-icon">🚲</div>
+    </div>
+</div>
+<script>
+    let isOpen = false;
+    const chatBox = document.getElementById('chatBox');
+    const chatBody = document.getElementById('chatBody');
+    const messageInput = document.getElementById('messageInput');
+
+    function toggleChat() {
+        isOpen = !isOpen;
+        chatBox.classList.toggle('active');
+        
+        // Tự động focus vào ô nhập khi mở chat
+        if(isOpen) {
+            setTimeout(() => {
+                messageInput.focus();
+            }, 300);
+        }
+    }
+
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if(!message) return;
+
+        // Thêm tin nhắn người dùng
+        addMessage(message, 'user');
+        
+        // Giả lập phản hồi bot
+        setTimeout(() => {
+            addMessage(getBotResponse(message), 'bot');
+        }, 800);
+
+        messageInput.value = '';
+    }
+
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        messageDiv.textContent = text;
+        
+        chatBody.appendChild(messageDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function getBotResponse(message) {
+        const responses = {
+            'giá': 'Giá thuê xe từ 20.000đ - 50.000đ/giờ tùy loại xe',
+            'đặt xe': 'Vui lòng truy cập trang Đặt Xe để chọn xe và thời gian',
+            'mở cửa': 'Cửa hàng mở cửa từ 7h - 22h hàng ngày',
+            'fuc là ai': 'Fuc là 1 thằng lang băm học tại TDT',
+            'default': 'Xin lỗi, tôi chưa hiểu. Vui lòng gọi 1800 9473'
+        };
+        
+        const lowerMsg = message.toLowerCase();
+        return Object.keys(responses).find(key => lowerMsg.includes(key)) 
+               ? responses[Object.keys(responses).find(key => lowerMsg.includes(key))] 
+               : responses.default;
+    }
+
+    // Xử lý sự kiện Enter
+    messageInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') sendMessage();
+    });
+</script>

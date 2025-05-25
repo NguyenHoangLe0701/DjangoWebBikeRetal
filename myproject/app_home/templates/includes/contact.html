@@ -1,0 +1,128 @@
+{% load static %}
+<div class="contact-container">
+    <!-- Tiêu đề -->
+        <h1 class="contact-title">LIÊN HỆ HỆ THỐNG CỬA HÀNG XEDAP.VN</h1>
+        <p class="local-contact">Trụ sở: Công Ty Cổ Phần Vòng Xanh UTH</p>
+        <hr class="divider">
+    <!-- Nội dung 3 cột -->
+    <div class="contact-columns">
+        <!-- Cột 1: Thông tin trụ sở -->
+        <div class="contact-column">
+            <p><i class="fa-solid fa-location-dot contact-icon_local"></i> Trụ sở: 100 Hải Thượng Lãn Ông, P.11, Quận 5, TP.HCM</p>
+            <p><i class="fa-solid fa-envelope" style="font-size:20px;margin-right: 10px; color:#444444;"></i> <a href="mailto:info@xedap.vn">info@xedap.vn</a></p>
+            <p class="text-hover"><i class="fa-solid fa-phone" style="font-size:20px;margin-right: 10px;color: #007bff;"></i> 028 3636 9848</p>
+            <p>🔴 Hotline Tư Vấn: <strong class="text-hover">1800 9473 | 0911.944.966</strong></p>
+        </div>
+
+        <!-- Cột 2: Mạng xã hội -->
+        <div class="contact-column">
+            <p><a href="https://xedap.vn" target="_blank">🌐 Xedap.vn</a></p>
+            <p><a href="https://facebook.com/xedapvn" target="_blank">📘 Facebook</a></p>
+            <p><a href="https://zalo.me/xedapvn" target="_blank"><i class="fa-solid fa-cloud" style="font-size:20px;margin-right: 10px;color: grey;"></i> Zalo</a></p>
+            <p>🔴 Hotline CSKH: <strong class="text-hover">1800 9063</strong></p>
+        </div>
+
+        <!-- Cột 3: QR code -->
+        <div class="contact-column contact-qr">
+            <img src="{% static 'assets/images/store/qr-xedapvn-black.svg' %}" alt="QR Code Zalo Official" class="qr-code_zalo">
+            <p class="qr-text_zalo" style="color:#007bff;" >Quét mã QR Zalo Official</p>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Mô tả phía dưới -->
+    <div class="contacts_description">
+        <p>Hệ thống XEDAP.VN có hơn 30 cửa hàng trải rộng khắp các thành phố, thành phố lớn tại Hà Nội, Hồ Chí Minh, Biên Hòa, Bình Dương và Đà Nẵng chuyên cung cấp các mẫu xe đạp và phụ kiện theo yêu cầu của khách hàng. Mỗi cửa hàng xe đạp đều được đầu tư thiết kế sang trọng, giúp trưng bày nhiều sản phẩm, mang lại sự thoải mái cho khách hàng khi mua sắm tại hệ thống.</p>
+        <p>Riêng ở thành phố Hồ Chí Minh, XEDAP.VN đã phủ sóng cửa hàng trên khắp các quận như: quận 1, quận 3, quận 4, quận 5, quận 7, quận 10, quận 12, Bình Thạnh... Khách hàng có thể liên hệ với cửa hàng xe đạp gần nhất để được chăm sóc một cách chu đáo. Ngoài ra, khách hàng cũng có thể tìm danh sách chi tiết các cửa hàng xe đạp trên toàn quốc.</p>
+    </div>
+</div>
+
+<style>
+    .contact-container {
+        width: 100%;
+        padding: 80px 120px;
+        box-sizing: border-box;
+    }
+   
+    .contact-title {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 10px;
+        flex-direction: flex-start;
+        display: flex;
+       
+    }
+
+    .local-contact {
+        font-size: 20px;
+        color: #666;
+        margin-bottom: 40px;
+        flex-direction: flex-start;
+        display: flex;
+    }
+
+    .contact-columns {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        text-decoration: none;
+    }
+
+    .contact-column {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .contact-column p {
+        margin: 10px 0;
+        font-size: 20px;
+        color: #333;
+    }
+    .contact-icon_local{
+        font-size: 20px;
+        margin-right: 10px;
+        color: #007bff;
+    }
+    .contact-column a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .contact-column a:hover {
+        color: #007bff;
+    }
+    .text-hover:hover{
+        color: #007bff;
+    }
+ 
+    .qr-code_zalo {
+        width: 200px;
+        height: auto;
+        margin-top: 10px;
+       
+    }
+
+    .qr-text_zalo{
+        font-size: 0.9em;
+        color: #007bff;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom:20px;
+    }
+
+    .divider {
+        border: 0;
+        border-top: 1px solid #ccc;
+        margin: 40px 0;
+    }
+
+    .contacts_description {
+        font-size: 20px;
+        color: #444;
+        line-height: 1.6;
+        text-align: justify;
+        line-height: 1.8;
+    }
+</style>

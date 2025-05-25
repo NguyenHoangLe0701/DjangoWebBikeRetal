@@ -1,0 +1,436 @@
+{% extends 'base.html' %}
+ {% load static %}
+{% block title %}Trang chủ{% endblock %}
+ 
+<link rel="stylesheet" href="{% static 'assets/css/home.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/info.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+{% block content %}
+<main class="product-collection_bikehot">
+    <div class="collection-header">
+        <h1>Bộ sưu tập xe đạp 2025</h1>
+    </div>
+    <div class="product-slider">
+        <button class="slider-prev"><</button>
+        <div class="product-list">
+            <!-- Sản phẩm 1 -->
+            <div class="product-card">
+                <img src="{% static 'assets/images/products/2.jpg' %}" alt="Xe đạp Đường Phố Fixed Gear VINBIKE Megatron">
+                <div class="discount-badge">-28%</div>
+                <div class="product-details">
+                    <h3>Xe đạp Đường Phố Fixed Gear VINBIKE Megatron</h3>
+                    <p class="original-price"><s>6.990.000 VNĐ</s></p>
+                    <p class="discounted-price">4.990.000 VNĐ</p>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 2 -->
+            <div class="product-card">
+                <img src="{% static 'assets/images/products/hunter-24-white.jpg' %}" alt="Xe đạp Trẻ Em Youth MISAKI Berry 2 - Bánh 14 inches">
+                <div class="discount-badge">-30%</div>
+                <div class="product-details">
+                    <h3>Xe đạp Trẻ Em Youth MISAKI Berry 2 - Bánh 14 inches</h3>
+                    <p class="original-price"><s>2.490.000 VNĐ</s></p>
+                    <p class="discounted-price">1.990.000 VNĐ</p>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 3 -->
+            <div class="product-card">
+                <img src="{% static 'assets/images/products/rock-red.jpg' %}" alt="Xe đạp Trẻ Em Youth TRINX Princess - Bánh 18 inches">
+                <div class="discount-badge">-30%</div>
+                <div class="product-details">
+                    <h3>Xe đạp Trẻ Em Youth TRINX Princess - Bánh 18 inches</h3>
+                    <p class="original-price"><s>1.990.000 VNĐ</s></p>
+                    <p class="discounted-price">1.390.000 VNĐ</p>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 4 -->
+            <div class="product-card">
+                <img src="{% static 'assets/images/products/Trinx_Princess18.jpg' %}" alt="Xe đạp Trẻ Em Youth MAX BIKE Bella 5 - Bánh 20 inches">
+                <div class="discount-badge">-15%</div>
+                <div class="product-details">
+                    <h3>Xe đạp Trẻ Em Youth MAX BIKE Bella 5 - Bánh 20 inches</h3>
+                    <p class="original-price"><s>1.990.000 VNĐ</s></p>
+                    <p class="discounted-price">1.990.000 VNĐ</p>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 5 -->
+            <div class="product-card">
+                <img src="{% static 'assets/images/products/Bella5_Pink.jpg' %}" alt="Xe đạp Đường Phố Touring JEEP Freedom LX-66 Disc">
+                <div class="discount-badge">-15%</div>
+                <div class="product-details">
+                    <h3>Xe đạp Đường Phố Touring JEEP Freedom LX-66 Disc</h3>
+                    <p class="original-price"><s>6.600.000 VNĐ</s></p>
+                    <p class="discounted-price">5.600.000 VNĐ</p>
+                </div>
+            </div>
+                 <div class="product-card">
+                <img src="{% static 'assets/images/bike/rally-1-green-25.jpg' %}" alt="Xe đạp Đường Phố Touring JEEP Freedom LX-66 Disc">
+                <div class="discount-badge">-15%</div>
+                <div class="product-details">
+                    <h3>Xe đạp Đường Phố Touring JEEP Freedom LX-66 Disc</h3>
+                    <p class="original-price"><s>6.600.000 VNĐ</s></p>
+                    <p class="discounted-price">5.600.000 VNĐ</p>
+                </div>
+            </div>
+        </div>
+        <button class="slider-next">></button>
+    </div>
+    <div class="chat-buttons">
+        <button class="chat-btn"><i class="fas fa-comment"></i></button>
+        <button class="chat-btn"><i class="fas fa-phone"></i></button>
+        <button class="chat-btn"><i class="fas fa-video"></i></button>
+    </div>
+</main>
+<section class="container-list_content1">
+    <div class="title_home">
+        <h1>XE ĐẠP ĐUA</h1>
+        <div class="view-all">
+            <a href="#" target="_blank">Xem tất cả</a>
+        </div>
+    </div>
+
+    <div class="product-list-wrapper">
+        <div class="product-list">
+            <div class="product-item1">
+                <div class="product-image_bike1">
+                    <img src="{% static 'assets\images\product-display\xe-dap-dua-homepage.png' %}" alt="Xe Đạp Đường Trường ROAD GIANT Speeder-D1">
+                </div>
+                <div class="product-info_bike1">
+                    <p class="product-description_bike1">Xe Đạp Đường Trường ROAD GIANT Speeder-D1 - Phanh Đĩa, Bánh 700C - 2023</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">15.790.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-button prev-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" class="inline">
+                    <path stroke="#000" stroke-width="2" d="m15 6-6 6 6 6"></path>
+                </svg>
+            </button>
+
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\product-display\taka-2-brown.jpg' %}" alt="Xe Đạp Đường Trường Road RAPTOR Taka 2">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Xe Đạp Đường Trường Road RAPTOR Taka 2 - Bánh 700C</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">20.890.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\product-display\wahoo-black.jpg' %}" alt="Xe Đạp Đường Trường Road JAVA Siluro 6">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Xe Đạp Đường Trường Road JAVA Siluro 6 - Phanh Đĩa, Bánh...</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">20.990.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+                <button class="nav-button next-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" class="inline">
+                    <path stroke="#000" stroke-width="2" d="m9 6 6 6-6 6"></path>
+                </svg>
+            </button>
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\product-display\2025-contendar-3-black_2.jpg' %}" alt="Xe Đạp Đường Trường Road GIANT Contend AR 4">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Xe Đạp Đường Trường Road GIANT Contend AR 4 - Phanh Đĩa...</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">21.290.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-list_content2">
+    <div class="title_home">
+        <h1>PHỤ KIỆN CHO XE</h1>
+        <div class="view-all">
+            <a href="#" target="_blank">Xem tất cả</a>
+        </div>
+    </div>
+
+    <div class="product-list-wrapper">
+        <div class="product-list">
+            <div class="product-item1">
+                <div class="product-image_bike1">
+                    <img src="{% static 'assets\images\devices\phu-kien-cho-xe-homepage.jpg' %}" alt="Xe Đạp Đường Trường ROAD GIANT Speeder-D1">
+                </div>
+                <div class="product-info_bike1">
+                    <p class="product-description_bike1">Đèn Trước Xe Đạp Pin AAA 60 Lumen BOSHING BS04 Bicycle Front Light</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">190.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-button prev-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" class="inline">
+                    <path stroke="#000" stroke-width="2" d="m15 6-6 6 6 6"></path>
+                </svg>
+            </button>
+
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\devices\gi-230118.jpg' %}" alt="Xe Đạp Đường Trường Road RAPTOR Taka 2">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Đèn Trước Xe Đạp Sạc USB Type-C 300 Lumen GI62 Bicycle Front Light</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">259.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\devices\ra-230122.jpg' %}" alt="Xe Đạp Đường Trường Road JAVA Siluro 6">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Bình Nước Xe Đạp 600ml RAPTOR RA69 Water Bottle</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">190.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+                <button class="nav-button next-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" class="inline">
+                    <path stroke="#000" stroke-width="2" d="m9 6 6 6-6 6"></path>
+                </svg>
+            </button>
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\devices\ra-230125.jpg' %}" alt="Bình Nước Xe Đạp 600ml RAPTOR RA68 Water Bottle">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Bình Nước Xe Đạp 600ml RAPTOR RA68 Water Bottle</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">290.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-list_content2">
+    <div class="title_home">
+        <h1>PHỤ TÙNG</h1>
+        <div class="view-all">
+            <a href="#" target="_blank">Xem tất cả</a>
+        </div>
+    </div>
+
+    <div class="product-list-wrapper">
+        <div class="product-list">
+            <div class="product-item1">
+                <div class="product-image_bike1">
+                    <img src="{% static 'assets\images\devices\phu-tung-homepage.png' %}" alt="Xe Đạp Đường Trường ROAD GIANT Speeder-D1">
+                </div>
+                <div class="product-info_bike1">
+                    <p class="product-description_bike1">Ruột Xe Đạp GIANT 700×35-45 SV 35mm – Innertube And Valve</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">129.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-button prev-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" class="inline">
+                    <path stroke="#000" stroke-width="2" d="m15 6-6 6 6 6"></path>
+                </svg>
+            </button>
+
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\devices\emt-200-krrxra-170.jpg' %}" alt="Xe Đạp Đường Trường Road RAPTOR Taka 2">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Bộ Thắng Đĩa Sau Xe Đạp SHIMANO BL-MT200(R), BR-MT200(R), Black, W/O Adapter, Resin Pad (W/O Fin), W/O live & Connecter Insert, 1700mm Hose (SM-BH59-SS Black) Disc Brake Assembled Set</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">259.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\devices\ebbmt-500-pa.jpg' %}" alt="Xe Đạp Đường Trường Road JAVA Siluro 6">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Trục Giữa Xe Đạp SHIMANO BB-MT500-PA, Press Fit Type For MTB, Right & Left Adapter, Bearing, Inner Cover, Etc Bottom Bracket</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">590.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+                <button class="nav-button next-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" class="inline">
+                    <path stroke="#000" stroke-width="2" d="m9 6 6 6-6 6"></path>
+                </svg>
+            </button>
+            <div class="product-item_bike">
+                <img src="{% static 'assets\images\devices\etb-00561800.jpg' %}" alt="Bình Nước Xe Đạp 600ml RAPTOR RA68 Water Bottle">
+                <div class="product-info_bike">
+                    <p class="product-description_bike">Vỏ Xe Đạp Gấp 700X25C MAXXIS High Road Foldable Bicycle Tire</p>
+                    <div class="product-price-wrapper">
+                        <p class="product-price_bike">290.000 VNĐ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<main class="video-collection">
+    <div class="title_home">
+        <h1>HƯỚNG DẪN LẮP RÁP XE ĐẠP</h1>
+        <div class="view-all">
+            <a href="https://www.youtube.com/@xedapvn-sieuthixedapxedien" target="_blank">Xem tất cả</a>
+        </div>
+    </div>
+    <div class="video-list">
+        <!-- Video 1 -->
+        <div class="video-card">
+            <div class="video-thumbnail">
+                <img src="{% static 'assets\images\video\img_video1.webp' %}" alt="Hướng dẫn lắp ráp xe đạp MOMENTUM iNEED Latte 26" class="thumbnail-img">
+                <button class="play-button" data-video="https://www.youtube.com/embed/CfmcPJW8VJQ" data-title="HƯỚNG DẪN LẮP RÁP MOMENTUM iNEED Latte 26"></button>
+            </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="video-card">
+            <div class="video-thumbnail">
+                <img src="{% static 'assets\images\video\img_video2.webp' %}" alt="Hướng dẫn lắp ráp xe đạp GIANT TALON 3" class="thumbnail-img">
+                <button class="play-button" data-video="https://youtu.be/CfmcPJW8VJQ" data-title="HƯỚNG DẪN LẮP RÁP GIANT TALON 3"></button>
+            </div>
+            
+        </div>
+
+        <!-- Video 3 -->
+        <div class="video-card">
+            <div class="video-thumbnail">
+                <img src="{% static 'assets\images\video\img_video3.webp' %}" alt="Hướng dẫn lắp ráp xe đạp MAXBIKE SIMBA 12" class="thumbnail-img">
+                <button class="play-button" data-video="https://youtu.be/KtPgoZruROs" data-title="HƯỚNG DẪN LẮP RÁP MAXBIKE SIMBA 12"></button>
+            </div>
+            
+        </div>
+    </div>
+</main>
+{% comment %}  {% endcomment %}
+<section class="container-information">
+    <div class="title_home">
+        <h1>Kiến Thức Kinh Nghiệm</h1>
+        <div class="view-all">
+            {# Bạn có thể liên kết cái này đến trang hiển thị tất cả bài viết #}
+            <a href="#" target="_blank">Xem tất cả</a>
+        </div>
+    </div>
+
+    <div class="articles-container">
+        <div class="articles-wrapper">
+            {% for article in articles %}
+            {# Thay '#' bằng đường dẫn đến trang chi tiết bài viết nếu bạn có #}
+            <a href="#" class="article-card">
+                <div class="article-image">
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}">
+                    {% endif %}
+                </div>
+                <div class="article-info">
+                    {# Định dạng ngày theo kiểu ngày/tháng/năm #}
+                    <div class="article-date">{{ article.publish_date|date:"d/m/Y" }}</div>
+                    <h3 class="article-title">{{ article.title }}</h3>
+                    {# Cắt ngắn mô tả nếu quá dài #}
+                    <p class="article-description">{{ article.short_description|truncatechars:150 }}</p>
+                </div>
+            </a>
+            {% empty %}
+            <p>Không có bài viết nào được tìm thấy.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# Tùy chọn: Placeholder cho các chấm phân trang #}
+    <div class="pagination-dots">
+        {# Các chấm sẽ được thêm vào đây bằng JavaScript sau này nếu cần #}
+    </div>
+
+</section>
+
+
+
+
+<section class="container-list_localmap">
+    <div class="title_home">
+        <h1>Danh Sách Cửa Hàng</h1>
+        <div class="view-all">
+            <a href="#" target="_blank">Xem tất cả</a>
+        </div>
+    </div>
+    {% if stores %}
+    <div class="swiper-container store-slider">
+        <div class="swiper-wrapper">
+            {% for store in stores %}
+            <div class="swiper-slide">
+                <div class="store-card">
+                    <div class="store-image">
+                        {% if store.image %}
+                            <img src="{{ store.image.url }}" alt="{{ store.name }}">
+                        {% else %}
+                            {# Ảnh placeholder nếu không có ảnh cửa hàng.
+                               Bạn cần có file ảnh này trong thư mục static của app_home hoặc static chung.
+                               Ví dụ: app_home/static/app_home/images/placeholder.png
+                            #}
+                            {% comment %} <img src="{% static 'app_home/images/placeholder.png' %}" alt="Không có ảnh"> {% endcomment %}
+                        {% endif %}
+                    </div>
+                    <div class="store-info">
+                        <h3>{{ store.name }}</h3>
+                        <p class="address">{{ store.address }}</p>
+                        {% if store.phone %}
+                            <p class="phone">📞 {{ store.phone }}</p>
+                        {% endif %}
+                        {% if store.opening_hours %}
+                            <p class="hours">🕒 {{ store.opening_hours }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    {% else %}
+        <p style="text-align: center; margin: 20px 0;">Hiện chưa có cửa hàng nào được cập nhật.</p>
+    {% endif %}
+</section>
+
+<!-- Overlay để hiển thị video -->
+<div class="video-overlay" id="videoOverlay">
+    <div class="video-container">
+        <div class="video-container_header">
+        <div class="video-title" id="videoTitle"></div>
+        <button class="close-button" id="closeButton">×</button>
+        </div>
+        <iframe id="videoFrame" width="1158" height="439" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+</div>
+
+ <script src="{% static '/assets/js/home.js' %}"></script>
+{% comment %} <script src="{% static '/assets/js/products-list.js' %}"></script> {% endcomment %}
+<script src="{% static '/assets/js/main.js' %}"></script>
+<script src="{% static '/assets/js/map.js' %}"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      new Swiper('.store-slider', {
+        slidesPerView: 'auto',
+        spaceBetween: 20,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      });
+    });
+    </script>
+{% endblock %}
+
+ 

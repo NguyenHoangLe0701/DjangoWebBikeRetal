@@ -1,0 +1,63 @@
+/* Đảm bảo form đăng ký không bị tràn và cân đối */
+.login-form {
+  background: #f6f5fa;
+  padding: 20px;
+  border-radius: 30px;
+  width: 760px;
+  max-width: 100%;
+  height: auto; /* Để chiều cao tự động điều chỉnh theo nội dung */
+  max-height: 90vh; /* Giảm max-height để tránh tràn trên màn hình nhỏ */
+  overflow-y: auto; /* Thêm thanh cuộn nếu nội dung quá dài */
+  z-index: 1001;
+  position: absolute;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+/* Điều chỉnh khoảng cách các trường trong form đăng ký */
+#register-overlay .login-form .form-group {
+  margin-bottom: 10px; /* Giảm margin-bottom để các trường gần nhau hơn */
+}
+
+/* Đảm bảo nút "Đăng Ký" căn giữa và đồng bộ */
+#register-overlay .login-form .login-btn {
+  margin: 20px auto; /* Đảm bảo nút căn giữa */
+} 
+/* Thu nhỏ kích thước form quên mật khẩu */
+.forgot-password-form {
+  background: #f6f5fa;
+  padding: 20px;
+  border-radius: 30px;
+  width: 400px; /* Giảm chiều rộng so với .login-form */
+  max-width: 100%;
+  height: auto;
+  max-height: 70vh; /* Giảm chiều cao tối đa */
+  z-index: 1001;
+  position: absolute;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+/* Điều chỉnh input và nút cho phù hợp */
+.forgot-password-form .form-group input {
+  max-width: 350px; /* Thu nhỏ input */
+}
+
+.forgot-password-form .login-btn {
+  max-width: 350px; /* Thu nhỏ nút "Tiếp tục" */
+}
+
+.social-login {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px; /* Thêm khoảng cách phía trên */
+}
+
+/* Đảm bảo nút social không quá lớn */
+.social-btn {
+  max-width: 200px; /* Thu nhỏ nút social */
+  max-height: 50px; /* Giảm chiều cao */
+  font-size: 16px; /* Giảm kích thước chữ */
+}

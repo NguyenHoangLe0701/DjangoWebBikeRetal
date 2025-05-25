@@ -1,0 +1,36 @@
+{% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/voucher.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+  
+    <!-- Nút để mở overlay (có thể thay bằng cách khác trong ứng dụng của bạn) -->
+    <button onclick="document.getElementById('voucher-overlay').classList.add('active')">Mở Voucher</button>
+
+    <!-- Overlay cho form chọn voucher -->
+    <div class="overlay" id="voucher-overlay">
+        <div class="voucher-form">
+            <button class="close-btn" id="close-voucher-btn"><i class="fa-solid fa-times"></i></button>
+            <h2>Chọn Voucher</h2>
+            <form>
+                <div class="form-group">
+                    <label for="voucher-code">Nhập mã code</label>
+                    <input type="text" id="voucher-code" placeholder="Nhập mã code" />
+                </div>
+                <button type="submit" class="apply-btn">Áp dụng</button>
+                <p class="voucher-note">Không có voucher khả dụng.</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Kích hoạt và đóng overlay
+        document.getElementById('close-voucher-btn').addEventListener('click', () => {
+            document.getElementById('voucher-overlay').classList.remove('active');
+        });
+
+        // Tùy chọn: Đóng overlay khi nhấp ngoài form
+        document.getElementById('voucher-overlay').addEventListener('click', (event) => {
+            if (event.target === document.getElementById('voucher-overlay')) {
+                document.getElementById('voucher-overlay').classList.remove('active');
+            }
+        });
+    </script>

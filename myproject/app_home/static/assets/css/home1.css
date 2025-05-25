@@ -1,0 +1,188 @@
+/* container-list_content */
+.product-list-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 100px;
+    display: flex;
+    align-items: center;
+}
+
+.product-list_bike {
+    display: flex;
+    overflow-x: auto; 
+    scroll-behavior: smooth; 
+    padding-bottom: 20px; 
+    -webkit-overflow-scrolling: touch; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  
+    gap: 20px; 
+    flex-grow: 1; 
+}
+
+
+.product-list_bike::-webkit-scrollbar {
+    display: none;
+}
+
+/* Navigation Buttons */
+.nav-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev-button {
+    left: -20px; 
+}
+
+.next-button {
+    right: -20px; 
+}
+
+
+/* Product Item */
+.product-item_bike {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0; /* Prevent items from shrinking */
+    width: 380px; /* Fixed width for standard items */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: 500px;
+    position: relative; /* For product-details-overlay positioning */
+}
+.product-image_bike{
+    width: 100%;
+    height: 300px; 
+    overflow: hidden; 
+    position: relative; 
+    object-fit: contain;
+}
+
+.featured-product {
+    max-width: 680px; 
+    
+}
+.product-item_bike img {
+    width: 100%;
+    height: 270px; /* Fixed height for consistent image size */
+    object-fit: cover; /* Ensure image covers the area */
+    display: block;
+}
+
+.product-info_bike {
+    padding: 15px;
+    margin-top: 20px;
+   
+}
+
+.product-description_bike {
+    font-size: 24px;
+    color: #555;
+    margin-bottom: 10px;
+    min-height: 40px; /* Ensure consistent height for description */
+}
+
+.product-price_bike {
+    font-size: 26px;
+    font-weight: bold;
+    color:  #332FF8;
+    padding-top: 20px;
+    text-align: center;
+}
+
+/* ===================================== */
+/* Hiệu ứng HOVER cho sản phẩm đầu tiên */
+/* ===================================== */
+
+
+.featured-product .product-image_bike {
+    position: relative;
+    overflow: hidden;
+
+}
+
+.featured-product .product-details-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white background */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align text to the left */
+    padding: 20px;
+    opacity: 0; /* Hidden by default */
+    transform: translateY(100%); /* Start from bottom */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    box-sizing: border-box;
+}
+
+.featured-product:hover .product-details-overlay {
+    opacity: 1; /* Show on hover */
+    transform: translateY(0); /* Slide up */
+}
+
+.featured-product .product-details-overlay ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.featured-product .product-details-overlay ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.featured-product .product-details-overlay ul li img {
+    width: 24px; /* Adjust icon size */
+    height: 24px;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+/* Hover effect for the description of the first product */
+.featured-product .product-description {
+    transition: color 0.3s ease; 
+}
+
+.featured-product:hover .product-description {
+    color: #332FF8; 
+}
+
+
+/* ===================================== */
+/* Hiệu ứng HOVER cho 3 sản phẩm bên phải */
+/* ===================================== */
+.product-item:not(.featured-product):hover {
+    border-color: #332FF8; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}

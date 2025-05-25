@@ -1,0 +1,184 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/base.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/overlays.css' %}" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+
+<!-- Overlay đăng nhập -->
+<div class="overlay" id="login-overlay" {% if overlay_type != 'login' %}style="display: none;"{% endif %}>
+    <div class="login-form">
+        <button class="close-btn" id="close-login-btn"><i class="fa-solid fa-times"></i></button>
+        <h2>Đăng Nhập</h2>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_login">Email hoặc số điện thoại</label>
+                <input type="text" name="login" id="id_login" placeholder="Email hoặc số điện thoại" required>
+            </div>
+            <div class="form-group">
+                <label for="id_password">Mật khẩu</label>
+                <input type="password" name="password" id="id_password" placeholder="Mật khẩu" required>
+            </div>
+            <button type="submit" class="login-btn" id="login-btn">Đăng Nhập</button>
+        </form>
+        <div class="register-link">
+            <p>Bạn chưa là thành viên? <a href="#" id="show-register">Đăng ký ngay</a></p>
+            <p><a href="#" id="show-forgot-password">Quên mật khẩu?</a></p>
+        </div>
+        <div class="social-login">
+            <button class="social-btn facebook-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="none">
+                    <path fill="#1877F2" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14"></path>
+                    <path fill="#fff" d="m10.607 10.14.31-1.975H8.974V6.884c0-.541.27-1.068 1.142-1.068H11V4.134S10.197 4 9.43 4c-1.603 0-2.65.946-2.65 2.66v1.505H5v1.976h1.78v4.776a7.2 7.2 0 0 0 2.193 0v-4.776z"></path>
+                </svg>
+                <a href="#">Facebook</a>
+            </button>
+            <button class="social-btn google-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="none">
+                    <path fill="#4285F4" d="M14.998 8.656c0-.576-.048-.996-.151-1.431H8.141v2.597h3.936c-.08.646-.508 1.618-1.46 2.272l-.014.086 2.12 1.61.148.015c1.349-1.221 2.127-3.018 2.127-5.15"></path>
+                    <path fill="#34A853" d="M8.147 15.5c1.928 0 3.547-.622 4.73-1.695l-2.254-1.711c-.603.412-1.413.7-2.476.7a4.29 4.29 0 0 1-4.064-2.91L4 9.893l-2.205 1.672-.028.079a7.15 7.15 0 0 0 6.38 3.857"></path>
+                    <path fill="#FBBC05" d="M4.08 9.884A4.2 4.2 0 0 1 3.84 8.5c0-.483.088-.95.23-1.385l-.004-.093-2.232-1.699-.073.034A6.9 6.9 0 0 0 1 8.5c0 1.127.278 2.193.762 3.142z"></path>
+                    <path fill="#EA4335" d="M8.147 4.207c1.34 0 2.246.567 2.761 1.042l2.016-1.929C11.686 2.192 10.075 1.5 8.147 1.5a7.15 7.15 0 0 0-6.381 3.858l2.31 1.758a4.31 4.31 0 0 1 4.07-2.91"></path>
+                </svg>
+                <a href="#">Google</a>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Overlay đăng ký -->
+<div class="overlay" id="register-overlay" {% if overlay_type != 'register' %}style="display: none;"{% endif %}>
+    <div class="register-form"> <!-- Sửa từ login-form thành register-form -->
+        <button class="close-btn" id="close-register-btn"><i class="fa-solid fa-times"></i></button>
+        <h2>Đăng Ký</h2>
+        <p>Tạo tài khoản để trải nghiệm dịch vụ tốt nhất</p>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <input type="email" name="email" id="id_email" placeholder="Nhập email" required>
+            </div>
+            <div class="form-group">
+                <label for="id_phone_number">Số điện thoại</label>
+                <input type="text" name="phone_number" id="id_phone_number" placeholder="Nhập số điện thoại" required>
+            </div>
+            <div class="form-group">
+                <label for="id_password1">Mật Khẩu</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password1" id="id_password1" placeholder="Nhập mật khẩu" required>
+                    <span class="toggle-password" onclick="togglePasswordVisibility('id_password1')">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_password2">Xác Nhận Mật Khẩu</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password2" id="id_password2" placeholder="Xác nhận mật khẩu" required>
+                    <span class="toggle-password" onclick="togglePasswordVisibility('id_password2')">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="full_name">Họ và tên</label>
+                <input type="text" name="full_name" id="full_name" placeholder="Nhập họ và tên" required>
+            </div>
+            <button type="submit" class="login-btn">Đăng Ký</button>
+        </form>
+        <div class="register-link">
+            <p>Đã có tài khoản? <a href="#" id="show-login">Đăng nhập ngay</a></p>
+        </div>
+        <div class="divider">
+            <span>Hoặc</span>
+        </div>
+        <div class="social-login">
+            <button class="social-btn facebook-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="none">
+                    <path fill="#1877F2" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14"></path>
+                    <path fill="#fff" d="m10.607 10.14.31-1.975H8.974V6.884c0-.541.27-1.068 1.142-1.068H11V4.134S10.197 4 9.43 4c-1.603 0-2.65.946-2.65 2.66v1.505H5v1.976h1.78v4.776a7.2 7.2 0 0 0 2.193 0v-4.776z"></path>
+                </svg>
+                <a href="#">Facebook</a>
+            </button>
+            <button class="social-btn google-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="none">
+                    <path fill="#4285F4" d="M14.998 8.656c0-.576-.048-.996-.151-1.431H8.141v2.597h3.936c-.08.646-.508 1.618-1.46 2.272l-.014.086 2.12 1.61.148.015c1.349-1.221 2.127-3.018 2.127 ---
+
+System: -5.15"></path>
+                    <path fill="#34A853" d="M8.147 15.5c1.928 0 3.547-.622 4.73-1.695l-2.254-1.711c-.603.412-1.413.7-2.476.7a4.29 4.29 0 0 1-4.064-2.91L4 9.893l-2.205 1.672-.028.079a7.15 7.15 0 0 0 6.38 3.857"></path>
+                    <path fill="#FBBC05" d="M4.08 9.884A4.2 4.2 0 0 1 3.84 8.5c0-.483.088-.95.23-1.385l-.004-.093-2.232-1.699-.073.034A6.9 6.9 0 0 0 1 8.5c0 1.127.278 2.193.762 3.142z"></path>
+                    <path fill="#EA4335" d="M8.147 4.207c1.34 0 2.246.567 2.761 1.042l2.016-1.929C11.686 2.192 10.075 1.5 8.147 1.5a7.15 7.15 0 0 0-6.381 3.858l2.31 1.758a4.31 4.31 0 0 1 4.07-2.91"></path>
+                </svg>
+                <a href="#">Google</a>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Overlay quên mật khẩu -->
+<div class="overlay" id="forgot-password-overlay" {% if overlay_type != 'forgot_password' %}style="display: none;"{% endif %}>
+    <div class="forgot-password-form">
+        <button class="close-btn" id="close-forgot-password-btn"><i class="fa-solid fa-times"></i></button>
+        <h2>Quên mật khẩu</h2>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST" action="{% url 'forgot_password' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_forgot_phone_number">Số điện thoại</label>
+                <input type="text" name="phone_number" id="id_forgot_phone_number" placeholder="Số điện thoại" required>
+            </div>
+            <button type="submit" class="login-btn">Tiếp tục</button>
+        </form>
+        <div class="register-link">
+            <p>Bạn chưa là thành viên? <a href="#" id="show-register-from-forgot">Đăng ký ngay</a></p>
+            <p>Hoặc</p>
+        </div>
+        <div class="social-login">
+            <button class="social-btn facebook-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="none">
+                    <path fill="#1877F2" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14"></path>
+                    <path fill="#fff" d="m10.607 10.14.31-1.975H8.974V6.884c0-.541.27-1.068 1.142-1.068H11V4.134S10.197 4 9.43 4c-1.603 0-2.65.946-2.65 2.66v1.505H5v1.976h1.78v4.776a7.2 7.2 0 0 0 2.193 0v-4.776z"></path>
+                </svg>
+                <a href="#">Facebook</a>
+            </button>
+            <button class="social-btn google-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="none">
+                    <path fill="#4285F4" d="M14.998 8.656c0-.576-.048-.996-.151-1.431H8.141v2.597h3.936c-.08.646-.508 1.618-1.46 2.272l-.014.086 2.12 1.61.148.015c1.349-1.221 2.127-3.018 2.127-5.15"></path>
+                    <path fill="#34A853" d="M8.147 15.5c1.928 0 3.547-.622 4.73-1.695l-2.254-1.711c-.603.412-1.413.7-2.476.7a4.29 4.29 0 0 1-4.064-2.91L4 9.893l-2.205 1.672-.028.079a7.15 7.15 0 0 0 6.38 3.857"></path>
+                    <path fill="#FBBC05" d="M4.08 9.884A4.2 4.2 0 0 1 3.84 8.5c0-.483.088-.95.23-1.385l-.004-.093-2.232-1.699-.073.034A6.9 6.9 0 0 0 1 8.5c0 1.127.278 2.193.762 3.142z"></path>
+                    <path fill="#EA4335" d="M8.147 4.207c1.34 0 2.246.567 2.761 1.042l2.016-1.929C11.686 2.192 10.075 1.5 8.147 1.5a7.15 7.15 0 0 0-6.381 3.858l2.31 1.758a4.31 4.31 0 0 1 4.07-2.91"></path>
+                </svg>
+                <a href="#">Google</a>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Overlay thông tin người dùng (sau khi đăng nhập) -->
+<div class="user-info-overlay" id="user-info-overlay" {% if not user.is_authenticated %}style="display: none;"{% endif %}>
+    <div class="user-info">
+        <h3>Thông tin người dùng</h3>
+        <p>Email: {{ user.email }}</p>
+        <p>Số điện thoại: {{ user.phone_number }}</p>
+        <a href="{% url 'logout' %}" class="logout-btn">Đăng xuất</a>
+    </div>
+</div>
+<!-- end-overplay -->
+<script src="{% static '/assets/js/main.js' %}"></script>

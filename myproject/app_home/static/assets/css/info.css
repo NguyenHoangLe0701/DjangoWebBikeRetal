@@ -1,0 +1,67 @@
+.container-information {
+    margin: 0 100px;
+}
+
+.title_home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.info-slider {
+    position: relative;
+}
+
+.info-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+}
+
+.info-card {
+    min-width: 300px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.info-thumbnail img {
+    width: 100%;
+    height: auto;
+}
+
+.info-details {
+    padding: 10px;
+}
+
+.info-details h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+}
+
+.info-date {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+.slider-prev, .slider-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.slider-prev {
+    left: 0;
+}
+
+.slider-next {
+    right: 0;
+}

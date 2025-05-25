@@ -1,0 +1,25 @@
+Xác nhận đặt xe thành công
+
+Xin chào {{ rental.full_name }},
+
+Cảm ơn bạn đã đặt xe tại EGA Bike. Dưới đây là thông tin đặt xe của bạn:
+
+Mã số đặt xe: {{ rental.rental_code }}
+
+Chi tiết đặt xe:
+- Loại xe: {{ bike_type_display }}
+- Số lượng: {{ rental.quantity }}
+- Ngày nhận xe: {{ rental.pickup_date|date:"d/m/Y" }}
+- Ngày trả xe: {{ rental.return_date|date:"d/m/Y" }}
+
+Lưu ý quan trọng:
+- Vui lòng mang theo mã số đặt xe khi đến nhận xe
+- Mang theo CMND/CCCD để làm thủ tục
+- Đến cửa hàng gần nhất để nhận xe
+
+Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua:
+Hotline: 0909999000
+Email: support@egabike.com
+
+Trân trọng,
+EGA Bike Team 

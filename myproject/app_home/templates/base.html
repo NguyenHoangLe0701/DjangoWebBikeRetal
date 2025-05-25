@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cửa hàng xedap.vn" />
+    <meta
+      name="keywords"
+      content="xedap, xe đạp, xe đạp thể thao, xe đạp địa hình"
+    />
+    <meta name="author" content="xedap.vn" />
+    <title>{% block title %}Cửa hàng xedap.vn{% endblock %}</title>
+    {% block css %}
+     <!-- CSS -->
+     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+      <link rel="stylesheet" href="{% static 'assets/css/overlays.css' %}" />
+     <link rel="stylesheet" href="{% static 'assets/css/base.css' %}" />
+     <link rel="stylesheet" href="{% static 'assets/css/chatAI.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/css/map.css' %}">
+       <link rel="stylesheet" href="{% static 'assets/css/home.css' %}">
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+     <!-- Google Analytics -->
+     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y"></script>
+     <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXX-Y');
+    </script>
+     {% endblock %}
+  </head>
+  <body>
+    {% include 'includes/header.html' %}
+    {% include 'includes/banner.html' %}
+
+    {% block content %}
+    
+    {% endblock %}
+
+    {% include 'includes/contact.html' %}
+    
+    {% include 'includes/footer.html' %}
+    {% include 'includes/ChatAI.html' %}
+    {% include 'includes/overlays.html' %}
+  
+   {% block js %}
+   <script src="{% static '/assets/js/main.js' %}"></script>
+   <script src="{% static '/assets/js/map.js' %}"></script>
+   {% endblock %}
+
+   </body>
+
+</html>

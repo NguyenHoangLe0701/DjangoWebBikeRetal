@@ -1,0 +1,250 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/bike-rental.css' %}">
+{% include 'includes/header.html' %}
+<main>
+{% block content %}
+<section class="container-bike-rental">
+  <div class="content-wrapper">
+    <div class="product-intro">
+      <h1>DỊCH VỤ CHO THUÊ XE</h1>
+      <p><strong>Mệt mỏi với tắc đường? Muốn tìm một cách vận động vừa lành mạnh vừa thú vị?</strong> Thuê xe đạp EGA Bike, bạn sẽ có cơ hội khám phá thành phố một cách trọn vẹn hơn. Với đa dạng mẫu mã xe, chất lượng đảm bảo và giá cả ưu đãi, chúng tôi cam kết mang đến cho bạn những trải nghiệm tuyệt vời nhất.</p>
+      <div class="image-gallery">
+        <img src="{% static 'assets/images/store/banner.webp' %}" alt="Bike Image 1">
+        <h2>BẢNG GIÁ DỊCH VỤ</h2>
+        <img src="{% static 'assets/images/store/image-10.webp' %}" alt="Bike Image 2">
+         <h2>QUY TRÌNH 3 BƯỚC ĐƠN GIẢN</h2>
+        <img src="{% static 'assets/images/store/quy-trinh-thue-xe.webp' %}" alt="Bike Image 3">
+      </div>
+      <div class="faq-section">
+        <h2>Câu hỏi thường gặp</h2>
+        <ul class="faq-list">
+          <li>
+            <div class="faq-question" onclick="toggleAnswer(this)">1. Tôi cần mang theo những giấy tờ gì để thuê xe?<span class="toggle">+</span></div>
+            <div class="faq-answer">Để thuê xe, quý khách chỉ cần mang theo CMND/CCCD hoặc bản lưu lại xe trên hệ thống.</div>
+            <hr class="dividen1">
+          </li>
+          <li>
+            <div class="faq-question" onclick="toggleAnswer(this)">2. Nếu xe bị hỏng trong quá trình thuê thì tôi phải làm sao? <span class="toggle">+</span></div>
+            <div class="faq-answer">Trong trường hợp xe bị hỏng trong quá trình thuê, quý khách vui lòng liên hệ ngay với trung tâm hỗ trợ số điện thoại 0909999000. Đội ngũ kỹ thuật sẽ hỗ trợ khách hàng trong thời gian sớm nhất.</div>
+              <hr class="dividen1">
+          </li>
+          <li>
+            <div class="faq-question" onclick="toggleAnswer(this)">3. Có các hình thức thanh toán nào?<span class="toggle">+</span></div>
+            <div class="faq-answer">✓ Chúng tôi hỗ trợ nhiều hình thức thanh toán như: tiền mặt, chuyển khoản, thẻ ATM, ví điện tử Momo, Zalo Pay. Quý khách có thể lựa chọn hình thức thanh toán phù hợp nhất.</div>
+             <hr class="dividen1">
+          </li>
+          <li>
+            <div class="faq-question" onclick="toggleAnswer(this)">4. Nếu tôi muốn hủy đơn hàng đã đặt thì thủ tục như thế nào?<span class="toggle">+</span></div>
+            <div class="faq-answer">✓ Quý khách vui lòng liên hệ với chúng tôi để thông báo hủy đơn hàng. Chính sách hủy đơn sẽ được thông báo cụ thể khi đặt hàng. Thông thường, nếu hủy đơn trước 24 giờ so với thời gian thuê, quý khách sẽ không bị mất phí.</div>
+          <hr class="dividen1">
+          </li>
+          <li>
+            <div class="faq-question" onclick="toggleAnswer(this)">5. Có chương trình nào dành cho khách hàng thuê xe dài hạn không? <span class="toggle">+</span></div>
+           <div class="faq-answer">✓ Chúng tôi có các chương trình ưu đãi đặc biệt dành cho khách hàng thuê xe dài hạn. Quý khách có thể liên hệ trực tiếp với chúng tôi để được tư vấn và báo giá chi tiết.</div>
+          <hr class="dividen1">
+          </li>
+        </ul>
+      </div>
+    </div>
+  <div class="rental-form">
+  <h2>Book Now</h2>
+  <form id="rentalForm" onsubmit="return handleSubmit(event)">
+    {% csrf_token %}
+    <div class="rental-form-group">
+      <label>Họ tên <span class="required">*</span></label>
+      <input type="text" name="full_name" placeholder="Tên của bạn" required maxlength="100">
+    </div>
+    <div class="rental-form-row">
+      <div class="rental-form-group half-width">
+        <label>Email <span class="required">*</span></label>
+        <input type="email" name="email" placeholder="Email của bạn" required>
+      </div>
+      <div class="rental-form-group half-width">
+        <label>Số điện thoại <span class="required">*</span></label>
+        <input type="tel" name="phone" placeholder="Số điện thoại" required pattern="[0-9]{10}" title="Vui lòng nhập số điện thoại 10 số">
+      </div>
+    </div>
+    <div class="rental-form-row">
+      <div class="rental-form-group half-width">
+        <label>Loại xe <span class="required">*</span></label>
+        <select name="bike_type" required>
+          <option value="">Chọn loại xe</option>
+          <option value="mountain">Xe đạp leo núi - 100.000đ/ngày</option>
+          <option value="road">Xe đạp đường trường - 120.000đ/ngày</option>
+          <option value="electric">Xe đạp điện - 200.000đ/ngày</option>
+          <option value="kids">Xe đạp trẻ em - 80.000đ/ngày</option>
+          <option value="assist">Xe đạp trợ lực - 150.000đ/ngày</option>
+        </select>
+      </div>
+      <div class="rental-form-group half-width">
+        <label>Số lượng thuê xe <span class="required">*</span></label>
+        <input type="number" name="quantity" value="1" min="1" max="10" required>
+      </div>
+    </div>
+    <div class="rental-form-row">
+      <div class="rental-form-group half-width">
+        <label>Thời gian nhận xe <span class="required">*</span></label>
+        <input type="date" name="pickup_date" required min="{% now 'Y-m-d' %}">
+      </div>
+      <div class="rental-form-group half-width">
+        <label>Thời gian trả xe <span class="required">*</span></label>
+        <input type="date" name="return_date" required min="{% now 'Y-m-d' %}">
+      </div>
+    </div>
+    <div class="rental-form-group">
+      <label>Tin nhắn</label>
+      <textarea name="message" placeholder="Nội dung" maxlength="500"></textarea>
+    </div>
+    <button type="submit" class="rent-button">Thuê Ngay</button>
+  </form>
+</div>
+</section>
+{% endblock %}
+</main>
+{% include 'includes/contact.html' %}
+{% include 'includes/footer.html' %}
+{% include 'includes/ChatAI.html' %}
+{% include 'includes/overlays.html' %}
+<script src="{% static '/assets/js/main.js' %}"></script>
+<script>
+function toggleAnswer(element) {
+  const answer = element.nextElementSibling;
+  const toggle = element.querySelector('.toggle');
+  if (answer.style.display === 'block') {
+    answer.style.display = 'none';
+    toggle.textContent = '+';
+  } else {
+    answer.style.display = 'block';
+    toggle.textContent = '-';
+  }
+}
+
+function validateForm() {
+  const pickupDate = new Date(document.getElementsByName('pickup_date')[0].value);
+  const returnDate = new Date(document.getElementsByName('return_date')[0].value);
+  
+  if (returnDate <= pickupDate) {
+    alert('Thời gian trả xe phải sau thời gian nhận xe');
+    return false;
+  }
+  
+  const diffTime = Math.abs(returnDate - pickupDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays > 30) {
+    alert('Thời gian thuê xe không được vượt quá 30 ngày');
+    return false;
+  }
+  
+  return true;
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  
+  if (!validateForm()) {
+    return false;
+  }
+
+  const form = event.target;
+  const formData = new FormData(form);
+
+  fetch('', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-CSRFToken': getCookie('csrftoken')
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      showNotification(data.message, 'success');
+      form.reset();
+    } else {
+      showNotification(data.message, 'error');
+    }
+  })
+  .catch(error => {
+    showNotification('Có lỗi xảy ra, vui lòng thử lại sau.', 'error');
+  });
+
+  return false;
+}
+
+function showNotification(message, type) {
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.textContent = message;
+  
+  document.body.appendChild(notification);
+  
+  // Add styles
+  notification.style.position = 'fixed';
+  notification.style.top = '20px';
+  notification.style.right = '20px';
+  notification.style.padding = '15px 25px';
+  notification.style.borderRadius = '5px';
+  notification.style.color = 'white';
+  notification.style.zIndex = '1000';
+  notification.style.animation = 'slideIn 0.5s ease-out';
+  
+  if (type === 'success') {
+    notification.style.backgroundColor = '#4CAF50';
+  } else {
+    notification.style.backgroundColor = '#f44336';
+  }
+  
+  // Remove notification after 3 seconds
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.5s ease-out';
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 500);
+  }, 3000);
+}
+
+// Add animation styles
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+// Helper function to get CSRF token
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+</script>
+

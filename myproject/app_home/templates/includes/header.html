@@ -1,0 +1,250 @@
+{% load static %}
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/base.css' %}" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+
+<header>
+    <section class="notification-bar">
+      <div class="info-item">
+        <span class="icon-banner">📍</span>
+        
+        <a href="{% url 'map' %}" class="local-map"><span>TÌM ĐỊA CHỈ CỬA HÀNG</span></a>
+      </div>
+      <div class="info-item">
+        <span class="icon">📞</span>
+        <span>TƯ VẤN, BÁN HÀNG: 1800 9473 (8:30 - 21:00)</span>
+      </div>
+      <div class="info-item">
+        <span class="icon-banner">💬</span>
+        <span>KHIẾU NẠI, BẢO HÀNH: 1800 9063 (9:00 - 17:00)</span>
+      </div>
+      <div class="info-item promo">
+        <span class="website">🏍 XEDIEN.VN</span>
+      </div>
+      <div class="info-item promo">
+        <span class="freeship">🚚 FREESHIP NỘI THÀNH</span>
+      </div>
+      <div class="info-item delivery">
+        <span class="time">⏰ 48H</span>
+        <span>GIAO NHANH</span>
+      </div>
+      <div class="info-item phone">
+        <span>📞 1800 9473</span>
+      </div>
+    </section>
+    <section class="header">
+        <a href="{% url 'home' %}"><img src="{% static 'assets/images/header/logo.svg' %}" alt="logo" class="header_logo-img" /></a>
+      <div class="search-bar">
+        <div class="header-search">
+          <select>
+            <option>Sản phẩm</option>
+            <option>Tin tức</option>
+          </select>
+          <i class="fa-solid fa-chevron-up dropdown-icon"></i>
+        </div>
+        <div class="header-search_input">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" placeholder="Tìm kiếm..." />
+        </div>
+      </div>
+      <div class="header-icon">
+        {% if user.is_authenticated %}
+            <div class="user-actions">
+                <span class="icon-user">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none">
+                        <path fill="#fff" d="M16 3a13 13 0 1 0 13 13A13.013 13.013 0 0 0 16 3m8 20.56a9.986 9.986 0 0 0-16 0 11 11 0 1 1 16 0"></path>
+                        <path fill="#fff" d="M16 8.253A3.747 3.747 0 1 0 19.747 12 3.734 3.734 0 0 0 16 8.253"></path>
+                    </svg>
+                </span>
+                <span>{{ user.full_name }}</span>
+                <a href="{% url 'logout' %}" class="btn-logout">Đăng xuất</a>
+            </div>
+        {% else %}
+            <span class="icon-user">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <path fill="#fff" d="M16 3a13 13 0 1 0 13 13A13.013 13.013 0 0 0 16 3m8 20.56a9.986 9.986 0 0 0-16 0 11 11 0 1 1 16 0"></path>
+                    <path fill="#fff" d="M16 8.253A3.747 3.747 0 1 0 19.747 12 3.734 3.734 0 0 0 16 8.253"></path>
+                </svg>
+                <a href="#" class="header-login" id="header-login-trigger">Đăng nhập</a>
+            </span>
+        {% endif %}
+        <a href="{% url 'checkout' %}" class="icon-cart">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none">
+                <path stroke="#fff" stroke-linecap="round" stroke-width="2" d="m2.667 4 1.41.28a2.67 2.67 0 0 1 2.146 2.35l.205 2.037m0 0L7.756 19.65A2.68 2.68 0 0 0 10.423 22h12.08a4.695 4.695 0 0 0 4.562-3.535l1.508-5.988c.488-1.935-.987-3.81-2.997-3.81z"></path>
+                <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.333 18H12"></path>
+                <path fill="#fff" d="M11.333 28.667a2 2 0 1 0 0-4 2 2 0 0 0 0 4M23.333 28.667a2 2 0 1 0 0-4 2 2 0 0 0 0 4" class="icon_cart_svg__circle"></path>
+            </svg>
+        </a>
+      </div>
+    </section>
+    <nav class="header-nav">
+        <ul class="nav-list">
+          <li><a href="{% url 'home' %}">Trang chủ </a></li>
+          <li class="dropdown"><a href="#">Sản phẩm<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" class="dropdown-icon">
+            <path stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m4 6 4 4 4-4" />
+          </svg></a>
+          <div class="dropdown-menu">
+            <div class="dropdown-columns">
+              <!-- Cột 1: Xe Đạp -->
+              <div class="dropdown-column1">
+                <h3 style="margin-left:20px;">Xe Đạp</h3>
+                <ul>
+                  <li><a href="#">Xe đạp thể thao đường phố</a></li>
+                  <li><a href="#">Xe đạp địa hình</a></li>
+                  <li><a href="#">Xe đạp du lịch</a></li>
+                  <li><a href="#">Xe đạp gấp</a></li>
+                  <li><a href="#">Xe đạp nữ</a></li>
+                  <li><a href="#">Xe đạp trẻ em</a></li>
+                  <li><a href="#">Xe đạp sườn</a></li>
+                  <li><a href="#">Xe đạp fixed gear</a></li>
+                  <li><a href="#">Quần</a></li>
+                  <li><a href="#">Vỏ</a></li>
+                </ul>
+              </div>
+              <!-- Cột 2: Xe Điện -->
+              <div class="dropdown-column">
+                <h3>Xe Điện</h3>
+                <ul>
+                  <li><a href="#">Xe đạp điện</a></li>
+                  <li><a href="#">Xe máy điện</a></li>
+                  <li><a href="#">Xe trượt lực</a></li>
+                  <li><a href="#">Mắt kính</a></li>
+                  <li><a href="#">Nón bảo hiểm</a></li>
+                  <li><a href="#">Nón lưỡi trai</a></li>
+                  <li><a href="#">Ống tay</a></li>
+                </ul>
+              </div>
+              <!-- Cột 3: Phụ Kiện Cho Người Đạp -->
+              <div class="dropdown-column3" >
+                <h3>Phụ Kiện Cho Người Đạp</h3>
+                <ul>
+                  <li><a href="#">Áo</a></li>
+                  <li><a href="#">Balo - tui</a></li>
+                  <li><a href="#">Găng tay</a></li>
+                  <li><a href="#">Giày</a></li>
+                  <li><a href="#">Chuông - Còi</a></li>
+                  <li><a href="#">Đáy quần - tày năm</a></li>
+                  <li><a href="#">Gọng nước - Bình nước</a></li>
+                  <li><a href="#">Ghế trẻ em</a></li>
+                  <li><a href="#">Khóa</a></li>
+                  <li><a href="#">Ống bơm - Phụ kiện bơm</a></li>
+                  <li><a href="#">Túi sửa chữa - Túi yên</a></li>
+                </ul>
+              </div>
+              <!-- Cột 4: Phụ Kiện Cho Xe -->
+              <div class="dropdown-column4">
+                <h3>Phụ Kiện Cho Xe</h3>
+                <ul>
+                  <li><a href="#">Baga - chân chống</a></li>
+                  <li><a href="#">Chắn chóng</a></li>
+                  <li><a href="#">Đèn</a></li>
+                  <li><a href="#">Chuông - Còi</a></li>
+                  <li><a href="#">Cùi đề</a></li>
+                  <li><a href="#">Gồm thắng</a></li>
+                  <li><a href="#">Ghi đông - Pô tăng</a></li>
+                  <li><a href="#">Vỏ - Ruột xet</a></li>
+                  <li><a href="#">Sản phẩm bảo dưỡng</a></li>
+                  <li><a href="#">Sên</a></li>
+                </ul>
+              </div>
+              <!-- Cột 5: Phụ Tùng -->
+              <div class="dropdown-column">
+                <h3>Phụ Tùng</h3>
+                <ul>
+                  <li><a href="#">Bàn đạp</a></li>
+                  <li><a href="#">Bánh - Niềng xe</a></li>
+                  <li><a href="#">Chén cổ</a></li>
+                  <li><a href="#">Cùi đề</a></li>
+                  <li><a href="#">Ghi đông - Pô tăng</a></li>
+                  <li><a href="#">Sản phẩm bảo dưỡng</a></li>
+                </ul>
+              </div>
+              <!-- Cột 6: Logo (Tượng trưng) -->
+              <div class="dropdown-column6 ">
+                <h3>Thương Hiệu</h3>
+                <ul>
+          
+                  <li><a href="#"><img src="{% static 'assets/images/header/giant.png' %}" alt=""></a></li>
+                  <li><a href="#"><img src="{% static 'assets/images/header/liv.png' %}" alt=""></a></li>
+                  <li><a href="#"><img src="{% static 'assets/images/header/maxbike.png' %}" alt=""></a></li>
+                  <li><a href="#"><img src="{% static 'assets/images/header/java.png' %}" alt=""></a></li>
+                  <li><a href="#"><img src="{% static 'assets/images/header/trinx.png' %}" alt=""></a></li>
+                  <li><a href="#"><img src="{% static 'assets/images/header/Jeep_T7.png' %}" alt=""></a></li>
+                  <li><a href="#"><img src="{% static 'assets/images/header/momentim.png' %}" alt=""></a></li>
+                  <li><a href="#"><img src="{% static 'assets/images/header/raptor.png' %}" alt=""></a></li>
+                  <li><a href="#"><img src="{% static 'assets/images/header/ACTIVE.png' %}" alt=""></a></li>
+                </ul>
+              </div>
+          </div>
+      </div>
+        </li>
+          <li class="dropdown"><a href="#">Dịch vụ<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" class="dropdown-icon">
+            <path stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m4 6 4 4 4-4" />
+          </svg></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'dich-vu' %}">Bảo trì Bảo dưỡng</a></li>
+            <li><a href="{% url 'giai-phap-xe-dap-qua-tang-doanh-nghiep' %}">Quà tặng doanh nghiệp</a></li>
+          </ul>
+        </li>
+          <li><a href="{% url 'bike-rental' %}">Thuê xe đạp</a></li>
+          <li><a href="{% url 'khuyen-mai' %}">Khuyến mãi</a></li>
+          <li><a href="{% url 'weather' %}">Dự báo thời tiết</a></li>
+        </ul>
+      </nav>
+</header>
+
+<style>
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.user-dropdown-btn .icon-user {
+    width: 24px;
+    height: 24px;
+}
+
+.user-dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    z-index: 1000;
+    border-radius: 4px;
+}
+
+.user-dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.user-dropdown-content a:hover {
+    background-color: #f5f5f5;
+}
+
+.user-dropdown:hover .user-dropdown-content {
+    display: block;
+}
+
+.user-dropdown:hover .user-dropdown-btn {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 4px;
+}
+</style>

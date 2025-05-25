@@ -1,0 +1,913 @@
+/* Style cho phần nội dung chính */
+.product-collection_bikehot {
+    width: 100%;
+    margin: 0 100px;
+    padding: 20px;
+    max-height: 640px;
+    /* box-sizing: border-box; */
+    margin-bottom:40px ;
+    
+}
+
+.collection-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.collection-header h1 {
+    font-size: 24px;
+    color: #fff;
+    background: #4a90e2;
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.product-slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.slider-prev, .slider-next {
+    background: #4a90e2;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+}
+
+.slider-prev {
+    left: 10px;
+}
+
+.slider-next {
+    right: 10px;
+}
+
+.product-list {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease;
+    width: 100%;
+    /*  */
+    
+    /* margin: 0 auto;  */
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    padding: 10px;
+    flex-shrink: 0;
+    position: relative;
+    border: 1px solid transparent;
+    transition: border 0.3s ease;
+}
+
+.product-card:hover {
+    border: 1px solid #332ef8;
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff4444;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.product-details h3 {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-details .original-price {
+    font-size: 14px;
+    color: #777;
+    text-decoration: line-through;
+    margin-bottom: 5px;
+}
+
+.product-details .discounted-price {
+    font-size: 16px;
+    color: #4a90e2;
+    font-weight: bold;
+}
+
+.chat-buttons {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-btn {
+    background: #4a90e2;
+    border: none;
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Video  */
+
+/* Style cho section video */
+.video-collection {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+   
+}
+
+.title_home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin: 0px 100px;
+}
+
+.title_home h1 {
+    font-size: 30px;
+    color: #332FF8;
+    margin: 20px 0px ;
+    display: inline-block;
+    
+}
+
+.view-all a {
+    color: #332FF8;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.view-all a:hover {
+    text-decoration: underline;
+}
+
+.video-list {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  
+}
+
+.video-card {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 580px; 
+    flex-shrink: 0;
+    height: 340px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.video-card:hover {
+    transform: scale(1.05);
+}
+
+.video-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 100%; 
+}
+
+.thumbnail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 82px;
+    height: 82px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.play-button::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 20px solid #fff;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+}
+
+.play-button:hover::before {
+    border-left-color: #f00;
+}
+
+.video-details {
+    padding: 10px;
+}
+
+.video-details h3 {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Overlay */
+.video-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.video-container {
+    position: relative;
+    width: 1500px; 
+    height: 700px; 
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+     
+}
+ .video-container_header {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 10001;
+}
+.close-button {
+    position: static;
+    background: none;
+    border: none;
+    font-size: 50px;
+    color: #332FF8;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+.video-title{
+ font-size: 26px;
+ color: #332FF8;
+padding: 10px 20px;
+border-radius: 5px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+max-width: 70%;
+
+}
+.close-button:hover {
+    color: #f00;
+}
+
+#videoFrame {
+    border-radius: 10px;
+    width: 1280px; 
+    height: 600px; 
+    text-align: center;
+    margin-top: 20px;
+    
+      
+}
+
+/* Responsive */
+/* @media (max-width: 1200px) {
+    .video-collection {
+        margin: 0 20px;
+    }
+    .video-card {
+        width: 242px;
+    }
+    .video-container {
+        width: 90%;
+        height: auto;
+    }
+    #videoFrame {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1158 / 439;
+    }
+}
+
+@media (max-width: 800px) {
+    .video-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .view-all {
+        margin-top: 10px;
+    }
+} */
+
+/*  */
+
+.container-information {
+    margin: 20px 0;
+}
+
+
+.articles-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; 
+    padding-bottom: 15px; 
+   
+}
+
+/* Ẩn thanh cuộn cho giao diện sạch hơn (tùy chọn) */
+.articles-container::-webkit-scrollbar {
+    display: none;
+}
+
+.articles-container {
+    -ms-overflow-style: none;  /* IE và Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+/* Styles for the wrapper holding the cards - allows them to be in a single row */
+.articles-wrapper {
+    display: flex;
+    gap: 30px; 
+    /* padding: 0 10px;  */
+    margin:0 100px;
+}
+
+/* Styles for individual article cards */
+.article-card {
+    flex: 0 0 430px; 
+    height: 500px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; 
+    color: inherit; 
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+}
+
+.article-card:hover {
+    transform: translateY(-5px); /* Nâng thẻ lên một chút khi hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.article-image {
+    width: 100%;
+    height: 240px; 
+    overflow: hidden; 
+}
+
+.article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.article-info {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Cho phép phần info lấp đầy không gian còn lại */
+}
+
+.article-date {
+    font-size: 24px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.article-title {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-weight: bold; 
+}
+
+.article-description {
+    font-size: 22px;
+    color: #555;
+    line-height: 1.5;
+    flex-grow: 1; 
+    /* Ẩn bớt nếu nội dung quá dài và không muốn cuộn */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    /* display: -webkit-box; */
+    /* -webkit-line-clamp: 3; Set number of lines */
+    /* -webkit-box-orient: vertical; */
+}
+
+
+/* Tùy chọn: Style cho các chấm phân trang */
+.pagination-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-dot.active {
+    background-color: #007bff; /* Màu chấm active */
+}
+
+/* List Map */
+.container-list_localmap {
+    width: 100%;
+    /* margin: 0 100px; */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.swiper-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+}
+/* Store Card Styles */
+.store-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    height: auto;
+    overflow: hidden; 
+    /* margin: 10px; Khoảng cách giữa các card */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 500px;
+}
+
+.store-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; 
+    display: block;
+}
+
+.store-info {
+    padding: 15px;
+    font-size: 22px;
+}
+
+.store-info h3 {
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.store-info p {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+
+
+/* Swiper Styles */
+.swiper-container {
+    width: 100%;
+    padding-bottom: 40px; 
+}
+
+.swiper-slide {
+    width: auto !important;
+    text-align: left;
+    font-size: 18px;
+    background: #fff; 
+    display: flex;
+    justify-content: center; 
+}
+
+.swiper-pagination {
+    position: absolute;
+    bottom: 10px; 
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.swiper-pagination-bullet {
+    width: 10px; /* Kích thước chấm tròn */
+    height: 10px; /* Kích thước chấm tròn */
+    background-color: #ccc; /* Màu mặc định của chấm tròn */
+    opacity: 1;
+    margin: 0 5px; 
+    border-radius: 50%;
+    transition: background-color 0.3s ease; 
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #332FF8; 
+}
+
+
+
+.container-list_content1{
+    margin-top: 30px;
+}
+
+.container-list_content2{
+    margin-top: 30px;
+}
+/* container-list_content */
+.product-list-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 100px;
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.product-list_bike {
+    display: flex;
+    overflow-x: auto; 
+    scroll-behavior: smooth; 
+    padding-bottom: 20px; 
+    -webkit-overflow-scrolling: touch; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  
+    gap: 20px; 
+    flex-grow: 1; 
+}
+.product-list{
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease;
+    width: 1860px; /* 680px (item1) + 380px * 2 (item_bike) + 20px * 2 (gap) */
+    overflow: hidden;
+}
+
+
+.product-item1 {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    max-width: 680px; 
+    width: 680px; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: 500px; 
+    position: relative;
+    object-fit: contain;
+}
+
+
+.product-image_bike1 img{
+     object-fit: cover;
+     width: 100%;
+     height: 300px;
+}
+
+.product-info_bike1{
+    padding: 15px;
+    margin-top: 20px;
+    height: 150px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+}
+
+
+
+
+/* Product Item */
+.product-item_bike {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0; 
+    width: 380px; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: 500px;
+    position: relative; 
+}
+.product-image_bike{
+    width: 100%;
+    height: 300px; 
+    overflow: hidden; 
+    position: relative; 
+    object-fit: contain;
+}
+
+.featured-product {
+    max-width: 680px; 
+    
+}
+.product-item_bike img {
+    width: 100%;
+    height: 270px; /* Fixed height for consistent image size */
+    object-fit: cover; /* Ensure image covers the area */
+    display: block;
+}
+
+.product-info_bike {
+    padding: 15px;
+    margin-top: 20px;
+    height: 180px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+   
+}
+
+.product-description_bike {
+    font-size: 22px;
+    color: #555;
+    line-height: 1.2em; 
+    height: 80px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    
+}
+.product-price-wrapper {
+    width: 100%; 
+   display: flex;
+    justify-content: center; /* Căn giữa giá tiền */
+    margin-top: auto; /* Đẩy giá tiền xuống dưới cùng của container */
+   
+}
+.product-price_bike {
+    font-size: 26px;
+    font-weight: bold;
+    color:  #332FF8;
+    padding-top: 20px;
+    text-align: center;
+    padding-bottom: -40px;
+}
+
+
+
+
+/* container-list_content */
+.product-list-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 100px;
+    display: flex;
+    align-items: center;
+}
+
+.product-list_bike {
+    display: flex;
+    overflow-x: auto; 
+    scroll-behavior: smooth; 
+    padding-bottom: 20px; 
+    -webkit-overflow-scrolling: touch; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  
+    gap: 20px; 
+    flex-grow: 1; 
+}
+.product-list{
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease;
+    width: 1960px; /* 680px (item1) + 380px * 2 (item_bike) + 20px * 2 (gap) */
+    overflow: hidden;
+}
+
+
+.product-item1 {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    max-width: 680px; 
+    width: 680px; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: 500px; 
+    position: relative;
+    object-fit: contain;
+}
+
+
+.product-image_bike1 img{
+     object-fit: cover;
+     width: 100%;
+     height: 300px;
+}
+
+.product-info_bike1{
+    padding: 15px;
+    margin-top: 20px;
+    height: 150px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+}
+
+
+
+
+/* Product Item */
+.product-item_bike {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0; 
+    width: 380px; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: 500px;
+    position: relative; 
+}
+.product-image_bike{
+    width: 100%;
+    height: 300px; 
+    overflow: hidden; 
+    position: relative; 
+    object-fit: contain;
+}
+
+.featured-product {
+    max-width: 680px; 
+    
+}
+.product-item_bike img {
+    width: 100%;
+    height: 270px; 
+    object-fit: cover; 
+    display: block;
+}
+
+.product-info_bike {
+    padding: 15px;
+    margin-top: 20px;
+    height: 180px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+   
+}
+.product-description_bike1 {
+    font-size: 22px;
+    color: #555;
+    line-height: 1.2em; 
+    height: 80px;
+    overflow: hidden;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.product-description_bike1:hover{
+    color: #332FF8;
+}
+.product-description_bike {
+    font-size: 22px;
+    color: #555;
+    line-height: 1.2em; 
+    height: 80px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.product-price-wrapper {
+    width: 100%; 
+   display: flex;
+    justify-content: center; /* Căn giữa giá tiền */
+    margin-top: auto; /* Đẩy giá tiền xuống dưới cùng của container */
+   
+}
+.product-price_bike {
+    font-size: 26px;
+    font-weight: bold;
+    color:  #332FF8;
+    padding-top: 20px;
+    text-align: center;
+    padding-bottom: -40px;
+}
+
+
+
+
+/* Navigation Buttons (Nổi lên trên sản phẩm) */
+.nav-button {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 8;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.prev-button {
+    left: -24px; /* Nổi lên bên trái sản phẩm 2 */
+}
+
+.next-button {
+    right: -24px; /* Nổi lên bên phải sản phẩm 3 */
+}
+
+.nav-button svg {
+    width: 24px;
+    height: 24px;
+    stroke: #000;
+    stroke-width: 2;
+}
+
+.prev-button svg {
+    transform: rotate(180deg); /* Quay ngược cho nút "prev" */
+}
+
+.nav-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Hover effect */
+.product-item1:hover, .product-item_bike:hover {
+    border-color: #332FF8;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}

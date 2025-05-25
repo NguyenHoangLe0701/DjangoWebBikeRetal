@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Thông Tin Cá Nhân</h1>
+    </div>
+    
+    <div class="profile-content">
+        <div class="profile-sidebar">
+            <div class="user-avatar">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="Avatar">
+                {% else %}
+                    <img src="{% static 'assets/images/default-avatar.png' %}" alt="Default Avatar">
+                {% endif %}
+            </div>
+            <div class="user-info">
+                <h3>{{ user.full_name }}</h3>
+                <p>{{ user.email }}</p>
+                <p>{{ user.phone_number }}</p>
+            </div>
+        </div>
+
+        <div class="profile-main">
+            <div class="profile-section">
+                <h2>Thông Tin Cơ Bản</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="full_name">Họ và tên</label>
+                        <input type="text" id="full_name" name="full_name" value="{{ user.full_name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="{{ user.email }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number">Số điện thoại</label>
+                        <input type="text" id="phone_number" name="phone_number" value="{{ user.phone_number }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="avatar">Ảnh đại diện</label>
+                        <input type="file" id="avatar" name="avatar">
+                    </div>
+                    <button type="submit" class="btn-save">Lưu thay đổi</button>
+                </form>
+            </div>
+
+            <div class="profile-section">
+                <h2>Đổi Mật Khẩu</h2>
+                <form method="POST" action="{% url 'change_password' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="old_password">Mật khẩu hiện tại</label>
+                        <input type="password" id="old_password" name="old_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password">Mật khẩu mới</label>
+                        <input type="password" id="new_password" name="new_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Xác nhận mật khẩu mới</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <button type="submit" class="btn-change-password">Đổi mật khẩu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.profile-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.profile-header h1 {
+    color: #333;
+    font-size: 28px;
+}
+
+.profile-content {
+    display: flex;
+    gap: 40px;
+}
+
+.profile-sidebar {
+    flex: 0 0 300px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-avatar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-avatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-info {
+    text-align: center;
+}
+
+.user-info h3 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.user-info p {
+    color: #666;
+    margin: 5px 0;
+}
+
+.profile-main {
+    flex: 1;
+}
+
+.profile-section {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.profile-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input[readonly] {
+    background-color: #f5f5f5;
+}
+
+.btn-save, .btn-change-password {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-save:hover, .btn-change-password:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column;
+    }
+    
+    .profile-sidebar {
+        flex: none;
+        width: 100%;
+    }
+}
+</style>
+{% endblock %} 

@@ -1,0 +1,80 @@
+
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 flex">
+    <!-- Sidebar -->
+    <div class="w-64 bg-gray-800 text-white p-4 hidden md:block">
+        <h2 class="text-xl font-bold mb-4">Bike Dashboard</h2>
+        <nav>
+            <a href="{% url 'bikes:bike_list' %}" class="block py-2 px-4 hover:bg-gray-700 rounded">Home</a>
+            <a href="{% url 'bikes:dashboard' %}" class="block py-2 px-4 bg-gray-700 rounded">Dashboard</a>
+            <a href="{% url 'logout' %}" class="block py-2 px-4 hover:bg-gray-700 rounded">Logout</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Welcome, {{ user.username }}!</h2>
+            <div class="text-gray-600">Last login: {{ user.last_login|date:"F d, Y H:i" }}</div>
+        </div>
+
+        <!-- Overview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-lg font-semibold">Total Views</h3>
+                <p class="text-2xl font-bold">{{ activities|length }}</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-lg font-semibold">Bikes Rented</h3>
+                <p class="text-2xl font-bold">{{ activities|filter:"rent"|length }}</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-lg font-semibold">Bikes Purchased</h3>
+                <p class="text-2xl font-bold">{{ activities|filter:"purchase"|length }}</p>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="bg-white p-6 rounded-lg shadow mb-6">
+            <h3 class="text-lg font-semibold mb-4">Activity Overview</h3>
+            <canvas id="activityChart" height="100"></canvas>
+        </div>
+
+        <!-- Activity Table -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4">Recent Activities</h3>
+            <div class="mb-4">
+                <input type="text" id="searchInput" placeholder="Search activities..." class="w-full p-2 border rounded">
+            </div>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-2 text-left">Activity</th>
+                        <th class="p-2 text-left">Bicycle</th>
+                        <th class="p-2 text-left">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="activityTable">
+                    {% for activity in activities %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-2">{{ activity.activity_type|capfirst }}</td>
+                            <td class="p-2">{{ activity.bicycle.name|default:"N/A" }}</td>
+                            <td class="p-2">{{ activity.timestamp|date:"F d, Y H:i" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            <div class="mt-4 flex justify-between">
+                <button id="prevPage" class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50" disabled>Previous</button>
+                <span id="pageInfo">Page 1</span>
+                <button id="nextPage" class="px-4 py-2 bg-gray-200 rounded">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

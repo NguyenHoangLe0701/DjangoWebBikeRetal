@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Xedap.vn</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', Arial, sans-serif; }
+        body { background-color: #F7FAFC; }
+
+        .container { display: flex; }
+
+        /* Sidebar cải thiện */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #2A4365 0%, #1A365D 100%);
+            color: #E2E8F0;
+            height: 100vh;
+            position: fixed;
+            padding: 30px 20px;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+            transition: width 0.3s ease;
+        }
+        .sidebar h2 {
+            font-size: 28px;
+            margin-bottom: 40px;
+            text-align: center;
+            letter-spacing: 1.5px;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar ul { list-style: none; }
+        .sidebar ul li { margin-bottom: 15px; }
+        .sidebar ul li a {
+            color: #E2E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .sidebar ul li a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        .sidebar ul li a:hover {
+            background: #3182CE;
+            color: #FFFFFF;
+            transform: translateX(5px);
+        }
+
+        /* Content */
+        .content {
+            margin-left: 260px;
+            padding: 40px;
+            width: 100%;
+            background: #F7FAFC;
+            min-height: 100vh;
+        }
+        .section { margin-bottom: 50px; }
+        .section h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #2D3748;
+            position: relative;
+            display: inline-block;
+        }
+        .section h2::after {
+            content: '';
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, #3182CE, #63B3ED);
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            border-radius: 3px;
+        }
+
+        /* Stat Cards cải thiện */
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid transparent;
+            background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+                        linear-gradient(45deg, #3182CE, #63B3ED) border-box;
+        }
+        .stat-card::before {
+            content: '\f080'; /* Icon biểu đồ từ FontAwesome */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 40px;
+            color: rgba(49, 130, 206, 0.1);
+        }
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .stat-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stat-card p {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2D3748;
+            background: linear-gradient(90deg, #3182CE, #63B3ED);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Chart Container cải thiện */
+        .charts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .chart-container {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 320px;
+            max-width: 500px;
+            border: 1px solid #E2E8F0;
+            transition: box-shadow 0.3s ease;
+        }
+        .chart-container:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Table cải thiện */
+        .table-container {
+            max-height: 450px;
+            overflow-y: auto;
+            border-radius: 12px;
+            background: #FFFFFF;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        th {
+            background: linear-gradient(90deg, #3182CE, #63B3ED);
+            color: #FFFFFF;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        td {
+            color: #4A5568;
+            font-size: 14px;
+        }
+        tr {
+            transition: background 0.3s ease;
+        }
+        tr:hover {
+            background: #EBF8FF;
+        }
+
+        /* Button cải thiện */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-blue {
+            background: linear-gradient(45deg, #3182CE, #63B3ED);
+            color: #FFFFFF;
+        }
+        .btn-blue:hover {
+            background: linear-gradient(45deg, #2B6CB0, #4299E1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
+        }
+        .btn-yellow {
+            background: linear-gradient(45deg, #D69E2E, #F6E05E);
+            color: #FFFFFF;
+        }
+        .btn-yellow:hover {
+            background: linear-gradient(45deg, #B7791F, #D4C91F);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(214, 158, 46, 0.3);
+        }
+        .btn-red {
+            background: linear-gradient(45deg, #E53E3E, #F56565);
+            color: #FFFFFF;
+        }
+        .btn-red:hover {
+            background: linear-gradient(45deg, #C53030, #E53E3E);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
+        }
+
+        /* Form cải thiện */
+        .form-container {
+            display: none;
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            border: 1px solid #E2E8F0;
+        }
+        .form-container h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #2D3748;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4A5568;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #F7FAFC;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus {
+            border-color: #3182CE;
+            background: #FFFFFF;
+            box-shadow: 0 0 8px rgba(49, 130, 206, 0.2);
+            outline: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .stats, .charts {
+                flex-direction: column;
+            }
+            .chart-container {
+                max-width: 100%;
+            }
+            .section h2 {
+                font-size: 24px;
+            }
+            .stat-card p {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Xedap.vn Admin</h2>
+            <ul>
+                <li><a href="#overview"><i class="fas fa-tachometer-alt"></i> Tổng quan</a></li>
+                <li><a href="#users"><i class="fas fa-users"></i> Quản lý khách hàng</a></li>
+                <li><a href="#bicycles"><i class="fas fa-bicycle"></i> Quản lý xe đạp</a></li>
+                <li><a href="#rentals"><i class="fas fa-clipboard-list"></i> Quản lý đơn thuê</a></li>
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Tổng quan -->
+            <section id="overview" class="section">
+                <h2>Tổng quan</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3>Tổng khách thuê</h3>
+                        <p id="totalCustomers">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Xe còn lại</h3>
+                        <p id="availableBicycles">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Đơn đang thuê</h3>
+                        <p id="activeRentals">0</p>
+                    </div>
+                </div>
+                <!-- Charts -->
+                <div class="charts">
+                    <div class="chart-container">
+                        <canvas id="visitorsChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="accountsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+            <!-- Quản lý khách hàng -->
+            <section id="users" class="section">
+                <h2>Quản lý khách hàng</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Họ tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable"></tbody>
+                    </table>
+                </div>
+            </section>
+            <!-- Quản lý xe đạp -->
+            <section id="bicycles" class="section">
+                <h2>Quản lý xe đạp</h2>
+                <button id="addBicycleBtn" class="btn btn-blue">Thêm xe đạp</button>
+                <div id="bicycleForm" class="form-container">
+                    <h3>Thêm/Sửa xe đạp</h3>
+                    <form id="bicycleFormData">
+                        <input type="hidden" id="bicycleId">
+                        <div class="form-group">
+                            <label>Tên mẫu xe</label>
+                            <input type="text" id="bicycleModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Loại xe</label>
+                            <input type="text" id="bicycleType" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Giá thuê/giờ</label>
+                            <input type="number" id="bicyclePrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Số lượng</label>
+                            <input type="number" id="bicycleQuantity" required>
+                        </div>
+                        <button type="submit" class="btn btn-blue">Lưu</button>
+                    </form>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên mẫu xe</th>
+                                <th>Loại xe</th>
+                                <th>Giá thuê/giờ</th>
+                                <th>Số lượng</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bicyclesTable"></tbody>
+                    </table>
+                </div>
+            </section>
+            <!-- Quản lý đơn thuê -->
+            <section id="rentals" class="section">
+                <h2>Quản lý đơn thuê</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Khách hàng</th>
+                                <th>Xe đạp</th>
+                                <th>Thời gian bắt đầu</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rentalsTable"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        // Giả lập dữ liệu từ API
+        async function fetchData() {
+            const mockData = {
+                totalCustomers: 50,
+                availableBicycles: 120,
+                activeRentals: 15,
+                users: [
+                    { id: 1, name: "Nguyễn Văn A", email: "a@example.com", phone: "0901234567" },
+                    { id: 2, name: "Trần Thị B", email: "b@example.com", phone: "0912345678" }
+                ],
+                bicycles: [
+                    { id: 1, model: "Xe địa hình", type: "Địa hình", price: 30000, quantity: 10 },
+                    { id: 2, model: "Xe thể thao", type: "Thể thao", price: 50000, quantity: 5 }
+                ],
+                rentals: [
+                    { id: 1, user: "Nguyễn Văn A", bicycle: "Xe địa hình", startTime: "2025-05-06 10:00", status: "Đang thuê" },
+                    { id: 2, user: "Trần Thị B", bicycle: "Xe thể thao", startTime: "2025-05-06 12:00", status: "Đã hoàn thành" }
+                ],
+                visitors: [
+                    { date: "2025-05-01", count: 120 },
+                    { date: "2025-05-02", count: 150 },
+                    { date: "2025-05-03", count: 200 },
+                    { date: "2025-05-04", count: 180 },
+                    { date: "2025-05-05", count: 220 },
+                    { date: "2025-05-06", count: 250 }
+                ],
+                revenue: [
+                    { month: "Tháng 1", amount: 5000000 },
+                    { month: "Tháng 2", amount: 7000000 },
+                    { month: "Tháng 3", amount: 6000000 },
+                    { month: "Tháng 4", amount: 9000000 },
+                    { month: "Tháng 5", amount: 8000000 }
+                ],
+                accounts: {
+                    free: 150,
+                    premium: 50
+                }
+            };
+            return mockData;
+        }
+
+        async function loadDashboard() {
+            const data = await fetchData();
+            document.getElementById('totalCustomers').textContent = data.totalCustomers;
+            document.getElementById('availableBicycles').textContent = data.availableBicycles;
+            document.getElementById('activeRentals').textContent = data.activeRentals;
+
+            const usersTable = document.getElementById('usersTable');
+            usersTable.innerHTML = data.users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone}</td>
+                </tr>
+            `).join('');
+
+            const bicyclesTable = document.getElementById('bicyclesTable');
+            bicyclesTable.innerHTML = data.bicycles.map(bicycle => `
+                <tr>
+                    <td>${bicycle.id}</td>
+                    <td>${bicycle.model}</td>
+                    <td>${bicycle.type}</td>
+                    <td>${bicycle.price}</td>
+                    <td>${bicycle.quantity}</td>
+                    <td>
+                        <button onclick="editBicycle(${bicycle.id}, '${bicycle.model}', '${bicycle.type}', ${bicycle.price}, ${bicycle.quantity})" class="btn btn-yellow">Sửa</button>
+                        <button onclick="deleteBicycle(${bicycle.id})" class="btn btn-red">Xóa</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            const rentalsTable = document.getElementById('rentalsTable');
+            rentalsTable.innerHTML = data.rentals.map(rental => `
+                <tr>
+                    <td>${rental.id}</td>
+                    <td>${rental.user}</td>
+                    <td>${rental.bicycle}</td>
+                    <td>${rental.startTime}</td>
+                    <td>${rental.status}</td>
+                </tr>
+            `).join('');
+
+            const visitorsCtx = document.getElementById('visitorsChart').getContext('2d');
+            new Chart(visitorsCtx, {
+                type: 'line',
+                data: {
+                    labels: data.visitors.map(v => v.date),
+                    datasets: [{
+                        label: 'Số người truy cập',
+                        data: data.visitors.map(v => v.count),
+                        borderColor: '#3182CE',
+                        backgroundColor: 'rgba(49, 130, 206, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Số người truy cập theo ngày'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.revenue.map(r => r.month),
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: data.revenue.map(r => r.amount),
+                        backgroundColor: '#38A169',
+                        borderColor: '#2F855A',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Doanh thu theo tháng'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('vi-VN') + ' VNĐ';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const accountsCtx = document.getElementById('accountsChart').getContext('2d');
+            new Chart(accountsCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Miễn phí', 'Trả phí'],
+                    datasets: [{
+                        label: 'Tài khoản đăng ký',
+                        data: [data.accounts.free, data.accounts.premium],
+                        backgroundColor: ['#3182CE', '#E53E3E'],
+                        borderColor: ['#2B6CB0', '#C53030'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Tài khoản đăng ký'
+                        }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('addBicycleBtn').addEventListener('click', () => {
+            const form = document.getElementById('bicycleForm');
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+            document.getElementById('bicycleFormData').reset();
+            document.getElementById('bicycleId').value = '';
+        });
+
+        document.getElementById('bicycleFormData').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('bicycleId').value;
+            const bicycle = {
+                model: document.getElementById('bicycleModel').value,
+                type: document.getElementById('bicycleType').value,
+                price: document.getElementById('bicyclePrice').value,
+                quantity: document.getElementById('bicycleQuantity').value
+            };
+            const response = await fetch(id ? `/api/bicycles/${id}` : '/api/bicycles', {
+                method: id ? 'PUT' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bicycle)
+            });
+            if (response.ok) {
+                document.getElementById('bicycleForm').style.display = 'none';
+                loadDashboard();
+            }
+        });
+
+        function editBicycle(id, model, type, price, quantity) {
+            document.getElementById('bicycleForm').style.display = 'block';
+            document.getElementById('bicycleId').value = id;
+            document.getElementById('bicycleModel').value = model;
+            document.getElementById('bicycleType').value = type;
+            document.getElementById('bicyclePrice').value = price;
+            document.getElementById('bicycleQuantity').value = quantity;
+        }
+
+        async function deleteBicycle(id) {
+            if (confirm('Bạn có chắc muốn xóa xe này?')) {
+                await fetch(`/api/bicycles/${id}`, { method: 'DELETE' });
+                loadDashboard();
+            }
+        }
+
+        window.onload = loadDashboard;
+    </script>
+</body>
+</html>
