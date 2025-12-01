@@ -1,41 +1,27 @@
-from django.shortcuts import render,redirect
-from .models import TrafficReport
-
-
+from django.shortcuts import render, redirect
 from django.core.cache import cache
 from django.http import JsonResponse
-
-from app_admin.models import Store, Article
-#from .models import Product
-import json
 from django.views.decorators.cache import cache_page
 from django.views.decorators.clickjacking import xframe_options_exempt
-#dashboard
 from django.views.decorators.csrf import csrf_exempt
-
-from django.http import JsonResponse
-from django.db import models
-#send email
 from django.core.mail import send_mail
-#countdown
-from datetime import datetime, timedelta
-from django.utils import timezone
-#information
-from .models import Article
-#login
-
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, CustomAuthenticationForm, ForgotPasswordForm
-from .models import CustomUser
-from django.contrib import messages
-#Thuê xe đạp
-from .models import BikeRental, Bike, CustomUser
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.db.models import Count, Q, Sum
 from django.utils import timezone
-from datetime import timedelta
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from datetime import datetime, timedelta
+import json
+import requests
+import pytz
+
+from .models import (
+    TrafficReport, Store, Article, CustomUser, 
+    BikeRental, Bike
+)
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, ForgotPasswordForm
 
 # Create your views here.
 #def home(request):
