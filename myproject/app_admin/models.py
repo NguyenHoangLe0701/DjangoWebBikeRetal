@@ -40,8 +40,8 @@ class Store(models.Model):
     
 #
 class CustomUser(AbstractUser):
-    phone_number = models.CharField(max_length=15, unique=True)
-    full_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15, unique=True, blank=True, null=True)
+    full_name = models.CharField(max_length=100, blank=True, default='')
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
 
     def __str__(self):
