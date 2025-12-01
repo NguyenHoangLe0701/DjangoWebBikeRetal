@@ -25,4 +25,15 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('accounts/', include('allauth.urls')),
     path('traffic-weather/', views.traffic_weather, name='traffic_weather'),
+    # API endpoints cho dashboard
+    path('api/dashboard/stats/', views.dashboard_stats_api, name='dashboard_stats_api'),
+    path('api/dashboard/users/', views.dashboard_users_api, name='dashboard_users_api'),
+    path('api/dashboard/bikes/', views.dashboard_bikes_api, name='dashboard_bikes_api'),
+    path('api/dashboard/rentals/', views.dashboard_rentals_api, name='dashboard_rentals_api'),
+    path('api/dashboard/charts/', views.dashboard_charts_api, name='dashboard_charts_api'),
+    path('api/dashboard/bikes/create/', views.dashboard_bike_create_api, name='dashboard_bike_create_api'),
+    path('api/dashboard/bikes/<int:bike_id>/delete/', views.dashboard_bike_delete_api, name='dashboard_bike_delete_api'),
+    path('api/dashboard/rentals/<int:rental_id>/update-status/', views.dashboard_rental_update_status_api, name='dashboard_rental_update_status_api'),
+    path('profile/', views.profile_view, name='profile'),
+    path('export-rentals/', views.export_rentals_report, name='export_rentals'),
 ]

@@ -60,8 +60,45 @@ class TrafficReport(models.Model):
     def __str__(self):
         return f"{self.text} ({self.created_at})"    
 
+# Model quản lý xe đạp
+class Bike(models.Model):
+    BIKE_TYPES = [
+        ('mountain', 'Xe đạp leo núi'),
+        ('road', 'Xe đạp đường trường'),
+        ('electric', 'Xe đạp điện'),
+        ('kids', 'Xe đạp trẻ em'),
+        ('assist', 'Xe đạp trợ lực'),
+    ]
+    
+    name = models.CharField(max_length=200, verbose_name="Tên mẫu xe")
+    bike_type = models.CharField(max_length=20, choices=BIKE_TYPES, verbose_name="Loại xe")
+    price_per_hour = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="Giá thuê/giờ (VNĐ)")
+    quantity = models.PositiveIntegerField(default=0, verbose_name="Số lượng")
+    image = models.ImageField(upload_to='bikes/', blank=True, null=True, verbose_name="Hình ảnh")
+    description = models.TextField(blank=True, null=True, verbose_name="Mô tả")
+    is_active = models.BooleanField(default=True, verbose_name="Đang hoạt động")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.get_bike_type_display()}"
+
+    class Meta:
+        verbose_name = "Xe đạp"
+        verbose_name_plural = "Danh sách xe đạp"
+        ordering = ['-created_at']
+
 #Thuê xe đạp
 class BikeRental(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Chờ duyệt'),
+        ('approved', 'Đã duyệt'),
+        ('rejected', 'Từ chối'),
+        ('renting', 'Đang thuê'),
+        ('completed', 'Đã hoàn thành'),
+        ('cancelled', 'Đã hủy'),
+    ]
+    
     BIKE_TYPES = [
         ('mountain', 'Xe đạp leo núi'),
         ('road', 'Xe đạp đường trường'),
@@ -70,22 +107,30 @@ class BikeRental(models.Model):
         ('assist', 'Xe đạp trợ lực'),
     ]
 
-    full_name = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = models.CharField(max_length=10)
-    bike_type = models.CharField(max_length=20, choices=BIKE_TYPES)
-    quantity = models.IntegerField()
-    pickup_date = models.DateField()
-    return_date = models.DateField()
-    message = models.TextField(blank=True)
-    rental_code = models.CharField(max_length=8, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, default='pending')
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Người thuê")
+    bike = models.ForeignKey(Bike, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Xe đạp")
+    full_name = models.CharField(max_length=100, verbose_name="Họ tên")
+    email = models.EmailField(verbose_name="Email")
+    phone = models.CharField(max_length=10, verbose_name="Số điện thoại")
+    bike_type = models.CharField(max_length=20, choices=BIKE_TYPES, verbose_name="Loại xe")
+    quantity = models.IntegerField(verbose_name="Số lượng")
+    pickup_date = models.DateField(verbose_name="Ngày nhận")
+    return_date = models.DateField(verbose_name="Ngày trả")
+    message = models.TextField(blank=True, verbose_name="Ghi chú")
+    rental_code = models.CharField(max_length=8, unique=True, verbose_name="Mã đơn")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày tạo")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name="Trạng thái")
+    total_price = models.DecimalField(max_digits=12, decimal_places=0, null=True, blank=True, verbose_name="Tổng tiền")
 
     def save(self, *args, **kwargs):
         if not self.rental_code:
             # Generate random 8-character code
             self.rental_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+        # Tính tổng tiền nếu có bike và giá
+        if self.bike and self.pickup_date and self.return_date:
+            days = (self.return_date - self.pickup_date).days + 1
+            hours = days * 24  # Giả sử thuê theo ngày, mỗi ngày 24 giờ
+            self.total_price = self.bike.price_per_hour * hours * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -93,4 +138,5 @@ class BikeRental(models.Model):
 
     class Meta:
         verbose_name = "Đơn thuê xe"
-        verbose_name_plural = "Đơn thuê xe" 
+        verbose_name_plural = "Đơn thuê xe"
+        ordering = ['-created_at'] 

@@ -50,7 +50,7 @@
 
             <div class="profile-section">
                 <h2>Đổi Mật Khẩu</h2>
-                <form method="POST" action="{% url 'change_password' %}">
+                <form method="POST">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="old_password">Mật khẩu hiện tại</label>
@@ -66,6 +66,52 @@
                     </div>
                     <button type="submit" class="btn-change-password">Đổi mật khẩu</button>
                 </form>
+            </div>
+
+            <div class="profile-section">
+                <h2>Lịch Sử Đơn Thuê</h2>
+                {% if rentals %}
+                    <div class="rentals-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Loại xe</th>
+                                    <th>Số lượng</th>
+                                    <th>Ngày nhận</th>
+                                    <th>Ngày trả</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tổng tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rental in rentals %}
+                                <tr>
+                                    <td>{{ rental.rental_code }}</td>
+                                    <td>{{ rental.get_bike_type_display }}</td>
+                                    <td>{{ rental.quantity }}</td>
+                                    <td>{{ rental.pickup_date|date:"d/m/Y" }}</td>
+                                    <td>{{ rental.return_date|date:"d/m/Y" }}</td>
+                                    <td>
+                                        <span class="status-badge status-{{ rental.status }}">
+                                            {{ rental.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if rental.total_price %}
+                                            {{ rental.total_price|floatformat:0 }} VNĐ
+                                        {% else %}
+                                            Chưa tính
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>Bạn chưa có đơn thuê nào.</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -182,6 +228,42 @@
     background-color: #0056b3;
 }
 
+.rentals-table {
+    overflow-x: auto;
+}
+
+.rentals-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rentals-table th,
+.rentals-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.rentals-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-pending { background-color: #f39c12; color: white; }
+.status-approved { background-color: #27ae60; color: white; }
+.status-rejected { background-color: #e74c3c; color: white; }
+.status-renting { background-color: #3498db; color: white; }
+.status-completed { background-color: #2ecc71; color: white; }
+.status-cancelled { background-color: #95a5a6; color: white; }
+
 @media (max-width: 768px) {
     .profile-content {
         flex-direction: column;
@@ -190,6 +272,10 @@
     .profile-sidebar {
         flex: none;
         width: 100%;
+    }
+    
+    .rentals-table {
+        font-size: 12px;
     }
 }
 </style>

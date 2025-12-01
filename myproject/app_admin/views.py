@@ -30,9 +30,12 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm, ForgotPassw
 from .models import CustomUser
 from django.contrib import messages
 #Thuê xe đạp
-from .models import BikeRental
+from .models import BikeRental, Bike, CustomUser
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.db.models import Count, Q, Sum
+from django.utils import timezone
+from datetime import timedelta
 
 # Create your views here.
 #def home(request):
@@ -154,9 +157,250 @@ def khuyen_mai(request):
 #cowndown
 
 
+@login_required
 @cache_page(60 * 15)# Cache cho 15 phút
 def dashboard_view(request):
+    if not request.user.is_staff:
+        messages.error(request, 'Bạn không có quyền truy cập trang này.')
+        return redirect('home')
     return render(request, 'home/dashboard_admin.html', {'request': request})
+
+# API endpoints cho dashboard
+@login_required
+def dashboard_stats_api(request):
+    """API trả về thống kê tổng quan"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    now = timezone.now()
+    today = now.date()
+    this_month_start = today.replace(day=1)
+    
+    # Thống kê
+    total_customers = CustomUser.objects.filter(is_staff=False).count()
+    total_bikes = Bike.objects.filter(is_active=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
+    active_rentals = BikeRental.objects.filter(
+        status__in=['approved', 'renting'],
+        return_date__gte=today
+    ).count()
+    
+    # Đơn thuê trong tháng
+    monthly_rentals = BikeRental.objects.filter(created_at__gte=this_month_start).count()
+    
+    # Doanh thu trong tháng
+    monthly_revenue = BikeRental.objects.filter(
+        created_at__gte=this_month_start,
+        status__in=['completed', 'renting']
+    ).aggregate(Sum('total_price'))['total_price__sum'] or 0
+    
+    return JsonResponse({
+        'totalCustomers': total_customers,
+        'availableBicycles': total_bikes,
+        'activeRentals': active_rentals,
+        'monthlyRentals': monthly_rentals,
+        'monthlyRevenue': float(monthly_revenue) if monthly_revenue else 0,
+    })
+
+@login_required
+def dashboard_users_api(request):
+    """API trả về danh sách users"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    users = CustomUser.objects.filter(is_staff=False).values(
+        'id', 'username', 'email', 'phone_number', 'full_name', 'date_joined'
+    )[:100]  # Giới hạn 100 users
+    
+    return JsonResponse({
+        'users': list(users)
+    })
+
+@login_required
+def dashboard_bikes_api(request):
+    """API trả về danh sách bikes"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    bikes = Bike.objects.all().values(
+        'id', 'name', 'bike_type', 'price_per_hour', 'quantity', 'is_active'
+    )
+    
+    return JsonResponse({
+        'bikes': list(bikes)
+    })
+
+@login_required
+def dashboard_rentals_api(request):
+    """API trả về danh sách rentals"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    rentals = BikeRental.objects.select_related('bike', 'user').all().order_by('-created_at')[:100]
+    
+    rentals_data = []
+    for rental in rentals:
+        rentals_data.append({
+            'id': rental.id,
+            'rental_code': rental.rental_code,
+            'user': rental.full_name,
+            'email': rental.email,
+            'phone': rental.phone,
+            'bike': rental.bike.name if rental.bike else rental.get_bike_type_display(),
+            'bike_type': rental.get_bike_type_display(),
+            'quantity': rental.quantity,
+            'pickup_date': rental.pickup_date.strftime('%Y-%m-%d'),
+            'return_date': rental.return_date.strftime('%Y-%m-%d'),
+            'startTime': rental.pickup_date.strftime('%Y-%m-%d %H:%M'),
+            'status': rental.get_status_display(),
+            'status_code': rental.status,
+            'total_price': float(rental.total_price) if rental.total_price else 0,
+            'created_at': rental.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        })
+    
+    return JsonResponse({
+        'rentals': rentals_data
+    })
+
+@login_required
+@csrf_exempt
+def dashboard_bike_create_api(request):
+    """API tạo/sửa bike"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            bike_id = data.get('id')
+            
+            if bike_id:
+                # Update existing bike
+                bike = Bike.objects.get(id=bike_id)
+                bike.name = data.get('model', bike.name)
+                bike.bike_type = data.get('type', bike.bike_type)
+                bike.price_per_hour = data.get('price', bike.price_per_hour)
+                bike.quantity = data.get('quantity', bike.quantity)
+                bike.save()
+                return JsonResponse({'success': True, 'message': 'Cập nhật xe đạp thành công!'})
+            else:
+                # Create new bike
+                bike = Bike.objects.create(
+                    name=data.get('model'),
+                    bike_type=data.get('type'),
+                    price_per_hour=data.get('price'),
+                    quantity=data.get('quantity')
+                )
+                return JsonResponse({'success': True, 'message': 'Thêm xe đạp thành công!', 'id': bike.id})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+@login_required
+@csrf_exempt
+def dashboard_bike_delete_api(request, bike_id):
+    """API xóa bike"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    if request.method == 'DELETE':
+        try:
+            bike = Bike.objects.get(id=bike_id)
+            bike.delete()
+            return JsonResponse({'success': True, 'message': 'Xóa xe đạp thành công!'})
+        except Bike.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Không tìm thấy xe đạp'}, status=404)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+@login_required
+@csrf_exempt
+def dashboard_rental_update_status_api(request, rental_id):
+    """API cập nhật trạng thái đơn thuê"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            new_status = data.get('status')
+            
+            rental = BikeRental.objects.get(id=rental_id)
+            rental.status = new_status
+            rental.save()
+            
+            # Gửi thông báo qua WebSocket nếu có đơn mới
+            try:
+                from channels.layers import get_channel_layer
+                from asgiref.sync import async_to_sync
+                
+                channel_layer = get_channel_layer()
+                if channel_layer:
+                    async_to_sync(channel_layer.group_send)(
+                        'admin_notifications',
+                        {
+                            'type': 'rental_notification',
+                            'message': f'Đơn thuê {rental.rental_code} đã được cập nhật trạng thái: {rental.get_status_display()}'
+                        }
+                    )
+            except Exception as e:
+                # Nếu WebSocket không khả dụng, bỏ qua
+                pass
+            
+            return JsonResponse({'success': True, 'message': 'Cập nhật trạng thái thành công!'})
+        except BikeRental.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Không tìm thấy đơn thuê'}, status=404)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+@login_required
+def dashboard_charts_api(request):
+    """API trả về dữ liệu cho biểu đồ"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    now = timezone.now()
+    # Dữ liệu 7 ngày gần nhất
+    dates = []
+    rental_counts = []
+    revenue_data = []
+    
+    for i in range(6, -1, -1):
+        date = (now - timedelta(days=i)).date()
+        dates.append(date.strftime('%d/%m'))
+        
+        day_start = timezone.make_aware(datetime.combine(date, datetime.min.time()))
+        day_end = timezone.make_aware(datetime.combine(date, datetime.max.time()))
+        
+        count = BikeRental.objects.filter(
+            created_at__gte=day_start,
+            created_at__lte=day_end
+        ).count()
+        rental_counts.append(count)
+        
+        revenue = BikeRental.objects.filter(
+            created_at__gte=day_start,
+            created_at__lte=day_end,
+            status__in=['completed', 'renting']
+        ).aggregate(Sum('total_price'))['total_price__sum'] or 0
+        revenue_data.append(float(revenue))
+    
+    # Thống kê theo loại xe
+    bike_type_stats = {}
+    for bike_type_code, bike_type_name in BikeRental.BIKE_TYPES:
+        count = BikeRental.objects.filter(bike_type=bike_type_code).count()
+        bike_type_stats[bike_type_name] = count
+    
+    return JsonResponse({
+        'dates': dates,
+        'rental_counts': rental_counts,
+        'revenue_data': revenue_data,
+        'bike_type_stats': bike_type_stats,
+    })
 
 #@cache_page(60)  # Cache cho 60 giây
 #def product_list(request):
@@ -244,7 +488,165 @@ def forgot_password_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Đăng xuất thành công!')
-    return redirect('home/home.html')
+    return redirect('home')
+
+# Profile user
+@login_required
+def profile_view(request):
+    """Trang profile của user"""
+    user = request.user
+    
+    if request.method == 'POST':
+        # Cập nhật thông tin profile
+        if 'full_name' in request.POST:
+            user.full_name = request.POST.get('full_name', user.full_name)
+            user.phone_number = request.POST.get('phone_number', user.phone_number)
+            
+            if 'avatar' in request.FILES:
+                user.avatar = request.FILES['avatar']
+            
+            user.save()
+            messages.success(request, 'Cập nhật thông tin thành công!')
+            return redirect('profile')
+        
+        # Đổi mật khẩu
+        elif 'old_password' in request.POST:
+            old_password = request.POST.get('old_password')
+            new_password = request.POST.get('new_password')
+            confirm_password = request.POST.get('confirm_password')
+            
+            if not user.check_password(old_password):
+                messages.error(request, 'Mật khẩu hiện tại không đúng!')
+            elif new_password != confirm_password:
+                messages.error(request, 'Mật khẩu mới và xác nhận không khớp!')
+            elif len(new_password) < 8:
+                messages.error(request, 'Mật khẩu phải có ít nhất 8 ký tự!')
+            else:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Đổi mật khẩu thành công! Vui lòng đăng nhập lại.')
+                return redirect('login')
+    
+    # Lấy danh sách đơn thuê của user
+    rentals = BikeRental.objects.filter(
+        Q(user=user) | Q(email=user.email)
+    ).order_by('-created_at')[:20]
+    
+    context = {
+        'user': user,
+        'rentals': rentals,
+    }
+    return render(request, 'profile.html', context)
+
+# Export báo cáo
+@login_required
+def export_rentals_report(request):
+    """Xuất báo cáo đơn thuê ra Excel/CSV"""
+    if not request.user.is_staff:
+        messages.error(request, 'Bạn không có quyền truy cập chức năng này.')
+        return redirect('home')
+    
+    from django.http import HttpResponse
+    from django.db.models import Sum
+    import csv
+    from datetime import datetime
+    
+    format_type = request.GET.get('format', 'csv')  # csv hoặc excel
+    
+    # Lấy dữ liệu đơn thuê
+    rentals = BikeRental.objects.all().order_by('-created_at')
+    
+    if format_type == 'csv':
+        response = HttpResponse(content_type='text/csv; charset=utf-8')
+        response['Content-Disposition'] = f'attachment; filename="rentals_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv"'
+        
+        writer = csv.writer(response)
+        # Header
+        writer.writerow([
+            'Mã đơn', 'Họ tên', 'Email', 'Số điện thoại', 'Loại xe', 
+            'Số lượng', 'Ngày nhận', 'Ngày trả', 'Trạng thái', 'Tổng tiền', 'Ngày tạo'
+        ])
+        
+        # Data
+        for rental in rentals:
+            writer.writerow([
+                rental.rental_code,
+                rental.full_name,
+                rental.email,
+                rental.phone,
+                rental.get_bike_type_display(),
+                rental.quantity,
+                rental.pickup_date.strftime('%d/%m/%Y'),
+                rental.return_date.strftime('%d/%m/%Y'),
+                rental.get_status_display(),
+                f"{rental.total_price:,.0f}" if rental.total_price else "0",
+                rental.created_at.strftime('%d/%m/%Y %H:%M:%S')
+            ])
+        
+        return response
+    
+    elif format_type == 'excel':
+        try:
+            import openpyxl
+            from openpyxl.styles import Font, Alignment
+            
+            wb = openpyxl.Workbook()
+            ws = wb.active
+            ws.title = "Báo cáo đơn thuê"
+            
+            # Header
+            headers = [
+                'Mã đơn', 'Họ tên', 'Email', 'Số điện thoại', 'Loại xe', 
+                'Số lượng', 'Ngày nhận', 'Ngày trả', 'Trạng thái', 'Tổng tiền', 'Ngày tạo'
+            ]
+            ws.append(headers)
+            
+            # Style header
+            for cell in ws[1]:
+                cell.font = Font(bold=True)
+                cell.alignment = Alignment(horizontal='center')
+            
+            # Data
+            for rental in rentals:
+                ws.append([
+                    rental.rental_code,
+                    rental.full_name,
+                    rental.email,
+                    rental.phone,
+                    rental.get_bike_type_display(),
+                    rental.quantity,
+                    rental.pickup_date.strftime('%d/%m/%Y'),
+                    rental.return_date.strftime('%d/%m/%Y'),
+                    rental.get_status_display(),
+                    rental.total_price if rental.total_price else 0,
+                    rental.created_at.strftime('%d/%m/%Y %H:%M:%S')
+                ])
+            
+            # Auto adjust column width
+            for column in ws.columns:
+                max_length = 0
+                column_letter = column[0].column_letter
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = min(max_length + 2, 50)
+                ws.column_dimensions[column_letter].width = adjusted_width
+            
+            response = HttpResponse(
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = f'attachment; filename="rentals_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx"'
+            
+            wb.save(response)
+            return response
+        except ImportError:
+            messages.error(request, 'Cần cài đặt openpyxl để xuất file Excel: pip install openpyxl')
+            return redirect('dashboard')
+    
+    return redirect('dashboard')
 
 
 #Dự báo thời tiết
@@ -348,6 +750,24 @@ def bike_rental(request):
             except Exception as e:
                 # Log email error but don't fail the rental
                 print(f"Failed to send email: {str(e)}")
+            
+            # Gửi thông báo qua WebSocket cho admin
+            try:
+                from channels.layers import get_channel_layer
+                from asgiref.sync import async_to_sync
+                
+                channel_layer = get_channel_layer()
+                if channel_layer:
+                    async_to_sync(channel_layer.group_send)(
+                        'admin_notifications',
+                        {
+                            'type': 'rental_notification',
+                            'message': f'Có đơn thuê mới: {rental.rental_code} từ {rental.full_name}'
+                        }
+                    )
+            except Exception as e:
+                # Nếu WebSocket không khả dụng, bỏ qua
+                pass
 
             return JsonResponse({
                 'status': 'success',
