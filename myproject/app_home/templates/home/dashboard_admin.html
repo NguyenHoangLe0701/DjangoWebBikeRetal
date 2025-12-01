@@ -50,6 +50,15 @@
                         <p id="activeRentals">0</p>
                     </div>
                 </div>
+                <!-- Biểu đồ -->
+                <div class="charts" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <canvas id="rentalChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
             </section>
             <!-- Quản lý khách hàng -->
             <section id="users" class="section">
@@ -117,12 +126,20 @@
             <!-- Quản lý đơn thuê -->
             <section id="rentals" class="section">
                 <h2>Quản lý đơn thuê</h2>
-                <div class="filter-bar">
-                    <select id="rental-status-filter" onchange="filterRentals()">
-                        <option value="">Tất cả trạng thái</option>
-                        <option value="Đang thuê">Đang thuê</option>
-                        <option value="Đã hoàn thành">Đã hoàn thành</option>
-                    </select>
+                <div style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
+                    <div class="filter-bar" style="margin: 0;">
+                        <select id="rental-status-filter" onchange="filterRentals()">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="Chờ duyệt">Chờ duyệt</option>
+                            <option value="Đã duyệt">Đã duyệt</option>
+                            <option value="Đang thuê">Đang thuê</option>
+                            <option value="Đã hoàn thành">Đã hoàn thành</option>
+                            <option value="Từ chối">Từ chối</option>
+                            <option value="Đã hủy">Đã hủy</option>
+                        </select>
+                    </div>
+                    <a href="/export-rentals/?format=csv" class="btn btn-blue" style="text-decoration: none; display: inline-block;">Xuất CSV</a>
+                    <a href="/export-rentals/?format=excel" class="btn btn-blue" style="text-decoration: none; display: inline-block;">Xuất Excel</a>
                 </div>
                 <div class="table-container">
                     <table>
@@ -141,28 +158,51 @@
             </section>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Giả lập dữ liệu từ API
+        // Lấy dữ liệu từ API thật
         async function fetchData() {
-            // Thay bằng API thật từ Django
-            const mockData = {
-                totalCustomers: 50,
-                availableBicycles: 120,
-                activeRentals: 15,
-                users: [
-                    { id: 1, name: "Nguyễn Văn A", email: "a@example.com", phone: "0901234567" },
-                    { id: 2, name: "Trần Thị B", email: "b@example.com", phone: "0912345678" }
-                ],
-                bicycles: [
-                    { id: 1, model: "Xe địa hình", type: "Địa hình", price: 30000, quantity: 10 },
-                    { id: 2, model: "Xe thể thao", type: "Thể thao", price: 50000, quantity: 5 }
-                ],
-                rentals: [
-                    { id: 1, user: "Nguyễn Văn A", bicycle: "Xe địa hình", startTime: "2025-05-06 10:00", status: "Đang thuê" },
-                    { id: 2, user: "Trần Thị B", bicycle: "Xe thể thao", startTime: "2025-05-06 12:00", status: "Đã hoàn thành" }
-                ]
-            };
-            return mockData;
+            try {
+                const [statsRes, usersRes, bikesRes, rentalsRes, chartsRes] = await Promise.all([
+                    fetch('/api/dashboard/stats/'),
+                    fetch('/api/dashboard/users/'),
+                    fetch('/api/dashboard/bikes/'),
+                    fetch('/api/dashboard/rentals/'),
+                    fetch('/api/dashboard/charts/')
+                ]);
+                
+                const stats = await statsRes.json();
+                const usersData = await usersRes.json();
+                const bikesData = await bikesRes.json();
+                const rentalsData = await rentalsRes.json();
+                const chartsData = await chartsRes.json();
+                
+                return {
+                    totalCustomers: stats.totalCustomers,
+                    availableBicycles: stats.availableBicycles,
+                    activeRentals: stats.activeRentals,
+                    monthlyRentals: stats.monthlyRentals,
+                    monthlyRevenue: stats.monthlyRevenue,
+                    users: usersData.users,
+                    bicycles: bikesData.bikes,
+                    rentals: rentalsData.rentals,
+                    charts: chartsData
+                };
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                // Fallback to empty data
+                return {
+                    totalCustomers: 0,
+                    availableBicycles: 0,
+                    activeRentals: 0,
+                    monthlyRentals: 0,
+                    monthlyRevenue: 0,
+                    users: [],
+                    bicycles: [],
+                    rentals: [],
+                    charts: { dates: [], rental_counts: [], revenue_data: [], bike_type_stats: {} }
+                };
+            }
         }
 
         // Hiển thị dữ liệu
@@ -174,42 +214,187 @@
 
             // Hiển thị danh sách khách hàng
             const usersTable = document.getElementById('usersTable');
-            usersTable.innerHTML = data.users.map(user => `
-                <tr>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>${user.phone}</td>
-                </tr>
-            `).join('');
+            if (data.users && data.users.length > 0) {
+                usersTable.innerHTML = data.users.map(user => `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.full_name || user.username}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone_number || 'N/A'}</td>
+                    </tr>
+                `).join('');
+            } else {
+                usersTable.innerHTML = '<tr><td colspan="4">Chưa có dữ liệu</td></tr>';
+            }
 
             // Hiển thị danh sách xe đạp
             const bicyclesTable = document.getElementById('bicyclesTable');
-            bicyclesTable.innerHTML = data.bicycles.map(bicycle => `
-                <tr>
-                    <td>${bicycle.id}</td>
-                    <td>${bicycle.model}</td>
-                    <td>${bicycle.type}</td>
-                    <td>${bicycle.price}</td>
-                    <td>${bicycle.quantity}</td>
-                    <td>
-                        <button onclick="editBicycle(${bicycle.id}, '${bicycle.model}', '${bicycle.type}', ${bicycle.price}, ${bicycle.quantity})" class="btn btn-yellow">Sửa</button>
-                        <button onclick="deleteBicycle(${bicycle.id})" class="btn btn-red">Xóa</button>
-                    </td>
-                </tr>
-            `).join('');
+            if (data.bicycles && data.bicycles.length > 0) {
+                bicyclesTable.innerHTML = data.bicycles.map(bicycle => {
+                    const bikeTypeNames = {
+                        'mountain': 'Xe đạp leo núi',
+                        'road': 'Xe đạp đường trường',
+                        'electric': 'Xe đạp điện',
+                        'kids': 'Xe đạp trẻ em',
+                        'assist': 'Xe đạp trợ lực'
+                    };
+                    return `
+                        <tr>
+                            <td>${bicycle.id}</td>
+                            <td>${bicycle.name}</td>
+                            <td>${bikeTypeNames[bicycle.bike_type] || bicycle.bike_type}</td>
+                            <td>${parseInt(bicycle.price_per_hour).toLocaleString('vi-VN')} VNĐ</td>
+                            <td>${bicycle.quantity}</td>
+                            <td>
+                                <button onclick="editBicycle(${bicycle.id}, '${bicycle.name.replace(/'/g, "\\'")}', '${bicycle.bike_type}', ${bicycle.price_per_hour}, ${bicycle.quantity})" class="btn btn-yellow">Sửa</button>
+                                <button onclick="deleteBicycle(${bicycle.id})" class="btn btn-red">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } else {
+                bicyclesTable.innerHTML = '<tr><td colspan="6">Chưa có dữ liệu</td></tr>';
+            }
 
             // Hiển thị danh sách đơn thuê
             const rentalsTable = document.getElementById('rentalsTable');
-            rentalsTable.innerHTML = data.rentals.map(rental => `
-                <tr>
-                    <td>${rental.id}</td>
-                    <td>${rental.user}</td>
-                    <td>${rental.bicycle}</td>
-                    <td>${rental.startTime}</td>
-                    <td>${rental.status}</td>
-                </tr>
-            `).join('');
+            if (data.rentals && data.rentals.length > 0) {
+                rentalsTable.innerHTML = data.rentals.map(rental => `
+                    <tr>
+                        <td>${rental.id}</td>
+                        <td>${rental.user}</td>
+                        <td>${rental.bike || rental.bike_type}</td>
+                        <td>${rental.startTime}</td>
+                        <td>
+                            <span class="status-badge status-${rental.status_code}">${rental.status}</span>
+                            <select onchange="updateRentalStatus(${rental.id}, this.value)" style="margin-left: 10px;">
+                                <option value="pending" ${rental.status_code === 'pending' ? 'selected' : ''}>Chờ duyệt</option>
+                                <option value="approved" ${rental.status_code === 'approved' ? 'selected' : ''}>Đã duyệt</option>
+                                <option value="rejected" ${rental.status_code === 'rejected' ? 'selected' : ''}>Từ chối</option>
+                                <option value="renting" ${rental.status_code === 'renting' ? 'selected' : ''}>Đang thuê</option>
+                                <option value="completed" ${rental.status_code === 'completed' ? 'selected' : ''}>Đã hoàn thành</option>
+                                <option value="cancelled" ${rental.status_code === 'cancelled' ? 'selected' : ''}>Đã hủy</option>
+                            </select>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                rentalsTable.innerHTML = '<tr><td colspan="5">Chưa có dữ liệu</td></tr>';
+            }
+            
+            // Vẽ biểu đồ
+            drawCharts(data.charts);
+        }
+        
+        // Vẽ biểu đồ
+        function drawCharts(chartsData) {
+            // Biểu đồ đơn thuê theo ngày
+            const rentalCtx = document.getElementById('rentalChart');
+            if (rentalCtx) {
+                new Chart(rentalCtx, {
+                    type: 'line',
+                    data: {
+                        labels: chartsData.dates,
+                        datasets: [{
+                            label: 'Số đơn thuê',
+                            data: chartsData.rental_counts,
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Đơn thuê theo ngày (7 ngày gần nhất)'
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Biểu đồ doanh thu
+            const revenueCtx = document.getElementById('revenueChart');
+            if (revenueCtx) {
+                new Chart(revenueCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartsData.dates,
+                        datasets: [{
+                            label: 'Doanh thu (VNĐ)',
+                            data: chartsData.revenue_data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Doanh thu theo ngày'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString('vi-VN') + ' VNĐ';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Cập nhật trạng thái đơn thuê
+        async function updateRentalStatus(rentalId, newStatus) {
+            if (!confirm('Bạn có chắc muốn cập nhật trạng thái đơn thuê này?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/dashboard/rentals/${rentalId}/update-status/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert(result.message);
+                    loadDashboard();
+                } else {
+                    alert('Lỗi: ' + result.error);
+                }
+            } catch (error) {
+                alert('Có lỗi xảy ra: ' + error);
+            }
+        }
+        
+        // Helper function để lấy CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
 
         // Thêm/Sửa xe đạp
@@ -230,14 +415,32 @@
                 quantity: document.getElementById('bicycleQuantity').value
             };
             // Gửi dữ liệu đến API
-            const response = await fetch(id ? `/api/bicycles/${id}` : '/api/bicycles', {
-                method: id ? 'PUT' : 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bicycle)
-            });
-            if (response.ok) {
-                document.getElementById('bicycleForm').style.display = 'none';
-                loadDashboard();
+            try {
+                const response = await fetch('/api/dashboard/bikes/create/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        id: id || null,
+                        model: bicycle.model,
+                        type: bicycle.type,
+                        price: parseFloat(bicycle.price),
+                        quantity: parseInt(bicycle.quantity)
+                    })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert(result.message);
+                    document.getElementById('bicycleForm').style.display = 'none';
+                    loadDashboard();
+                } else {
+                    alert('Lỗi: ' + result.error);
+                }
+            } catch (error) {
+                alert('Có lỗi xảy ra: ' + error);
             }
         });
 
@@ -254,8 +457,24 @@
         // Xóa xe đạp
         async function deleteBicycle(id) {
             if (confirm('Bạn có chắc muốn xóa xe này?')) {
-                await fetch(`/api/bicycles/${id}`, { method: 'DELETE' });
-                loadDashboard();
+                try {
+                    const response = await fetch(`/api/dashboard/bikes/${id}/delete/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken')
+                        }
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        alert(result.message);
+                        loadDashboard();
+                    } else {
+                        alert('Lỗi: ' + result.error);
+                    }
+                } catch (error) {
+                    alert('Có lỗi xảy ra: ' + error);
+                }
             }
         }
 
@@ -263,10 +482,40 @@
         window.onload = loadDashboard;
 
         //Thêm WebSocket vào JavaScript trong dashboard
-        const ws = new WebSocket('ws://' + window.location.host + '/ws/notifications/');
-        ws.onmessage = function(event) {
-        const data = JSON.parse(event.data);
-        alert('Thông báo: ' + data.message);
+        let ws;
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(protocol + '//' + window.location.host + '/ws/notifications/');
+            
+            ws.onopen = function() {
+                console.log('WebSocket connected');
+            };
+            
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                if (data.type === 'rental_notification') {
+                    // Hiển thị thông báo
+                    alert('Thông báo: ' + data.message);
+                    // Reload dashboard để cập nhật dữ liệu
+                    loadDashboard();
+                } else {
+                    alert('Thông báo: ' + data.message);
+                }
+            };
+            
+            ws.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+            
+            ws.onclose = function() {
+                console.log('WebSocket disconnected, reconnecting...');
+                // Tự động kết nối lại sau 3 giây
+                setTimeout(connectWebSocket, 3000);
+            };
+        }
+        
+        // Kết nối WebSocket khi trang được tải
+        connectWebSocket();
 
         //search bars Quảng lý khách hàng
         function filterUsers() {
