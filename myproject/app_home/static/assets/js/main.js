@@ -1,4 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Mobile Menu Toggle ---
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const headerNav = document.querySelector('.header-nav');
+    
+    if (mobileMenuToggle && headerNav) {
+        mobileMenuToggle.addEventListener('click', () => {
+            headerNav.classList.toggle('active');
+            const icon = mobileMenuToggle.querySelector('i');
+            if (icon) {
+                if (headerNav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+        
+        // Đóng menu khi click bên ngoài
+        document.addEventListener('click', (e) => {
+            if (!headerNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                headerNav.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    }
+    
     // --- Overlay Authentication ---
     const loginOverlay = document.getElementById('login-overlay');
     const registerOverlay = document.getElementById('register-overlay');
