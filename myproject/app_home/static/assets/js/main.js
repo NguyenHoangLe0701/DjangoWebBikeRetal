@@ -90,6 +90,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (registerOverlay) registerOverlay.classList.add('active');
         });
     }
+    
+    // Chuyển từ form quên mật khẩu sang form đăng nhập
+    const showLoginFromForgotLink = document.getElementById('show-login-from-forgot');
+    if (showLoginFromForgotLink) {
+        showLoginFromForgotLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (forgotPasswordOverlay) forgotPasswordOverlay.classList.remove('active');
+            if (loginOverlay) loginOverlay.classList.add('active');
+        });
+    }
 
     // Đóng form đăng nhập
     if (closeLoginBtn) {
@@ -264,6 +274,22 @@ if (userInfoBtn && userInfoOverlay) {
             userInfoOverlay.classList.remove('active');
         }
     });
+}
+
+// Toggle password visibility
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const toggleIcon = input.nextElementSibling.querySelector('i');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    } else {
+        input.type = 'password';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
