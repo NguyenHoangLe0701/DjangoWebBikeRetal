@@ -796,3 +796,250 @@
   }
   
   /* endfooter */
+  
+  /* ============================================
+     RESPONSIVE STYLES
+     ============================================ */
+  
+  /* Tablet */
+  @media (max-width: 1024px) {
+    .header {
+      height: auto;
+      padding: 10px 15px;
+      flex-wrap: wrap;
+    }
+    
+    .header_logo-img {
+      height: 50px;
+      margin-left: 0;
+      margin-right: 15px;
+    }
+    
+    .search-bar {
+      max-width: 100%;
+      margin: 10px 0;
+      order: 3;
+      width: 100%;
+    }
+    
+    .footer-container {
+      padding: 0 30px;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+    
+    .footer-logo,
+    .footer-info-text,
+    .footer-payment {
+      flex: 1;
+      width: 100%;
+    }
+    
+    .footer-payment {
+      text-align: center;
+    }
+    
+    .payment-methods {
+      justify-content: center;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 768px) {
+    /* Notification Bar */
+    .notification-bar {
+      height: auto;
+      padding: 8px 10px;
+      font-size: 11px;
+      flex-direction: column;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    
+    .info-item {
+      font-size: 10px;
+      padding: 2px 0;
+    }
+    
+    .info-item.promo,
+    .info-item.delivery {
+      display: none;
+    }
+    
+    /* Header */
+    .header {
+      height: auto;
+      padding: 10px;
+      position: relative;
+    }
+    
+    .header_logo-img {
+      height: 40px;
+      margin: 0;
+    }
+    
+    .search-bar {
+      order: 3;
+      width: 100%;
+      margin-top: 10px;
+      max-height: 45px;
+    }
+    
+    .header-search {
+      display: none;
+    }
+    
+    .header-search_input {
+      width: 100%;
+    }
+    
+    .header-icon {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    /* Navigation */
+    .header-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    
+    .header-nav.active {
+      display: block;
+    }
+    
+    .nav-list {
+      flex-direction: column;
+      padding: 0;
+    }
+    
+    .nav-list li {
+      width: 100%;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .nav-list li a {
+      padding: 15px 20px;
+      display: block;
+      color: #333;
+    }
+    
+    .dropdown-menu {
+      position: static;
+      box-shadow: none;
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+    
+    .dropdown-columns {
+      flex-direction: column;
+    }
+    
+    .dropdown-column,
+    .dropdown-column1,
+    .dropdown-column3,
+    .dropdown-column4,
+    .dropdown-column6 {
+      width: 100%;
+      padding: 10px 20px;
+    }
+    
+    /* Footer */
+    .footer-container {
+      padding: 20px 15px;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .footer-logo-link img {
+      width: 180px;
+    }
+    
+    .footer-info-text {
+      font-size: 16px;
+    }
+    
+    .footer-info-text p {
+      font-size: 14px;
+    }
+    
+    .payment-methods {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .payment-link img {
+      width: 50px;
+    }
+    
+    .copyright {
+      font-size: 14px;
+    }
+    
+    .qr-code {
+      text-align: center;
+    }
+    
+    .qr-code img {
+      width: 200px;
+      height: 200px;
+    }
+  }
+  
+  /* Small Mobile */
+  @media (max-width: 480px) {
+    .notification-bar {
+      font-size: 9px;
+      padding: 5px;
+    }
+    
+    .header {
+      padding: 8px;
+    }
+    
+    .header_logo-img {
+      height: 35px;
+    }
+    
+    .search-bar {
+      max-height: 40px;
+    }
+    
+    .footer-container {
+      padding: 15px 10px;
+    }
+    
+    .footer-logo-link img {
+      width: 150px;
+    }
+    
+    .footer-info-text {
+      font-size: 14px;
+    }
+    
+    .footer-info-text p {
+      font-size: 12px;
+    }
+    
+    .payment-link img {
+      width: 40px;
+    }
+    
+    .copyright {
+      font-size: 12px;
+    }
+    
+    .qr-code img {
+      width: 150px;
+      height: 150px;
+    }
+  }
