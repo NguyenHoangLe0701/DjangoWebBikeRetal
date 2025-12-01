@@ -265,17 +265,88 @@
 .status-cancelled { background-color: #95a5a6; color: white; }
 
 @media (max-width: 768px) {
+    .profile-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+    
     .profile-content {
         flex-direction: column;
+        gap: 20px;
     }
     
     .profile-sidebar {
         flex: none;
         width: 100%;
+        padding: 15px;
+    }
+    
+    .user-avatar img {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-main {
+        width: 100%;
+    }
+    
+    .profile-section {
+        padding: 20px;
+    }
+    
+    .profile-section h2 {
+        font-size: 18px;
     }
     
     .rentals-table {
         font-size: 12px;
+        overflow-x: auto;
+    }
+    
+    .rentals-table table {
+        min-width: 600px;
+    }
+    
+    .form-group input {
+        font-size: 16px; /* Tránh zoom trên iOS */
+    }
+    
+    .btn-save, .btn-change-password {
+        width: 100%;
+        padding: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-container {
+        margin: 10px auto;
+        padding: 10px;
+    }
+    
+    .profile-header h1 {
+        font-size: 24px;
+    }
+    
+    .user-avatar img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .profile-section {
+        padding: 15px;
+    }
+    
+    .profile-section h2 {
+        font-size: 16px;
+    }
+    
+    .rentals-table table {
+        min-width: 500px;
+        font-size: 11px;
+    }
+    
+    th, td {
+        padding: 8px 4px;
     }
 }
 </style>
