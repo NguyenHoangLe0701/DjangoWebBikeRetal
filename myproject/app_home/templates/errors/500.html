@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Lỗi máy chủ | Xedap.vn</title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <style>
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+            padding: 2rem;
+        }
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        .error-title {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .error-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn-home {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #332FF8;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-home:hover {
+            background-color: #2a26d9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(51, 47, 248, 0.3);
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #f5f5f5;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-back:hover {
+            background-color: #e0e0e0;
+        }
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 80px;
+            }
+            .error-title {
+                font-size: 24px;
+            }
+            .error-message {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'includes/header.html' %}
+    <div class="error-container">
+        <div class="error-code">500</div>
+        <h1 class="error-title">Lỗi máy chủ</h1>
+        <p class="error-message">
+            Xin lỗi, đã xảy ra lỗi trong quá trình xử lý yêu cầu của bạn. 
+            Chúng tôi đã được thông báo và đang khắc phục sự cố này. 
+            Vui lòng thử lại sau vài phút.
+        </p>
+        <div class="error-actions">
+            <a href="{% url 'home' %}" class="btn-home">Về trang chủ</a>
+            <a href="javascript:history.back()" class="btn-back">Quay lại</a>
+        </div>
+    </div>
+    {% include 'includes/footer.html' %}
+</body>
+</html>
+
