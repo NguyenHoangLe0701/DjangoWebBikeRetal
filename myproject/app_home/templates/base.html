@@ -1,16 +1,42 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{% get_current_language %}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Cửa hàng xedap.vn" />
-    <meta
-      name="keywords"
-      content="xedap, xe đạp, xe đạp thể thao, xe đạp địa hình"
-    />
+    
+    <!-- Primary Meta Tags -->
+    <title>{% block title %}Xedap.vn - Cửa hàng xe đạp uy tín, thuê xe đạp giá rẻ{% endblock %}</title>
+    <meta name="title" content="{% block meta_title %}Xedap.vn - Cửa hàng xe đạp uy tín, thuê xe đạp giá rẻ{% endblock %}" />
+    <meta name="description" content="{% block meta_description %}Xedap.vn - Cửa hàng xe đạp chuyên nghiệp, dịch vụ thuê xe đạp chất lượng cao. Xe đạp thể thao, xe đạp địa hình, xe đạp điện với giá tốt nhất.{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}xe đạp, thuê xe đạp, xedap, xe đạp thể thao, xe đạp địa hình, xe đạp điện, cửa hàng xe đạp, mua xe đạp{% endblock %}" />
     <meta name="author" content="xedap.vn" />
-    <title>{% block title %}Cửa hàng xedap.vn{% endblock %}</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Vietnamese" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}" />
+    <meta property="og:title" content="{% block og_title %}Xedap.vn - Cửa hàng xe đạp uy tín{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}Cửa hàng xe đạp chuyên nghiệp, dịch vụ thuê xe đạp chất lượng cao với giá tốt nhất{% endblock %}" />
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'assets/images/header/logo.svg' %}{% endblock %}" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:site_name" content="Xedap.vn" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="{% block twitter_url %}{{ request.build_absolute_uri }}{% endblock %}" />
+    <meta property="twitter:title" content="{% block twitter_title %}Xedap.vn - Cửa hàng xe đạp uy tín{% endblock %}" />
+    <meta property="twitter:description" content="{% block twitter_description %}Cửa hàng xe đạp chuyên nghiệp, dịch vụ thuê xe đạp chất lượng cao{% endblock %}" />
+    <meta property="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'assets/images/header/logo.svg' %}{% endblock %}" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/images/header/logo.svg' %}" />
     {% block css %}
      <!-- CSS -->
      <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
@@ -22,13 +48,21 @@
        <link rel="stylesheet" href="{% static 'assets/css/reponsive.css' %}">
      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
      <!-- Google Analytics -->
-     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y"></script>
+     {% if GOOGLE_ANALYTICS_ENABLED and GOOGLE_ANALYTICS_ID %}
+     <!-- Google tag (gtag.js) -->
+     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
      <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-XXXXX-Y');
-    </script>
+       window.dataLayer = window.dataLayer || [];
+       function gtag(){dataLayer.push(arguments);}
+       gtag('js', new Date());
+       gtag('config', '{{ GOOGLE_ANALYTICS_ID }}', {
+         'send_page_view': true
+       });
+       
+       // Enhanced Ecommerce tracking
+       gtag('set', 'currency', 'VND');
+     </script>
+     {% endif %}
      {% endblock %}
   </head>
   <body>
@@ -46,6 +80,10 @@
     {% include 'includes/overlays.html' %}
   
    {% block js %}
+   <script src="{% static '/assets/js/lazy-load.js' %}"></script>
+   {% if GOOGLE_ANALYTICS_ENABLED and GOOGLE_ANALYTICS_ID %}
+   <script src="{% static '/assets/js/analytics.js' %}"></script>
+   {% endif %}
    <script src="{% static '/assets/js/main.js' %}"></script>
    <script src="{% static '/assets/js/map.js' %}"></script>
    {% endblock %}

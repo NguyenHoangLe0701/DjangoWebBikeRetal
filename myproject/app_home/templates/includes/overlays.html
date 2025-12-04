@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <link rel="stylesheet" href="{% static 'assets/css/base.css' %}" />
 <link rel="stylesheet" href="{% static 'assets/css/overlays.css' %}" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
@@ -7,7 +8,7 @@
 <div class="overlay" id="login-overlay" {% if overlay_type != 'login' %}style="display: none;"{% endif %}>
     <div class="login-form">
         <button class="close-btn" id="close-login-btn"><i class="fa-solid fa-times"></i></button>
-        <h2>Đăng Nhập</h2>
+        <h2>{% trans "Đăng Nhập" %}</h2>
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -73,8 +74,8 @@
 <div class="overlay" id="register-overlay" {% if overlay_type != 'register' %}style="display: none;"{% endif %}>
     <div class="register-form"> <!-- Sửa từ login-form thành register-form -->
         <button class="close-btn" id="close-register-btn"><i class="fa-solid fa-times"></i></button>
-        <h2>Đăng Ký</h2>
-        <p>Tạo tài khoản để trải nghiệm dịch vụ tốt nhất</p>
+        <h2>{% trans "Đăng Ký" %}</h2>
+        <p>{% trans "Tạo tài khoản để trải nghiệm dịch vụ tốt nhất" %}</p>
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -179,8 +180,8 @@ System: -5.15"></path>
 <div class="overlay" id="forgot-password-overlay" {% if overlay_type != 'forgot_password' %}style="display: none;"{% endif %}>
     <div class="forgot-password-form">
         <button class="close-btn" id="close-forgot-password-btn"><i class="fa-solid fa-times"></i></button>
-        <h2>Quên mật khẩu</h2>
-        <p>Nhập số điện thoại để nhận hướng dẫn đặt lại mật khẩu</p>
+        <h2>{% trans "Quên mật khẩu" %}</h2>
+        <p>{% trans "Nhập số điện thoại để nhận hướng dẫn đặt lại mật khẩu" %}</p>
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -191,14 +192,14 @@ System: -5.15"></path>
         <form method="POST" action="{% url 'forgot_password' %}">
             {% csrf_token %}
             <div class="form-group">
-                <label for="id_forgot_phone_number">Số điện thoại</label>
-                <input type="text" name="phone_number" id="id_forgot_phone_number" placeholder="Nhập số điện thoại đã đăng ký" required maxlength="15" pattern="[0-9]{10,15}">
+                <label for="id_forgot_phone_number">{% trans "Số điện thoại" %}</label>
+                <input type="text" name="phone_number" id="id_forgot_phone_number" placeholder="{% trans 'Nhập số điện thoại đã đăng ký' %}" required maxlength="15" pattern="[0-9]{10,15}">
             </div>
-            <button type="submit" class="login-btn">Gửi yêu cầu</button>
+            <button type="submit" class="login-btn">{% trans "Gửi yêu cầu" %}</button>
         </form>
         <div class="register-link">
-            <p>Nhớ mật khẩu? <a href="#" id="show-login-from-forgot">Đăng nhập ngay</a></p>
-            <p>Bạn chưa là thành viên? <a href="#" id="show-register-from-forgot">Đăng ký ngay</a></p>
+            <p>{% trans "Nhớ mật khẩu?" %} <a href="#" id="show-login-from-forgot">{% trans "Đăng nhập ngay" %}</a></p>
+            <p>{% trans "Bạn chưa là thành viên?" %} <a href="#" id="show-register-from-forgot">{% trans "Đăng ký ngay" %}</a></p>
         </div>
     </div>
 </div>

@@ -16,14 +16,26 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from app_home import views as home_views
+from app_home.sitemaps import StaticViewSitemap, ArticleSitemap, BikeSitemap, StoreSitemap
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'articles': ArticleSitemap,
+    'bikes': BikeSitemap,
+    'stores': StoreSitemap,
+}
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('app_admin.urls')),
     path('accounts/', include('allauth.urls')),
- 
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('robots.txt', home_views.robots_txt, name='robots_txt'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
