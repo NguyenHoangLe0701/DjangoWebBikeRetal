@@ -1,5 +1,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'assets/css/bike-rental.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/booking-calendar.css' %}">
 {% include 'includes/header.html' %}
 <main>
 {% block content %}
@@ -84,13 +85,20 @@
     <div class="rental-form-row">
       <div class="rental-form-group half-width">
         <label>Thời gian nhận xe <span class="required">*</span></label>
-        <input type="date" name="pickup_date" required min="{% now 'Y-m-d' %}">
+        <input type="date" name="pickup_date" id="pickup_date" required min="{% now 'Y-m-d' %}">
+        <button type="button" class="calendar-toggle-btn" onclick="toggleCalendar('pickup')">
+          <i class="fa-solid fa-calendar"></i> Chọn từ lịch
+        </button>
       </div>
       <div class="rental-form-group half-width">
         <label>Thời gian trả xe <span class="required">*</span></label>
-        <input type="date" name="return_date" required min="{% now 'Y-m-d' %}">
+        <input type="date" name="return_date" id="return_date" required min="{% now 'Y-m-d' %}">
+        <button type="button" class="calendar-toggle-btn" onclick="toggleCalendar('return')">
+          <i class="fa-solid fa-calendar"></i> Chọn từ lịch
+        </button>
       </div>
     </div>
+    <div id="calendar-container" style="display: none; margin-top: 20px;"></div>
     <div class="rental-form-group">
       <label>Tin nhắn</label>
       <textarea name="message" placeholder="Nội dung" maxlength="500"></textarea>
@@ -160,9 +168,20 @@ function handleSubmit(event) {
   .then(data => {
     if (data.status === 'success') {
       showNotification(data.message, 'success');
+      
+      // Track conversion in analytics
+      if (window.analytics && data.analytics_data) {
+        window.analytics.trackRentalBooking(data.analytics_data);
+      }
+      
       form.reset();
     } else {
       showNotification(data.message, 'error');
+      
+      // Track failed form submission
+      if (window.analytics) {
+        window.analytics.trackFormSubmission('rental_booking', false);
+      }
     }
   })
   .catch(error => {
