@@ -1,0 +1,610 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Xedap.vn API",
+    "version": "1.0.0",
+    "description": "API documentation cho hệ thống quản lý thuê xe đạp Xedap.vn",
+    "contact": {
+      "name": "Xedap.vn Support",
+      "email": "support@xedap.vn"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Development server"
+    },
+    {
+      "url": "https://xedap.vn",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Dashboard",
+      "description": "API endpoints cho admin dashboard"
+    },
+    {
+      "name": "Bikes",
+      "description": "API endpoints cho quản lý xe đạp"
+    },
+    {
+      "name": "Rentals",
+      "description": "API endpoints cho quản lý đơn thuê"
+    },
+    {
+      "name": "Reviews",
+      "description": "API endpoints cho đánh giá và review"
+    },
+    {
+      "name": "Notifications",
+      "description": "API endpoints cho thông báo"
+    },
+    {
+      "name": "Inventory",
+      "description": "API endpoints cho kiểm tra tồn kho"
+    }
+  ],
+  "paths": {
+    "/api/dashboard/stats/": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Lấy thống kê tổng quan",
+        "description": "Trả về các thống kê tổng quan cho admin dashboard",
+        "security": [{"sessionAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCustomers": {"type": "integer", "example": 150},
+                    "availableBicycles": {"type": "integer", "example": 50},
+                    "activeRentals": {"type": "integer", "example": 25},
+                    "monthlyRentals": {"type": "integer", "example": 120},
+                    "monthlyRevenue": {"type": "number", "example": 50000000}
+                  }
+                }
+              }
+            }
+          },
+          "403": {"description": "Không có quyền truy cập"}
+        }
+      }
+    },
+    "/api/dashboard/users/": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Lấy danh sách users",
+        "security": [{"sessionAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "integer"},
+                          "username": {"type": "string"},
+                          "email": {"type": "string"},
+                          "phone_number": {"type": "string"},
+                          "full_name": {"type": "string"},
+                          "is_active": {"type": "boolean"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dashboard/bikes/": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Lấy danh sách xe đạp",
+        "security": [{"sessionAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bikes": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Bike"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dashboard/bikes/create/": {
+      "post": {
+        "tags": ["Dashboard"],
+        "summary": "Tạo hoặc cập nhật xe đạp",
+        "security": [{"sessionAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["model", "type", "price", "quantity"],
+                "properties": {
+                  "id": {"type": "integer", "description": "ID để update (optional)"},
+                  "model": {"type": "string", "example": "Mountain Bike Pro"},
+                  "type": {"type": "string", "enum": ["mountain", "road", "electric", "kids", "assist"]},
+                  "price": {"type": "number", "example": 100000},
+                  "quantity": {"type": "integer", "example": 10},
+                  "description": {"type": "string"},
+                  "is_active": {"type": "boolean", "default": true}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Thành công"},
+          "400": {"description": "Dữ liệu không hợp lệ"}
+        }
+      }
+    },
+    "/api/dashboard/bikes/{bike_id}/delete/": {
+      "delete": {
+        "tags": ["Dashboard"],
+        "summary": "Xóa xe đạp",
+        "security": [{"sessionAuth": []}],
+        "parameters": [
+          {
+            "name": "bike_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {"description": "Thành công"},
+          "404": {"description": "Không tìm thấy xe đạp"}
+        }
+      }
+    },
+    "/api/dashboard/rentals/": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Lấy danh sách đơn thuê",
+        "security": [{"sessionAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rentals": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Rental"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dashboard/rentals/{rental_id}/update-status/": {
+      "post": {
+        "tags": ["Dashboard"],
+        "summary": "Cập nhật trạng thái đơn thuê",
+        "security": [{"sessionAuth": []}],
+        "parameters": [
+          {
+            "name": "rental_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": ["pending", "approved", "rejected", "renting", "completed", "cancelled"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Thành công"},
+          "400": {"description": "Dữ liệu không hợp lệ"},
+          "404": {"description": "Không tìm thấy đơn thuê"}
+        }
+      }
+    },
+    "/api/bikes/check-availability/": {
+      "get": {
+        "tags": ["Inventory"],
+        "summary": "Kiểm tra availability của xe đạp",
+        "parameters": [
+          {
+            "name": "bike_id",
+            "in": "query",
+            "schema": {"type": "integer"},
+            "description": "ID của xe đạp"
+          },
+          {
+            "name": "bike_type",
+            "in": "query",
+            "schema": {"type": "string"},
+            "description": "Loại xe đạp"
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "integer", "default": 1}
+          },
+          {
+            "name": "pickup_date",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string", "format": "date"},
+            "example": "2024-01-15"
+          },
+          {
+            "name": "return_date",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string", "format": "date"},
+            "example": "2024-01-20"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {"type": "string", "example": "success"},
+                    "bike_id": {"type": "integer"},
+                    "bike_name": {"type": "string"},
+                    "quantity_needed": {"type": "integer"},
+                    "available_quantity": {"type": "integer"},
+                    "is_available": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bikes/calendar-availability/": {
+      "get": {
+        "tags": ["Inventory"],
+        "summary": "Lấy availability cho calendar view",
+        "parameters": [
+          {
+            "name": "bike_id",
+            "in": "query",
+            "schema": {"type": "integer"}
+          },
+          {
+            "name": "bike_type",
+            "in": "query",
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "integer", "default": 1}
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string", "pattern": "^\\d{4}-\\d{2}$"},
+            "example": "2024-01"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {"type": "string"},
+                    "bike_id": {"type": "integer"},
+                    "bike_name": {"type": "string"},
+                    "total_quantity": {"type": "integer"},
+                    "month": {"type": "string"},
+                    "calendar_data": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "available_count": {"type": "integer"},
+                          "rented_count": {"type": "integer"},
+                          "is_available": {"type": "boolean"},
+                          "is_low_stock": {"type": "boolean"},
+                          "is_out_of_stock": {"type": "boolean"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bikes/{bike_id}/reviews/": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Lấy reviews của một xe đạp",
+        "parameters": [
+          {
+            "name": "bike_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {"type": "string"},
+                    "bike_id": {"type": "integer"},
+                    "bike_name": {"type": "string"},
+                    "average_rating": {"type": "number"},
+                    "rating_count": {"type": "integer"},
+                    "reviews": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Review"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rentals/{rental_id}/review/": {
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Gửi đánh giá cho đơn thuê",
+        "security": [{"sessionAuth": []}],
+        "parameters": [
+          {
+            "name": "rental_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": ["rating"],
+                "properties": {
+                  "rating": {"type": "integer", "minimum": 1, "maximum": 5},
+                  "title": {"type": "string"},
+                  "comment": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Thành công"},
+          "400": {"description": "Dữ liệu không hợp lệ"},
+          "404": {"description": "Không tìm thấy đơn thuê"}
+        }
+      }
+    },
+    "/api/notifications/": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "Lấy notifications của user",
+        "security": [{"sessionAuth": []}],
+        "parameters": [
+          {
+            "name": "unread_only",
+            "in": "query",
+            "schema": {"type": "boolean", "default": false}
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {"type": "integer", "default": 20}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {"type": "string"},
+                    "notifications": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Notification"}
+                    },
+                    "unread_count": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/{notification_id}/read/": {
+      "post": {
+        "tags": ["Notifications"],
+        "summary": "Đánh dấu notification đã đọc",
+        "security": [{"sessionAuth": []}],
+        "parameters": [
+          {
+            "name": "notification_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {"description": "Thành công"},
+          "404": {"description": "Không tìm thấy notification"}
+        }
+      }
+    },
+    "/api/notifications/mark-all-read/": {
+      "post": {
+        "tags": ["Notifications"],
+        "summary": "Đánh dấu tất cả notifications đã đọc",
+        "security": [{"sessionAuth": []}],
+        "responses": {
+          "200": {"description": "Thành công"}
+        }
+      }
+    },
+    "/api/notifications/preferences/": {
+      "post": {
+        "tags": ["Notifications"],
+        "summary": "Cập nhật notification preferences",
+        "security": [{"sessionAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email_enabled": {"type": "boolean"},
+                  "sms_enabled": {"type": "boolean"},
+                  "push_enabled": {"type": "boolean"},
+                  "email_rental_confirmation": {"type": "boolean"},
+                  "email_rental_status_update": {"type": "boolean"},
+                  "email_rental_reminder": {"type": "boolean"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Thành công"}
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Bike": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string", "example": "Mountain Bike Pro"},
+          "bike_type": {"type": "string", "enum": ["mountain", "road", "electric", "kids", "assist"]},
+          "price_per_hour": {"type": "number", "example": 100000},
+          "quantity": {"type": "integer", "example": 10},
+          "image": {"type": "string", "format": "uri"},
+          "description": {"type": "string"},
+          "is_active": {"type": "boolean"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      },
+      "Rental": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "rental_code": {"type": "string", "example": "ABC12345"},
+          "full_name": {"type": "string"},
+          "email": {"type": "string"},
+          "phone": {"type": "string"},
+          "bike_type": {"type": "string"},
+          "quantity": {"type": "integer"},
+          "pickup_date": {"type": "string", "format": "date"},
+          "return_date": {"type": "string", "format": "date"},
+          "status": {"type": "string", "enum": ["pending", "approved", "rejected", "renting", "completed", "cancelled"]},
+          "total_price": {"type": "number"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "user_name": {"type": "string"},
+          "rating": {"type": "integer", "minimum": 1, "maximum": 5},
+          "title": {"type": "string"},
+          "comment": {"type": "string"},
+          "is_verified": {"type": "boolean"},
+          "created_at": {"type": "string", "format": "date"}
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "type": {"type": "string"},
+          "title": {"type": "string"},
+          "message": {"type": "string"},
+          "link": {"type": "string", "format": "uri"},
+          "is_read": {"type": "boolean"},
+          "created_at": {"type": "string"}
+        }
+      }
+    },
+    "securitySchemes": {
+      "sessionAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "sessionid",
+        "description": "Django session authentication. User must be logged in."
+      }
+    }
+  }
+}
+
