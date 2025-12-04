@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập nhật trạng thái đơn thuê</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-wrapper {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status-completed {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .status-cancelled {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .details-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .details-list {
+            list-style: none;
+            padding: 0;
+        }
+        .details-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .details-list li:last-child {
+            border-bottom: none;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <div class="header">
+            <h1>📬 Cập nhật trạng thái đơn thuê</h1>
+        </div>
+        
+        <div class="content">
+            <p>Xin chào <strong>{{ rental.full_name }}</strong>,</p>
+            
+            <p>Đơn thuê của bạn đã được cập nhật trạng thái:</p>
+            
+            <div class="status-badge status-{{ new_status }}">
+                {% if new_status == 'approved' %}
+                    ✅ Đã được duyệt
+                {% elif new_status == 'rejected' %}
+                    ❌ Bị từ chối
+                {% elif new_status == 'completed' %}
+                    ✅ Đã hoàn thành
+                {% elif new_status == 'cancelled' %}
+                    ⚠️ Đã hủy
+                {% endif %}
+            </div>
+            
+            <div class="details-section">
+                <h3>📋 Chi tiết đơn thuê</h3>
+                <ul class="details-list">
+                    <li><strong>Mã đơn:</strong> {{ rental.rental_code }}</li>
+                    <li><strong>Loại xe:</strong> {{ bike_type_display }}</li>
+                    <li><strong>Số lượng:</strong> {{ rental.quantity }} xe</li>
+                    <li><strong>Ngày nhận:</strong> {{ rental.pickup_date|date:"d/m/Y" }}</li>
+                    <li><strong>Ngày trả:</strong> {{ rental.return_date|date:"d/m/Y" }}</li>
+                    {% if rental.total_price %}
+                    <li><strong>Tổng tiền:</strong> {{ rental.total_price|floatformat:0 }} VNĐ</li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+            {% if new_status == 'approved' %}
+            <p><strong>Bước tiếp theo:</strong> Vui lòng đến cửa hàng vào ngày {{ rental.pickup_date|date:"d/m/Y" }} để nhận xe. Mang theo CMND/CCCD và mã đơn {{ rental.rental_code }}.</p>
+            {% elif new_status == 'rejected' %}
+            <p><strong>Lý do:</strong> Đơn thuê của bạn đã bị từ chối. Vui lòng liên hệ với chúng tôi để biết thêm chi tiết.</p>
+            {% elif new_status == 'completed' %}
+            <p><strong>Cảm ơn:</strong> Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi. Chúng tôi rất mong được phục vụ bạn lần sau!</p>
+            {% elif new_status == 'cancelled' %}
+            <p><strong>Thông báo:</strong> Đơn thuê của bạn đã được hủy. Nếu bạn có thắc mắc, vui lòng liên hệ với chúng tôi.</p>
+            {% endif %}
+        </div>
+        
+        <div class="footer">
+            <p>Xedap.vn - Dịch vụ thuê xe đạp chuyên nghiệp</p>
+            <p>Hotline: 1800 9473 | Email: support@xedap.vn</p>
+        </div>
+    </div>
+</body>
+</html>
+
