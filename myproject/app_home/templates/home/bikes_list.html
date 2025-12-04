@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans "Danh sách xe đạp" %} - Xedap.vn{% endblock %}
+{% block meta_title %}{% trans "Danh sách xe đạp" %} - Xedap.vn{% endblock %}
+{% block meta_description %}{% trans "Xem danh sách tất cả xe đạp có sẵn để thuê. Tìm kiếm và lọc theo loại xe, giá cả. Xe đạp thể thao, xe đạp địa hình, xe đạp điện với giá tốt nhất." %}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'assets/css/bikes_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="bikes-list-container">
+    <div class="bikes-header">
+        <h1>{% trans "Danh sách xe đạp" %}</h1>
+        <p>{% trans "Tìm xe đạp phù hợp với nhu cầu của bạn" %}</p>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="search-filter-section">
+        <div class="search-box">
+            <form method="GET" action="{% url 'bikes_list' %}" id="search-form">
+                <div class="search-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" name="search" id="search-input" 
+                           placeholder="{% trans 'Tìm kiếm tên xe, mô tả...' %}" 
+                           value="{{ search_query }}">
+                    <button type="submit" class="search-btn">{% trans "Tìm kiếm" %}</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="filters-container">
+            <div class="filter-group">
+                <label>{% trans "Loại xe" %}:</label>
+                <select name="bike_type" id="filter-bike-type" class="filter-select">
+                    <option value="">{% trans "Tất cả" %}</option>
+                    {% for code, name in bike_types %}
+                        <option value="{{ code }}" {% if bike_type == code %}selected{% endif %}>
+                            {{ name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>{% trans "Giá từ" %}:</label>
+                <input type="number" name="min_price" id="filter-min-price" 
+                       class="filter-input" placeholder="{% trans 'Min' %}" 
+                       value="{{ min_price }}" min="0">
+            </div>
+
+            <div class="filter-group">
+                <label>{% trans "Đến" %}:</label>
+                <input type="number" name="max_price" id="filter-max-price" 
+                       class="filter-input" placeholder="{% trans 'Max' %}" 
+                       value="{{ max_price }}" min="0">
+            </div>
+
+            <div class="filter-group">
+                <label>{% trans "Sắp xếp" %}:</label>
+                <select name="sort" id="filter-sort" class="filter-select">
+                    <option value="-created_at" {% if sort_by == '-created_at' %}selected{% endif %}>
+                        {% trans "Mới nhất" %}
+                    </option>
+                    <option value="price_per_hour" {% if sort_by == 'price_per_hour' %}selected{% endif %}>
+                        {% trans "Giá: Thấp → Cao" %}
+                    </option>
+                    <option value="-price_per_hour" {% if sort_by == '-price_per_hour' %}selected{% endif %}>
+                        {% trans "Giá: Cao → Thấp" %}
+                    </option>
+                    <option value="name" {% if sort_by == 'name' %}selected{% endif %}>
+                        {% trans "Tên: A → Z" %}
+                    </option>
+                    <option value="-name" {% if sort_by == '-name' %}selected{% endif %}>
+                        {% trans "Tên: Z → A" %}
+                    </option>
+                </select>
+            </div>
+
+            <button type="button" class="clear-filters-btn" onclick="clearFilters()">
+                <i class="fa-solid fa-times"></i> {% trans "Xóa bộ lọc" %}
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Count -->
+    <div class="results-info">
+        <p>
+            {% if bikes.paginator.count > 0 %}
+                {% trans "Tìm thấy" %} <strong>{{ bikes.paginator.count }}</strong> {% trans "xe đạp" %}
+            {% else %}
+                {% trans "Không tìm thấy xe đạp nào" %}
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Bikes Grid -->
+    <div class="bikes-grid">
+        {% for bike in bikes %}
+        <div class="bike-card" data-bike-id="{{ bike.id }}">
+            <div class="bike-image-wrapper">
+                {% if bike.image %}
+                    <img src="{{ bike.image.url }}" alt="{{ bike.name }}" class="bike-image" loading="lazy">
+                {% else %}
+                    <img src="{% static 'assets/images/products/2.jpg' %}" alt="{{ bike.name }}" class="bike-image" loading="lazy">
+                {% endif %}
+                {% if bike.quantity == 0 %}
+                    <div class="out-of-stock-badge">{% trans "Hết hàng" %}</div>
+                {% endif %}
+            </div>
+            <div class="bike-info">
+                <div class="bike-type-badge">{{ bike.get_bike_type_display }}</div>
+                <h3 class="bike-name">{{ bike.name }}</h3>
+                {% if bike.description %}
+                    <p class="bike-description">{{ bike.description|truncatewords:15 }}</p>
+                {% endif %}
+                <div class="bike-details">
+                    <div class="bike-rating">
+                        {% if bike.get_rating_count > 0 %}
+                            <div class="rating-stars">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= bike.get_average_rating|floatformat:0|add:"0" %}
+                                        <i class="fa-solid fa-star" style="color: #ffc107;"></i>
+                                    {% elif forloop.counter|add:"-1" < bike.get_average_rating|floatformat:0|add:"0" %}
+                                        <i class="fa-solid fa-star-half-stroke" style="color: #ffc107;"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star" style="color: #ddd;"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <span class="rating-value">{{ bike.get_average_rating }}</span>
+                            <span class="rating-count">({{ bike.get_rating_count }} {% trans "đánh giá" %})</span>
+                        {% else %}
+                            <span class="no-rating">{% trans "Chưa có đánh giá" %}</span>
+                        {% endif %}
+                    </div>
+                    <div class="bike-price">
+                        <span class="price-label">{% trans "Giá thuê" %}:</span>
+                        <span class="price-value">{{ bike.price_per_hour|floatformat:0 }} {% trans "VNĐ/giờ" %}</span>
+                    </div>
+                    <div class="bike-quantity">
+                        <i class="fa-solid fa-bicycle"></i>
+                        <span>
+                            {% if bike.is_out_of_stock %}
+                                <span style="color: #dc3545; font-weight: 600;">{% trans "Hết hàng" %}</span>
+                            {% elif bike.is_low_stock %}
+                                <span style="color: #ffc107; font-weight: 600;">{% trans "Còn" %} {{ bike.quantity }} {% trans "xe" %} ⚠️</span>
+                            {% else %}
+                                {% trans "Còn" %} {{ bike.quantity }} {% trans "xe" %}
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                <div class="bike-actions">
+                    <a href="{% url 'bike-rental' %}?bike_id={{ bike.id }}" class="btn-rent">
+                        <i class="fa-solid fa-calendar-check"></i> {% trans "Thuê ngay" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-results">
+            <i class="fa-solid fa-bicycle"></i>
+            <h3>{% trans "Không tìm thấy xe đạp nào" %}</h3>
+            <p>{% trans "Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm" %}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if bikes.has_other_pages %}
+    <div class="pagination">
+        {% if bikes.has_previous %}
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page=1" class="page-link">
+                <i class="fa-solid fa-angle-double-left"></i>
+            </a>
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ bikes.previous_page_number }}" class="page-link">
+                <i class="fa-solid fa-angle-left"></i>
+            </a>
+        {% endif %}
+
+        <span class="page-info">
+            {% trans "Trang" %} {{ bikes.number }} / {{ bikes.paginator.num_pages }}
+        </span>
+
+        {% if bikes.has_next %}
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ bikes.next_page_number }}" class="page-link">
+                <i class="fa-solid fa-angle-right"></i>
+            </a>
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ bikes.paginator.num_pages }}" class="page-link">
+                <i class="fa-solid fa-angle-double-right"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+// Auto-submit form khi filter thay đổi
+document.addEventListener('DOMContentLoaded', function() {
+    const filterSelects = document.querySelectorAll('.filter-select, .filter-input');
+    const searchForm = document.getElementById('search-form');
+    
+    filterSelects.forEach(element => {
+        element.addEventListener('change', function() {
+            updateURL();
+        });
+    });
+    
+    // Debounce cho input
+    let searchTimeout;
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                updateURL();
+            }, 500);
+        });
+    }
+    
+    // Track search
+    const searchForm = document.getElementById('search-form');
+    if (searchForm && window.analytics) {
+        searchForm.addEventListener('submit', function(e) {
+            const searchQuery = document.getElementById('search-input').value;
+            if (searchQuery) {
+                window.analytics.trackSearch(searchQuery, {{ bikes.paginator.count|default:0 }});
+            }
+        });
+    }
+    
+    // Track filter changes
+    const filterSelects = document.querySelectorAll('.filter-select');
+    filterSelects.forEach(select => {
+        select.addEventListener('change', function() {
+            if (window.analytics) {
+                window.analytics.trackFilter(select.name || select.id, select.value);
+            }
+        });
+    });
+    
+    // Track bike views
+    const bikeCards = document.querySelectorAll('.bike-card');
+    bikeCards.forEach(card => {
+        const bikeName = card.querySelector('.bike-name')?.textContent;
+        const bikeType = card.querySelector('.bike-type-badge')?.textContent;
+        const bikeId = card.getAttribute('data-bike-id');
+        
+        if (bikeId && window.analytics) {
+            window.analytics.trackBikeView(bikeId, bikeName, bikeType);
+        }
+    });
+});
+
+function updateURL() {
+    const params = new URLSearchParams();
+    
+    // Search
+    const search = document.getElementById('search-input').value;
+    if (search) params.set('search', search);
+    
+    // Filters
+    const bikeType = document.getElementById('filter-bike-type').value;
+    if (bikeType) params.set('bike_type', bikeType);
+    
+    const minPrice = document.getElementById('filter-min-price').value;
+    if (minPrice) params.set('min_price', minPrice);
+    
+    const maxPrice = document.getElementById('filter-max-price').value;
+    if (maxPrice) params.set('max_price', maxPrice);
+    
+    const sort = document.getElementById('filter-sort').value;
+    if (sort) params.set('sort', sort);
+    
+    // Redirect với params mới
+    window.location.href = '{% url "bikes_list" %}?' + params.toString();
+}
+
+function clearFilters() {
+    window.location.href = '{% url "bikes_list" %}';
+}
+</script>
+{% endblock %}
+
