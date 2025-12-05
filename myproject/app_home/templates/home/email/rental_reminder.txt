@@ -1,0 +1,28 @@
+Nhắc nhở nhận xe
+
+Xin chào {{ rental.full_name }},
+
+Ngày mai bạn sẽ nhận xe!
+
+Ngày nhận xe: {{ rental.pickup_date|date:"d/m/Y" }}
+
+Thông tin đơn thuê:
+- Mã đơn: {{ rental.rental_code }}
+- Loại xe: {{ bike_type_display }}
+- Số lượng: {{ rental.quantity }} xe
+- Ngày nhận: {{ rental.pickup_date|date:"d/m/Y" }}
+- Ngày trả: {{ rental.return_date|date:"d/m/Y" }}
+
+Những gì cần chuẩn bị:
+- Mã đơn: {{ rental.rental_code }}
+- CMND/CCCD (bản gốc)
+- Đến đúng giờ đã hẹn
+- Kiểm tra xe trước khi nhận
+
+Lưu ý: Vui lòng đến cửa hàng gần nhất để nhận xe. Nếu có thay đổi, vui lòng liên hệ với chúng tôi trước 24 giờ.
+
+Trân trọng,
+Xedap.vn Team
+Hotline: 1800 9473
+Email: support@xedap.vn
+
