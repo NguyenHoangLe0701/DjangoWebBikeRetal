@@ -1,0 +1,31 @@
+Cập nhật trạng thái đơn thuê
+
+Xin chào {{ rental.full_name }},
+
+Đơn thuê của bạn đã được cập nhật trạng thái.
+
+Mã đơn: {{ rental.rental_code }}
+Trạng thái: {% if new_status == 'approved' %}Đã được duyệt{% elif new_status == 'rejected' %}Bị từ chối{% elif new_status == 'completed' %}Đã hoàn thành{% elif new_status == 'cancelled' %}Đã hủy{% endif %}
+
+Chi tiết đơn thuê:
+- Loại xe: {{ bike_type_display }}
+- Số lượng: {{ rental.quantity }} xe
+- Ngày nhận: {{ rental.pickup_date|date:"d/m/Y" }}
+- Ngày trả: {{ rental.return_date|date:"d/m/Y" }}
+{% if rental.total_price %}- Tổng tiền: {{ rental.total_price|floatformat:0 }} VNĐ{% endif %}
+
+{% if new_status == 'approved' %}
+Bước tiếp theo: Vui lòng đến cửa hàng vào ngày {{ rental.pickup_date|date:"d/m/Y" }} để nhận xe. Mang theo CMND/CCCD và mã đơn {{ rental.rental_code }}.
+{% elif new_status == 'rejected' %}
+Lý do: Đơn thuê của bạn đã bị từ chối. Vui lòng liên hệ với chúng tôi để biết thêm chi tiết.
+{% elif new_status == 'completed' %}
+Cảm ơn: Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi. Chúng tôi rất mong được phục vụ bạn lần sau!
+{% elif new_status == 'cancelled' %}
+Thông báo: Đơn thuê của bạn đã được hủy. Nếu bạn có thắc mắc, vui lòng liên hệ với chúng tôi.
+{% endif %}
+
+Trân trọng,
+Xedap.vn Team
+Hotline: 1800 9473
+Email: support@xedap.vn
+

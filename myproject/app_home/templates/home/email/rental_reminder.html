@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhắc nhở nhận xe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-wrapper {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .reminder-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .details-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .details-list {
+            list-style: none;
+            padding: 0;
+        }
+        .details-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .details-list li:last-child {
+            border-bottom: none;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <div class="header">
+            <h1>⏰ Nhắc nhở nhận xe</h1>
+        </div>
+        
+        <div class="content">
+            <p>Xin chào <strong>{{ rental.full_name }}</strong>,</p>
+            
+            <div class="reminder-box">
+                <h2 style="margin-top: 0;">📅 Ngày mai bạn sẽ nhận xe!</h2>
+                <p style="font-size: 18px; font-weight: bold; color: #856404;">
+                    Ngày nhận xe: {{ rental.pickup_date|date:"d/m/Y" }}
+                </p>
+            </div>
+            
+            <div class="details-section">
+                <h3>📋 Thông tin đơn thuê</h3>
+                <ul class="details-list">
+                    <li><strong>Mã đơn:</strong> {{ rental.rental_code }}</li>
+                    <li><strong>Loại xe:</strong> {{ bike_type_display }}</li>
+                    <li><strong>Số lượng:</strong> {{ rental.quantity }} xe</li>
+                    <li><strong>Ngày nhận:</strong> {{ rental.pickup_date|date:"d/m/Y" }}</li>
+                    <li><strong>Ngày trả:</strong> {{ rental.return_date|date:"d/m/Y" }}</li>
+                </ul>
+            </div>
+            
+            <div style="background-color: #e7f3ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">✅ Những gì cần chuẩn bị:</h3>
+                <ul>
+                    <li>Mã đơn: <strong>{{ rental.rental_code }}</strong></li>
+                    <li>CMND/CCCD (bản gốc)</li>
+                    <li>Đến đúng giờ đã hẹn</li>
+                    <li>Kiểm tra xe trước khi nhận</li>
+                </ul>
+            </div>
+            
+            <p><strong>Lưu ý:</strong> Vui lòng đến cửa hàng gần nhất để nhận xe. Nếu có thay đổi, vui lòng liên hệ với chúng tôi trước 24 giờ.</p>
+        </div>
+        
+        <div class="footer">
+            <p>Xedap.vn - Dịch vụ thuê xe đạp chuyên nghiệp</p>
+            <p>Hotline: 1800 9473 | Email: support@xedap.vn</p>
+        </div>
+    </div>
+</body>
+</html>
+

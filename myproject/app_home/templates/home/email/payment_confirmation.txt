@@ -1,0 +1,26 @@
+Xác nhận thanh toán thành công
+
+Xin chào {{ payment.user.full_name|default:payment.user.username }},
+
+Cảm ơn bạn đã thanh toán cho đơn thuê xe. Giao dịch của bạn đã được xác nhận thành công.
+
+Chi tiết thanh toán:
+- Mã đơn: {{ rental.rental_code }}
+- Mã giao dịch: {{ payment.transaction_id }}
+- Số tiền: {{ payment.amount|floatformat:0 }} VNĐ
+- Phương thức: {{ payment.get_payment_method_display }}
+- Thời gian: {{ payment.paid_at|date:"d/m/Y H:i" }}
+
+Thông tin đơn thuê:
+- Loại xe: {{ rental.get_bike_type_display }}
+- Số lượng: {{ rental.quantity }} xe
+- Ngày nhận: {{ rental.pickup_date|date:"d/m/Y" }}
+- Ngày trả: {{ rental.return_date|date:"d/m/Y" }}
+
+Bước tiếp theo: Đơn thuê của bạn đã được xác nhận. Vui lòng đến cửa hàng vào ngày {{ rental.pickup_date|date:"d/m/Y" }} để nhận xe. Mang theo CMND/CCCD và mã đơn {{ rental.rental_code }}.
+
+Trân trọng,
+Xedap.vn Team
+Hotline: 1800 9473
+Email: support@xedap.vn
+

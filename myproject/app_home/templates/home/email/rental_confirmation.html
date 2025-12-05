@@ -1,73 +1,197 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: #333;
+            background-color: #f5f5f5;
         }
-        .container {
+        .email-wrapper {
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
+            background-color: #ffffff;
         }
         .header {
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, #332FF8 0%, #2a26d9 100%);
             color: white;
-            padding: 20px;
+            padding: 30px 20px;
             text-align: center;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
         }
         .content {
+            padding: 30px 20px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .code-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid #332FF8;
             padding: 20px;
-            background-color: #f9f9f9;
+            margin: 25px 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .code-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
         }
         .code {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            color: #4CAF50;
+            color: #332FF8;
+            letter-spacing: 2px;
+        }
+        .details-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .details-section h3 {
+            color: #332FF8;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .details-list {
+            list-style: none;
+            padding: 0;
+        }
+        .details-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .details-list li:last-child {
+            border-bottom: none;
+        }
+        .details-list strong {
+            color: #333;
+            display: inline-block;
+            min-width: 120px;
+        }
+        .notice-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+        .notice-box strong {
+            color: #856404;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .notice-box ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+        .contact-info {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
             text-align: center;
-            padding: 10px;
+        }
+        .contact-info p {
+            margin: 5px 0;
+            color: #1976d2;
+        }
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #332FF8;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
             margin: 20px 0;
-            background-color: #e8f5e9;
-            border-radius: 5px;
+            font-weight: 600;
+        }
+        @media only screen and (max-width: 600px) {
+            .content {
+                padding: 20px 15px;
+            }
+            .header h1 {
+                font-size: 20px;
+            }
+            .code {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="email-wrapper">
         <div class="header">
-            <h1>Xác nhận đặt xe thành công</h1>
+            <h1>✅ Xác nhận đặt xe thành công</h1>
+            <p style="margin-top: 10px; opacity: 0.9;">Cảm ơn bạn đã tin tưởng Xedap.vn</p>
         </div>
+        
         <div class="content">
-            <p>Xin chào {{ rental.full_name }},</p>
-            <p>Cảm ơn bạn đã đặt xe tại EGA Bike. Dưới đây là thông tin đặt xe của bạn:</p>
+            <p class="greeting">Xin chào <strong>{{ rental.full_name }}</strong>,</p>
+            <p>Cảm ơn bạn đã đặt xe tại <strong>Xedap.vn</strong>. Dưới đây là thông tin chi tiết đặt xe của bạn:</p>
             
-            <div class="code">
-                Mã số đặt xe: {{ rental.rental_code }}
+            <div class="code-box">
+                <div class="code-label">Mã số đặt xe</div>
+                <div class="code">{{ rental.rental_code }}</div>
             </div>
 
-            <h3>Chi tiết đặt xe:</h3>
-            <ul>
-                <li>Loại xe: {{ bike_type_display }}</li>
-                <li>Số lượng: {{ rental.quantity }}</li>
-                <li>Ngày nhận xe: {{ rental.pickup_date|date:"d/m/Y" }}</li>
-                <li>Ngày trả xe: {{ rental.return_date|date:"d/m/Y" }}</li>
-            </ul>
+            <div class="details-section">
+                <h3>📋 Chi tiết đặt xe</h3>
+                <ul class="details-list">
+                    <li><strong>Loại xe:</strong> {{ bike_type_display }}</li>
+                    <li><strong>Số lượng:</strong> {{ rental.quantity }} xe</li>
+                    <li><strong>Ngày nhận xe:</strong> {{ rental.pickup_date|date:"d/m/Y" }}</li>
+                    <li><strong>Ngày trả xe:</strong> {{ rental.return_date|date:"d/m/Y" }}</li>
+                    {% if rental.total_price %}
+                    <li><strong>Tổng tiền:</strong> {{ rental.total_price|floatformat:0 }} VNĐ</li>
+                    {% endif %}
+                </ul>
+            </div>
 
-            <p><strong>Lưu ý quan trọng:</strong></p>
-            <ul>
-                <li>Vui lòng mang theo mã số đặt xe khi đến nhận xe</li>
-                <li>Mang theo CMND/CCCD để làm thủ tục</li>
-                <li>Đến cửa hàng gần nhất để nhận xe</li>
-            </ul>
+            <div class="notice-box">
+                <strong>⚠️ Lưu ý quan trọng:</strong>
+                <ul>
+                    <li>Vui lòng mang theo mã số đặt xe khi đến nhận xe</li>
+                    <li>Mang theo CMND/CCCD để làm thủ tục</li>
+                    <li>Đến cửa hàng gần nhất để nhận xe</li>
+                    <li>Vui lòng đến đúng giờ đã hẹn</li>
+                </ul>
+            </div>
 
-            <p>Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua:</p>
-            <p>Hotline: 0909999000</p>
-            <p>Email: support@egabike.com</p>
+            <div class="contact-info">
+                <p><strong>📞 Hỗ trợ khách hàng</strong></p>
+                <p>Hotline: <strong>1800 9473</strong> (8:30 - 21:00)</p>
+                <p>Email: <strong>support@xedap.vn</strong></p>
+            </div>
 
-            <p>Trân trọng,<br>EGA Bike Team</p>
+            <p style="margin-top: 30px;">Trân trọng,<br><strong>Đội ngũ Xedap.vn</strong></p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 Xedap.vn - Cửa hàng xe đạp uy tín</p>
+            <p>Email này được gửi tự động, vui lòng không trả lời.</p>
         </div>
     </div>
 </body>

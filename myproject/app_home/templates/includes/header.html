@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% load i18n_tags %}
 <!-- CSS -->
 <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
 <link rel="stylesheet" href="{% static 'assets/css/base.css' %}" />
@@ -9,25 +11,25 @@
       <div class="info-item">
         <span class="icon-banner">📍</span>
         
-        <a href="{% url 'map' %}" class="local-map"><span>TÌM ĐỊA CHỈ CỬA HÀNG</span></a>
+        <a href="{% url 'map' %}" class="local-map"><span>{% trans "TÌM ĐỊA CHỈ CỬA HÀNG" %}</span></a>
       </div>
       <div class="info-item">
         <span class="icon">📞</span>
-        <span>TƯ VẤN, BÁN HÀNG: 1800 9473 (8:30 - 21:00)</span>
+        <span>{% trans "TƯ VẤN, BÁN HÀNG" %}: 1800 9473 (8:30 - 21:00)</span>
       </div>
       <div class="info-item">
         <span class="icon-banner">💬</span>
-        <span>KHIẾU NẠI, BẢO HÀNH: 1800 9063 (9:00 - 17:00)</span>
+        <span>{% trans "KHIẾU NẠI, BẢO HÀNH" %}: 1800 9063 (9:00 - 17:00)</span>
       </div>
       <div class="info-item promo">
         <span class="website">🏍 XEDIEN.VN</span>
       </div>
       <div class="info-item promo">
-        <span class="freeship">🚚 FREESHIP NỘI THÀNH</span>
+        <span class="freeship">🚚 {% trans "FREESHIP NỘI THÀNH" %}</span>
       </div>
       <div class="info-item delivery">
         <span class="time">⏰ 48H</span>
-        <span>GIAO NHANH</span>
+        <span>{% trans "GIAO NHANH" %}</span>
       </div>
       <div class="info-item phone">
         <span>📞 1800 9473</span>
@@ -36,23 +38,40 @@
     <section class="header">
         <div class="delivery-badge" style="background-color: #fd7e14; color: white; padding: 8px 15px; border-radius: 5px; display: flex; align-items: center; gap: 5px; font-size: 14px; font-weight: bold; margin-right: 20px;">
             <span>⏰</span>
-            <span>48H GIAO NHANH</span>
+            <span>{% trans "48H GIAO NHANH" %}</span>
         </div>
         <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
             <i class="fa-solid fa-bars"></i>
         </button>
         <a href="{% url 'home' %}"><img src="{% static 'assets/images/header/logo.svg' %}" alt="logo" class="header_logo-img" /></a>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher" style="margin-left: auto; margin-right: 15px;">
+            <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <select name="language" onchange="this.form.submit()" style="padding: 5px 10px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; cursor: pointer; font-size: 14px;">
+                    {% get_current_language as CURRENT_LANGUAGE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% for lang_code, lang_name in LANGUAGES %}
+                        <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                            {{ lang_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+        
       <div class="search-bar">
         <div class="header-search">
           <select>
-            <option>Sản phẩm</option>
-            <option>Tin tức</option>
+            <option>{% trans "Sản phẩm" %}</option>
+            <option>{% trans "Tin tức" %}</option>
           </select>
           <i class="fa-solid fa-chevron-up dropdown-icon"></i>
         </div>
         <div class="header-search_input">
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="text" placeholder="Tìm kiếm..." />
+          <input type="text" placeholder="{% trans 'Tìm kiếm...' %}" />
         </div>
       </div>
       <div class="header-icon">
@@ -65,7 +84,10 @@
                     </svg>
                 </span>
                 <span>{{ user.full_name }}</span>
-                <a href="{% url 'logout' %}" class="btn-logout">Đăng xuất</a>
+                <a href="{% url 'customer_dashboard' %}" class="btn-profile" style="margin-right: 10px;">
+                    <i class="fa-solid fa-user"></i> {% trans "Dashboard" %}
+                </a>
+                <a href="{% url 'logout' %}" class="btn-logout">{% trans "Đăng xuất" %}</a>
             </div>
         {% else %}
             <span class="icon-user">
@@ -73,7 +95,7 @@
                     <path fill="#fff" d="M16 3a13 13 0 1 0 13 13A13.013 13.013 0 0 0 16 3m8 20.56a9.986 9.986 0 0 0-16 0 11 11 0 1 1 16 0"></path>
                     <path fill="#fff" d="M16 8.253A3.747 3.747 0 1 0 19.747 12 3.734 3.734 0 0 0 16 8.253"></path>
                 </svg>
-                <a href="#" class="header-login" id="header-login-trigger">Đăng nhập</a>
+                <a href="#" class="header-login" id="header-login-trigger">{% trans "Đăng nhập" %}</a>
             </span>
         {% endif %}
         <a href="{% url 'checkout' %}" class="icon-cart">
@@ -87,8 +109,9 @@
     </section>
     <nav class="header-nav">
         <ul class="nav-list">
-          <li><a href="{% url 'home' %}">Trang chủ </a></li>
-          <li class="dropdown"><a href="#">Sản phẩm<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" class="dropdown-icon">
+          <li><a href="{% url 'home' %}">{% trans "Trang chủ" %} </a></li>
+          <li><a href="{% url 'bikes_list' %}">{% trans "Xe đạp" %}</a></li>
+          <li class="dropdown"><a href="#">{% trans "Sản phẩm" %}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" class="dropdown-icon">
             <path stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m4 6 4 4 4-4" />
           </svg></a>
           <div class="dropdown-menu">
@@ -186,17 +209,17 @@
           </div>
       </div>
         </li>
-          <li class="dropdown"><a href="#">Dịch vụ<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" class="dropdown-icon">
+          <li class="dropdown"><a href="#">{% trans "Dịch vụ" %}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" class="dropdown-icon">
             <path stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m4 6 4 4 4-4" />
           </svg></a>
           <ul class="dropdown-menu">
-            <li><a href="{% url 'dich-vu' %}">Bảo trì Bảo dưỡng</a></li>
-            <li><a href="{% url 'giai-phap-xe-dap-qua-tang-doanh-nghiep' %}">Quà tặng doanh nghiệp</a></li>
+            <li><a href="{% url 'dich-vu' %}">{% trans "Bảo trì Bảo dưỡng" %}</a></li>
+            <li><a href="{% url 'giai-phap-xe-dap-qua-tang-doanh-nghiep' %}">{% trans "Quà tặng doanh nghiệp" %}</a></li>
           </ul>
         </li>
-          <li><a href="{% url 'bike-rental' %}">Thuê xe đạp</a></li>
-          <li><a href="{% url 'khuyen-mai' %}">Khuyến mãi</a></li>
-          <li><a href="{% url 'weather' %}">Dự báo thời tiết</a></li>
+          <li><a href="{% url 'bike-rental' %}">{% trans "Thuê xe đạp" %}</a></li>
+          <li><a href="{% url 'khuyen-mai' %}">{% trans "Khuyến mãi" %}</a></li>
+          <li><a href="{% url 'weather' %}">{% trans "Dự báo thời tiết" %}</a></li>
         </ul>
       </nav>
 </header>
